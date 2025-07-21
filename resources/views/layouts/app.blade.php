@@ -1,9 +1,16 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    @include('layouts.components.header')
+    <body class="d-flex flex-column min-vh-100" style="background-color: #f3f5fa">
 
-@include('layouts._includes.header')
-    <main>
-        @yield('content')
-    </main>
-    @yield('scripts')
-@include('layouts._includes.footer')
+        @include('layouts.components.nav')
 
+        <main class="flex-grow-1">
+            @yield('content')
+        </main>
+        @include('layouts.components.footer')
 
+        @yield('scripts')
+
+    </body>
+</html>
