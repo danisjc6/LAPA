@@ -5,7 +5,7 @@
         |
         <a href="#" id="resete-font" title="Resetar fonte">A </a>
         |
-        <a href="#" id="increase-font" title="Aumentar fonte">A&nbsp;+</a> 
+        <a href="#" id="increase-font" title="Aumentar fonte">A&nbsp;+</a>
         |
         <a href="#" class="bt-tema" data-classe="classe-azul">Alto&nbsp;Contraste</a>
 {{--    |
