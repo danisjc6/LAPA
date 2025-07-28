@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-white py-2">
+<nav class="navbar navbar-expand-lg bg-white py-2 mb-5">
     <div class="container">
         <ul class="navbar-nav d-flex flex-row">
 
@@ -55,27 +55,37 @@
 
                 <!-- Authentication Links -->
                 @auth
-                    <nav class="d-flex flex-md-row flex-column">
-                        <li class="nav-item{{ Request::is('gerenciar') || Request::is('auth/*') && !Request::is('auth/registros') ? ' active' : '' }}">
-                            <a href="{{ route('auth.gerenciar') }}" title="Gerenciar" class="nav-link">
-                                <i class="fas fa-sliders-h"></i> Gerenciar
-                            </a>
-                        </li>
-                        <li class="nav-item{{ Request::is('auth/registros') ? ' active' : '' }}">
-                            <a href="{{ route('auth.registros') }}" title="Minha conta" class="nav-link">
-                                <i class="fas fa-user"></i> {{ Auth::user()->name ?? "" }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a title="Sair" class="nav-link" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </a>
-                        </li>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
+                    <li class="nav-item">
+                        <a href="{{ route('auth.gerenciar') }}" title="Gerenciar" class="nav-link {{ Request::is('gerenciar') || Request::is('auth/*') && !Request::is('auth/registros') ? ' active' : '' }}">
+                            Gerenciar
+                        </a>
+                    </li>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{-- <img src="{{ asset('img/avatar.jpg') }}" alt="Avatar" class="rounded-circle shadow-sm" width="40" height="40"> --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                            </svg>
+                            <div class="ms-2 d-none d-md-block">
+                                <div class="fw-semibold text-dark">{{ Auth::user()->name ?? 'Usuário' }}</div>
+                                <small class="text-muted">Administrador</small>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2 shadow-sm">
+                            <li><a class="dropdown-item" href="#"><i class="fa fa-user me-2"></i> Meu Perfil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fa fa-cog me-2"></i> Configurações</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button class="dropdown-item text-danger" type="submit">
+                                        <i class="fa fa-sign-out-alt me-2"></i> Sair
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 @endauth
             </ul>
         </div>
