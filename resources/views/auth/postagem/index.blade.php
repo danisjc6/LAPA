@@ -4,15 +4,8 @@
 @section('content')
         <div class="container">
             <h2>Gerenciar postagens</h2>
-            <a href="{{ route('auth.postagem.adicionar') }}" class="btn mb-2">Adicionar</a>
-            @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif  
+            <a href="{{ route('auth.postagem.adicionar') }}" class="btn btn-success mb-2">Adicionar</a>
+
             <div class="d-sm-flex justify-content-between">
                 @if(isset($filtros['publicado']))
                     <p>Mostrando páginas por <strong>{{ $filtros['nomes'][1] ?? ''}}</strong> <strong>{{ $filtros['nomes'][0] ?? '' }}</strong>
@@ -30,7 +23,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right p-2 text-center" aria-labelledby="filtrarDropdown" style="min-width: 300px;">
                         <form action="{{ route('auth.postagens') }}" method="get">
-                            @csrf  
+                            @csrf
                             <div class="form-group mb-2">
                                 <label for="">Status</label>
                                 <select size="3" class="form-control" name="publicado" id="publicado">
@@ -46,46 +39,46 @@
                                     @foreach ($tipo_postagens as $tipo)
                                         <option {{ isset($filtros['tipo_postagem']) && ($filtros['tipo_postagem'] == $tipo) ? 'selected' : '' }} value="{{$tipo}}">{{ $tipo}}</option>
                                     @endforeach
-                                    
+
                                 </select>
                             </div>
-                            
+
                             <button class="btn align-self-start" type="submit">Filtrar</button>
                         </form>
                     </div>
                 </div>
-            </div>    
+            </div>
             <div class="table-responsive">
-              <table class="table table-bordered" id="myTable">
-                <thead class="thead-primary">
+              <table class="table table-rounded table-hover shadow" >
+                <thead class="table-success">
                     <tr>
-                        <th>Ações</th>
                         <th>Título</th>
-                        <th>Autor(ª)</th>
+                        <th>Autor(a)</th>
                         <th>Tipo da postagem</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                  @if(isset($registros) && count($registros) > 0)
-                    @foreach($registros as $registro)
-                      <tr>
-                        <td>
-                            <a href="{{ route('auth.postagem.ver', $registro->slug) }}" class="btn">Ver</a>
-                            <a href="{{ route('auth.postagem.editar', $registro->slug) }}" class="btn">Editar</a>
-                            <a href="{{ route('auth.postagem.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar essa postagem?');">Deletar</a>
-                        </td>
-                        <td>{{ $registro->titulo }}</td>
-                        <td>{{ isset($registro->user) ? $registro->user->name : 'Nenhum professor' }}</td>
-                        <td>{{ $registro->tipo_postagem }}
-                        <td>{{$registro->publicado ? 'Publicado' : 'Rascunho'}}</td>
-                    </tr>
-                    @endforeach
-                  @else
+                    @if(isset($registros) && count($registros) > 0)
+                        @foreach($registros as $registro)
+                            <tr>
+                                <td>{{ $registro->titulo }}</td>
+                                <td>{{ isset($registro->user) ? $registro->user->name : 'Nenhum professor' }}</td>
+                                <td>{{ $registro->tipo_postagem }}
+                                <td>{{$registro->publicado ? 'Publicado' : 'Rascunho'}}</td>
+                                <td>
+                                    <a href="{{ route('auth.postagem.ver', $registro->slug) }}" class="btn btn-primary">Ver</a>
+                                    <a href="{{ route('auth.postagem.editar', $registro->slug) }}" class="btn btn-secondary">Editar</a>
+                                    <a href="{{ route('auth.postagem.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar essa postagem?');">Deletar</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td colspan="4">Nenhum resultado em postagem encontrado</td>
+                            <td colspan="5" class="text-center">Nenhum resultado em postagem encontrado</td>
                         </tr>
-                  @endif
+                    @endif
                 </tbody>
               </table>
           </div>

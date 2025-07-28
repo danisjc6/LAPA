@@ -3,17 +3,9 @@
 @section('titulo', 'Gerenciar atlas')
 @section('content')
         <div class="container">
-            <h2>Gerenciar atlas</h2> 
-            <a href="{{ route('auth.atla.adicionar') }}" class="btn mb-2">Adicionar</a>
+            <h2>Gerenciar atlas</h2>
+            <a href="{{ route('auth.atla.adicionar') }}" class="btn btn-sucess mb-2">Adicionar</a>
 
-            @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
             <div class="d-sm-flex justify-content-between">
                 @if(isset($filtros['categoria']) || isset($filtros['publicado']))
                     <p>Mostrando páginas por <strong>{{ $filtros['nomes'][1] ?? ''}}</strong> <strong>{{ $filtros['nomes'][0] ?? '' }}</strong>
@@ -27,7 +19,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right p-2 text-center" aria-labelledby="filtrarDropdown" style="min-width: 300px;">
                         <form action="{{ route('auth.atlas') }}" method="get">
-                            @csrf  
+                            @csrf
                             <div class="form-group mb-2">
                                 <label for="">Status</label>
                                 <select size="3" class="form-control" name="publicado" id="publicado">
@@ -43,7 +35,7 @@
                                     @foreach ($categorias as $categoria)
                                         <option {{ isset($filtros['categoria']) && ($filtros['categoria'] == $categoria->id) ? 'selected' : '' }} value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
                                     @endforeach
-                                    
+
                                 </select>
                             </div>
                             <button class="btn align-self-start" type="submit">Filtrar</button>
@@ -53,33 +45,32 @@
             </div>
 
             <div class="table-responsive">
-
-              <table class="table table-bordered" id="myTable">
-                <thead class="thead-primary">
+                <table class="table table-rounded table-hover shadow" >
+                  <thead class="table-success">
                     <tr>
-                        <th>Ações</th>
                         <th>Título</th>
                         <th>Área de conhecimento</th>
-                        <th>Status</th>                        
+                        <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                </thead>
                 <tbody>
                     @if(isset($registros) && count($registros) > 0)
                         @foreach ($registros as $registro)
                             <tr>
-                                <td>
-                                    <a href="{{ route('auth.atla.visualizar', $registro->slug) }}" class="btn">Ver</a>
-                                    <a href="{{ route('auth.atla.editar',$registro->slug) }}" class="btn">Editar</a>
-                                    <a href="{{ route('auth.atla.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar esse atla');">Deletar</a>
-                                </td>
                                 <td>{{ $registro->titulo }}</td>
                                 <td>{{ isset($registro->categoria) ? ucfirst($registro->categoria->nome) : 'Nenhuma área de conhecimento' }}</td>
                                 <td>{{ $registro->publicado ? "Publicado" : "Rascunho" }}</td>
+                                <td>
+                                    <a href="{{ route('auth.atla.visualizar', $registro->slug) }}" class="btn btn-primary">Ver</a>
+                                    <a href="{{ route('auth.atla.editar',$registro->slug) }}" class="btn btn-secondary">Editar</a>
+                                    <a href="{{ route('auth.atla.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar esse atla');">Deletar</a>
+                                </td>
                             </tr>
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="4">Nenhum resultado em atlas encontrado</td>
+                            <td colspan="4" class="text-center">Nenhum resultado em atlas encontrado</td>
                         </tr>
                     @endif
                 </tbody>

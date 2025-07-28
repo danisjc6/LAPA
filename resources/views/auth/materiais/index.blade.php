@@ -4,16 +4,8 @@
 @section('content')
         <div class="container">
             <h2>Gerenciar Materiais</h2>
-            <a href="{{ route('auth.material.adicionar') }}" class="btn mb-2">Adicionar</a>
-            
-            @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+            <a href="{{ route('auth.material.adicionar') }}" class="btn btn-success mb-2">Adicionar</a>
+
             <div class="d-sm-flex justify-content-between">
                 @if(isset($filtros['disciplina']) || isset($filtros['publicado']))
                     <p>Mostrando páginas por <strong>{{ $filtros['nomes'][1] ?? ''}}</strong> <strong>{{ $filtros['nomes'][0] ?? '' }}</strong>
@@ -27,7 +19,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right p-2 text-center" aria-labelledby="filtrarDropdown" style="min-width: 300px;">
                         <form action="{{ route('auth.materiais') }}" method="get">
-                            @csrf  
+                            @csrf
                             <div class="form-group mb-2">
                                 <label for="">Status</label>
                                 <select size="3" class="form-control" name="publicado" id="publicado">
@@ -52,37 +44,37 @@
                 </div>
             </div>
             <div class="table-responsive">
-            <table class="table" id="myTable">
-                <thead>
+                <table class="table table-rounded table-hover shadow" >
+                  <thead class="table-success">
                     <tr>
-                        <th>Ações</th>
                         <th>Título</th>
                         <th>Assunto</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if(isset($registros) && count($registros) > 0)
                         @foreach($registros as $registro)
                         <tr>
-                            <td>
-                                <a href="{{ route('auth.material.visualizar', $registro->slug) }}" class="btn">Ver</a>
-                                <a href="{{ route('auth.material.editar', $registro->slug) }}" class="btn">Editar</a>
-                                <a href="{{ route('auth.material.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar o material?');">Deletar</a>
-                            </td>
                             <td>{{ $registro->titulo }}</td>
                             <td>{{ isset($registro->disciplina) ? ucfirst($registro->disciplina->nome) : 'Nenhum professor' }}
                             <td>{{ $registro->publicado ? "Publicado" : "Rascunho" }}</td>
+                            <td>
+                                <a href="{{ route('auth.material.visualizar', $registro->slug) }}" class="btn primary">Ver</a>
+                                <a href="{{ route('auth.material.editar', $registro->slug) }}" class="btn secondary">Editar</a>
+                                <a href="{{ route('auth.material.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar o material?');">Deletar</a>
+                            </td>
                         </tr>
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="4">Nenhum resultado em material encontrado</td>
+                            <td colspan="4" class="text-center">Nenhum resultado em material encontrado</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
-              
+
          </div>
         </div>
 @endsection
