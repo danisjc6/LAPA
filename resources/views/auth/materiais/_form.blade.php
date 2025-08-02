@@ -21,7 +21,7 @@
 </div>
 <div class="form-group">
     <label for="user_id">Selecione o assunto*</label>
-    <select class="custom-select custom-select-lg @error('disciplina_id') is-invalid @enderror" name="disciplina_id" id="disciplinas">
+    <select class="form-control @error('disciplina_id') is-invalid @enderror" name="disciplina_id" id="disciplinas">
         <option hidden disabled selected value>{{ __('Selecione um assunto') }}</option>
         @foreach($disciplinas as $disciplina)
             @if(isset($registro->disciplina->id) && $disciplina->id == $registro->disciplina->id || old('disciplina_id') == $disciplina->id)
@@ -66,7 +66,7 @@
     <div id="link_web" class="web-link input-anime {{ isset($registro) ? ($registro->tipo_anexo == 'link_web' ? 'show' : '') : '' }}">
         <label>Link do anexo</label>
         <input type="text" class="form-control form-control-lg" name="anexo_web" placeholder="O link de anexo deve ser num formato de documento válido ex.: pdf, doc, png" value="{{ isset($registro->tipo_anexo) && $registro->tipo_anexo == 'link_web' ? $registro->anexo : old('anexo_web') }}">
-    </div>	   
+    </div>
     @error('anexo')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
