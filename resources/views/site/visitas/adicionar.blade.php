@@ -3,32 +3,23 @@
 @section('titulo', 'Agendar visita')
 @section('content')
         <div class="container">
-            <h2>Agendar visita</h2>
 
-            @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
-            <form id="form-visita" action="{{ route('site.visita.salvar') }}" method="POST" enctype="multipart/form-data">
-                {{ csrf_field() }}
+            <form class="card px-5 pb-5 pt-4" id="form-visita" action="{{ route('site.visita.salvar') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <h2 class="mb-3">Agendar visita</h2>
                 @include('auth.visitas._form')
                 <div class="input-btn">
-                    <button form="form-visita" type="submit" class="btn">Agendar</button>
+                    <button form="form-visita" type="submit" class="btn btn-success">Agendar</button>
                 </div>
             </form>
         </div>
 @endsection
 @section('scripts')
 
-    <script>        
+    <script>
         // Todas as horas possíveis
         var $horas = {!! json_encode($horas) !!};
-        
+
         // Todas as visitas agendadas
         var $visitas = {!! json_encode($visitas) !!};
     </script>
