@@ -48,24 +48,14 @@ body {
 
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: var(--font-regular);
-}
+
 
 ul {
   padding: 0;
 }
 
-main .container {
-  text-align: center;
-  font-size: var(--font-size-text);
-  padding: 1.5rem;
-}
 
-/* 2- Header e navegacao do site */
-nav.navbar {
-  padding: 0;
-}
+
 
 .acessibilidade * {
   margin-right: 10px;
@@ -78,50 +68,9 @@ header {
   margin: 0 auto;
 }
 
-.navbar-custom {
-  color: var(--main-white);
-  background-color: var(--main-green);
-}
-
-a.btn:hover,
-button.btn:hover,
-input.btn:hover,
-.navbar-custom .nav-item.active .nav-link,
-.navbar-custom .nav-item:hover .nav-link,
-.nav-item.dropdown button:hover {
-  transition: background-color 300ms ease-in-out;
-  background-color: var(--main-dark-green);
-  color: var(--main-white);
-}
-
-/* Muda a cor e fonte dos links da navbar */
-.navbar-custom .navbar-brand,
-.navbar-custom .navbar-text,
-.navbar-custom .navbar-nav .nav-link,
-.nav-item.dropdown button,
-.dropdown-menu a {
-  color: var(--main-white);
-  font-size: var(--font-size-subtitle);
-  font-style: normal;
-  font-weight: var(--font-bold);
-}
-
-/* Centraliza verticalmente os links da navbar */
-.nav-item {
-  align-self: center;
-}
-
-.nav-item.dropdown button:hover {
-  border-radius: 0;
-}
-
-/* Muda a cor do botao de expandir a navbar no celular */
-.navbar .fas {
-  color: var(--main-white);
-}
 
 
-/* Muda a cor e fonte dos links da dropdown de acesso */ 
+/* Muda a cor e fonte dos links da dropdown de acesso */
 .dropdown-menu a {
   color: var(--main-black);
   font-weight: var(--font-regular);
@@ -220,49 +169,10 @@ form,
 /* Fim de 3- Postagens: noticias, eventos e editais */
 
 /* 4- Menu usuario logado */
-.card.manage{
-  cursor: pointer;
-  width: 13em;
-  margin: 0 0.5rem 0.5rem;
-  background-color: var(--main-white);
-}
 
-.card.manage:hover, 
-.card.manage:hover .card-header, 
-.card.manage:hover .card-footer {
-  background-color: var(--main-light);
-}
 
-.card.manage div.card-header span {
-  font-size: 1.5em;
-}
 
-.card.manage a.btn, button.btn {
-  font-size: var(--font-size-info);
-  font-weight: bold;
-}
 
-.card.manage div.card-header, .card div.card-footer {
-  background-color: var(--main-white);
-  border: 0;
-  padding: 0.5em 0;
-}
-
-.card div.card-footer.event {
-  background-color: var(--main-green);
-  color: var(--white);
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.card.manage div.card-body {
-  padding: 0;
-}
-
-a.clickable-card, a:hover.clickable-card {
-  color: var(--main-black);
-  text-decoration: none;
-}
 
 /* Fim de 4- Menu usuario logado */
 
@@ -321,31 +231,6 @@ a.clickable-card, a:hover.clickable-card {
 /* Fim de 5.1- Slide da home do site */
 
 /* 5.2- Cards de postagens do site */
-.home.card {
-  font-size: 1rem;
-  text-align: left;
-  width: 20em;
-  margin: 1em;
-  align-self: flex-start;
-}
-
-.home.card div.card-header {
-  height: 8em;
-  overflow: hidden;
-  padding: 0;
-}
-
-.home.card div.card-body {
-  margin: 1em;
-  padding: 0;
-  overflow: hidden;
-}
-
-.home.card .card-footer {
-  border-top: 1px solid var(--main-light);
-  padding-left: 1em;
-  font-size: 0.75rem;
-}
 
 /* Fim de 5.2- Cards de postagens do site */
 
@@ -388,9 +273,7 @@ input[name='nome']::placeholder {
   color: var(--main-white);
 }
 
-.form-group .info {
-  font-size: 14px;
-}
+
 
 input[type="radio"] + label {
   cursor: pointer;
@@ -431,7 +314,7 @@ input:disabled + label:hover::before {
   display: none;
 }
 
-/* Expandir campos de anexos */ 
+/* Expandir campos de anexos */
 #radio-group-anexo {
   position: relative;
   z-index: 1;
@@ -503,39 +386,10 @@ input:disabled + label:hover::before {
 /* Fim de 6- Formularios do site */
 
 /* 7- Botoes do site */
-a.btn, button.btn, input.btn {
-  font-weight: var(--font-bold);
-  background-color: var(--main-green);
-  color: var(--main-white);
-}
 
-a.btn.btn-outline, button.btn.btn-outline, input.btn.btn-outline {
-  background-color: var(--main-white);
-  color: var(--main-dark-green);
-  border: 1px solid var(--main-green);
-}
 
-a.btn.btn-danger, button.btn.btn-danger, input.btn.btn-danger {
-  background-color: #dc3545;
-}
 
-a.btn.btn-danger:hover, button.btn.btn-danger:hover, input.btn.btn-danger:hover {
-  background-color: #bd2a39;
-}
 
-.btn.btn-link {
-  all: unset;
-  font-size: var(--font-size-subtitle);
-  background-color: var(--main-white);
-  color: #007bff;
-  padding: 0 0.5rem;
-}
-
-.btn.btn-link:hover {
-  background-color: var(--main-white);
-  color: #0056b3;
-  text-decoration: underline;
-}
 
 /* Fim de 7- Botoes do site */
 
@@ -621,13 +475,7 @@ footer .container > p {
 /* Fim de 9- Estilos de alertas */
 
 /* 10- Estilos das tabelas do site */
-.container .dataTables_length {
-  text-align: left;
-}
 
-.dataTables_filter .form-control-sm, .dataTables_length .custom-select-sm {
-  height: calc(1.5em + 1rem + 2px) !important;
-}
 
 thead tr th:first-child {
   width: 200px;
@@ -824,17 +672,7 @@ thead tr th:first-child {
 /* Fim de 13.1- Cards de usuarios do sobre */
 
 /* 13.2- Pagina dos detalhes da visita */
-div.container div.visita-detalhes {
-  text-align: start;
-  border-radius: 10px;
-}
 
-div.container div.visita-msg {
-  padding: 1em;
-  text-align: start;
-  border: 1px solid var(--main-green);
-  border-radius: 10px;
-}
 
 /* Fim de 13.2- Pagina de detalhes da visita */
 
@@ -895,7 +733,7 @@ a:hover.page-link {
   0% {
     opacity: 1;
     height: 230px;
-    
+
   }
 
   99% {
@@ -939,7 +777,7 @@ a:hover.page-link {
 }
 
 @media only screen and (max-width: 575px) {
-  
+
   footer .container .row div + div {
     border-left: none;
   }
