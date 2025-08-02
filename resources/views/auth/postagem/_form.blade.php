@@ -2,7 +2,7 @@
     <p>Essa página de postagem está <strong>{{ $registro->publicado ? 'publicada' : 'salva no rascunho' }}.</strong></p>
 @endif
 <div class="form-group">
-    <label for="titulo">Título da Postagem*</label>
+    <label for="titulo">Título da Postagem</label>
     <input class="form-control form-control-lg @error('titulo') is-invalid @enderror" type="text" name="titulo" value="{{ isset($registro->titulo) ? $registro->titulo : old('titulo') }}" placeholder="ex: Visita ao LAPA" autocomplete="titulo">
     @error('titulo')
         <span class="invalid-feedback" role="alert">
@@ -11,7 +11,7 @@
     @enderror
 </div>
 <div class="form-group">
-    <label for="descricao">Descrição*</label>
+    <label for="descricao">Descrição</label>
     <textarea rows="14" id="summernote" class="form-control form-control-lg @error('descricao') is-invalid @enderror" type="text" name="descricao" autocomplete="descricao">{{ isset($registro->descricao) ? $registro->descricao : old('descricao') }}</textarea>
     @error('descricao')
         <span class="invalid-feedback" role="alert">
@@ -20,8 +20,8 @@
     @enderror
 </div>
 <div class="form-group">
-    <label for="tipo_postagem">Selecione o tipo da postagem*</label>
-    <select class="custom-select custom-select-lg @error('tipo_postagem') is-invalid @enderror" name="tipo_postagem" id="tipo_postagem" required autocomplete="tipo_postagem" >
+    <label for="tipo_postagem">Selecione o tipo da postagem</label>
+    <select class="form-control @error('tipo_postagem') is-invalid @enderror" name="tipo_postagem" id="tipo_postagem" required autocomplete="tipo_postagem" >
         @if(!isset($registro->tipo_postagem))
             <option hidden disabled selected value>Clique para selecionar o tipo da postagem</option>
         @endif
@@ -42,7 +42,7 @@
 <div class="input-group-data-hora {{ isset($registro->tipo_postagem) ? ($registro->tipo_postagem == 'evento' ? 'show' : '') : '' }} {{ old('tipo_postagem') == $tipo ? 'show' : '' }} @error('data') show @enderror @error('hora') show @enderror">
     <div class="d-flex flex-row">
         <div class="form-group">
-            <label for="data">Data*</label>
+            <label for="data">Data</label>
             <input min="{{ date('Y-m-d', strtotime('tomorrow')) }}" class="form-control form-control-lg @error('data') is-invalid @enderror" type="date" name="data" value="{{ isset($registro->data) ? $registro->data : old('data') }}" autocomplete="data">
             @error('data')
             <span class="invalid-feedback" role="alert">
@@ -53,7 +53,7 @@
     </div>
     <div class="d-flex flex-row">
         <div class="form-group">
-            <label for="hora">Hora*</label>
+            <label for="hora">Hora</label>
             <input min="{{ date('H:i', strtotime('00:00')) }}" class="form-control form-control-lg @error('hora') is-invalid @enderror" type="time" name="hora" value="{{ isset($registro->hora) ? date('H:i', strtotime($registro->hora)) : old('hora') }}" placeholder="Digite a hora do evento">
             @error('hora')
             <span class="invalid-feedback" role="alert">
