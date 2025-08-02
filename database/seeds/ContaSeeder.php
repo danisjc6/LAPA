@@ -13,56 +13,20 @@ class ContaSeeder extends Seeder
      */
     public function run()
     {
-        // User Vinicius
-        if(!User::where('email', '=', 'v.santos0406@gmail.com')->count()) {
-            $vinicius = factory(App\User::class)->create([
-                'name' => 'Vinicius',
-                'cpf' => '122.433.655-23',
-                'email' => 'v.santos0406@gmail.com',
-            ]);
+        $admin = factory(App\User::class)->create([
+            'name' => 'Administrador',
+            'cpf' => '122.433.655-23',
+            'email' => 'admin@admin.com',
+        ]);
 
-            $vinicius['slug']=str_slug($vinicius->name).'-'.$vinicius->id;
-            $vinicius->update($vinicius->attributesToArray());
+        $admin['slug'] = str_slug($admin->name).'-'.$admin->id;
+        $admin->update($admin->attributesToArray());
 
-            factory(App\Conta::class)->create([
-                'password' => bcrypt('12345678'),
-                'user_id' => $vinicius->id,
-            ]);
-        }
+        factory(App\Conta::class)->create([
+            'password' => bcrypt('password'),
+            'user_id' => $admin->id,
+        ]);
 
-        // User Iris
-        if(!User::where('email', '=', 'vianasantana21@gmail.com')->count()) {
-            $iris = factory(App\User::class)->create([
-                'name' => 'Íris',
-                'cpf' => '342.453.433-12',
-                'email' => 'vianasantana21@gmail.com',
-            ]);
-
-            $iris['slug']=str_slug($iris->name).'-'.$iris->id;
-            $iris->update($iris->attributesToArray());
-
-            factory(App\Conta::class)->create([
-                'password' => bcrypt('12345678'),
-                'user_id' => $iris->id,
-            ]);
-        }
-
-         // User Raquel
-         if(!User::where('email', '=', 'raquellvieiraa@gmail.com')->count()) {
-            $raquel = factory(App\User::class)->create([
-                'name' => 'Raquel',
-                'cpf' => '342.453.433-15',
-                'email' => 'raquellvieiraa@gmail.com',
-            ]);
-
-            $raquel['slug']=str_slug($raquel->name).'-'.$raquel->id;
-            $raquel->update($raquel->attributesToArray());
-
-            factory(App\Conta::class)->create([
-                'password' => bcrypt('12345678'),
-                'user_id' => $raquel->id,
-            ]);
-        }
 
     }
 }
