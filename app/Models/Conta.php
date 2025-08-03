@@ -1,13 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Conta extends Authenticatable
 {
     use Notifiable;
+    use HasFactory;
+
 
     /**
      * The attributes that are mass assignable.
@@ -40,5 +44,5 @@ class Conta extends Authenticatable
   {
     return 'slug';
   }
-    
+
 }

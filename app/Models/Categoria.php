@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 /**
 ÁREA DE CONHECIMENTO
 */
-class categoria extends Model
+class Categoria extends Model
 {
      /**
     * The attributes that are mass assignable.

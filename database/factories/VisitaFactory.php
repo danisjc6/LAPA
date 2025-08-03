@@ -1,17 +1,24 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Visita;
-use Faker\Generator as Faker;
+use App\Models\User;
+use App\Models\Visita;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Visita::class, function (Faker $faker) {
-    return [
-        'data' => $faker->date,
-        'hora_inicial' => $faker->time,
-        'hora_final' => $faker->time,
-        'descricao' => $faker->text,
-        'confirmada' => false,
-        'user_id' => factory(App\User::class),
-    ];
-});
+class VisitaFactory extends Factory
+{
+    protected $model = Visita::class;
+
+    public function definition()
+    {
+        return [
+            'data' => $this->faker->date,
+            'hora_inicial' => $this->faker->time,
+            'hora_final' => $this->faker->time,
+            'descricao' => $this->faker->text,
+            'confirmada' => false,
+            'user_id' => User::factory()->create(),
+        ];
+    }
+}

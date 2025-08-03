@@ -1,15 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Conta;
-use App\User;
-use Faker\Generator as Faker;
+use App\Models\Conta;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-$factory->define(Conta::class, function (Faker $faker) {
-    return [
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'user_id' => factory(User::class),
-        'remember_token' => Str::random(10),
-    ];
-});
+class ContaFactory extends Factory{
+
+    protected $model = Conta::class;
+
+    public function definition()
+    {
+        return [
+            'password' => Hash::make('password'),
+            'user_id' => User::factory()->create(),
+            'remember_token' => Str::random(10),
+        ];
+    }
+}

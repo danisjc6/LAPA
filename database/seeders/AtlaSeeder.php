@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use App\Atla;
+use App\Categoria;
 
 class AtlaSeeder extends Seeder
 {
@@ -12,10 +15,10 @@ class AtlaSeeder extends Seeder
      */
     public function run()
     {
-        $categoria = factory(App\Categoria::class)->create();
+        $categoria = Categoria::factory()->create();
 
         for($i = 0; $i < 10; $i++) {
-            factory(App\Atla::class)->create([
+            Atla::factory()->create([
                 'publicado' => true,
                 'categoria_id' => $categoria->id,
             ]);

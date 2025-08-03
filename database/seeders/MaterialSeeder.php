@@ -1,5 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Disciplina;
+use App\Material;
 use Illuminate\Database\Seeder;
 
 class MaterialSeeder extends Seeder
@@ -11,10 +15,10 @@ class MaterialSeeder extends Seeder
      */
     public function run()
     {
-        $disciplina = factory(App\Disciplina::class)->create();
+        $disciplina = Disciplina::factory()->create();
 
         for($i = 0; $i < 10; $i++) {
-            factory(App\Material::class)->create([
+            Material::factory()->create([
                'publicado' => true,
                'disciplina_id' => $disciplina->id,
             ]);

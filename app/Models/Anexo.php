@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +12,7 @@ class Anexo extends Model
         'atla_id',
     ];
 
-    public function atla() 
+    public function atla()
     {
         return $this->belongsTo('App\Atla');
     }

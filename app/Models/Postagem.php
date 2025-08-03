@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Str;
 
 class Postagem extends Model
-{  
+{
     /**
     * The attributes that are mass assignable.
     *

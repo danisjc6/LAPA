@@ -1,19 +1,25 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Postagem;
-use Faker\Generator as Faker;
-use App\User;
+use App\Models\Postagem;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Postagem::class, function (Faker $faker) {
-    return [
-         'titulo'=>$faker->name(),
-         'descricao' => $faker->text($maxNbChars = 200),
-         'anexo'=> $faker->fileExtension,
-         'user_id'=>factory(User::class),
-         'publicado'=>$faker->boolean($chanceOfGettingTrue = 50),
-         'slug'=>$faker->unique()->email(),
-         'tipo_postagem'=>'edital',
-    ];
-});
+class PostagemFactory extends Factory
+{
+    protected $model = Postagem::class;
+
+    public function definition()
+    {
+        return [
+            'titulo'=>$this->faker->name(),
+            'descricao' => $this->faker->text($maxNbChars = 200),
+            'anexo'=> $this->faker->fileExtension,
+            'user_id'=> User::factory()->create(),
+            'publicado'=>$this->faker->boolean($chanceOfGettingTrue = 50),
+            'slug'=>$this->faker->unique()->email(),
+            'tipo_postagem'=>'edital',
+       ];
+    }
+}

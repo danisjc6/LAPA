@@ -1,14 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Str;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name','cpf','email','telephone','user_description','avatar','user_type','email_verified_at','cpf_verified_at','link_lattes','slug', 'tipo_avatar',
     ];
 
-    
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -29,12 +31,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function disciplina() 
+    public function disciplina()
     {
         return $this->hasMany('App\Disciplina');
     }
 
-    public function postagem() 
+    public function postagem()
     {
         return $this->hasMany('App\Postagem');
     }
@@ -49,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Visita');
     }
 
-    public function salvarUserVisitante($user) 
+    public function salvarUserVisitante($user)
     {
         return $this->create($user);
     }

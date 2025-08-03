@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Postagem;
 use Illuminate\Database\Seeder;
 
 class PostagemSeeder extends Seeder
@@ -12,16 +15,15 @@ class PostagemSeeder extends Seeder
     public function run()
     {
         for($i = 0; $i < 10; $i++) {
-            factory(App\Postagem::class)->create([
+            Postagem::factory()->create([
                 'tipo_postagem'=>'edital',
                 'publicado'=>true,
             ]);
-            
-            factory(App\Postagem::class)->create([
+            Postagem::factory()->create([
                 'tipo_postagem'=>'evento',
                 'publicado'=>true,
             ]);
-            factory(App\Postagem::class)->create([
+            Postagem::factory()->create([
                 'tipo_postagem'=>'noticia',
                 'publicado'=>true,
             ]);

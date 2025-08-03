@@ -1,10 +1,9 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\User;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -15,17 +14,22 @@ use Illuminate\Support\Str;
 | model instances for testing / seeding your application's database.
 |
 */
+class UserFactory extends Factory
+{
+    protected $model = User::class;
 
-$factory->define(User::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'cpf' =>  $faker->unique()->regexify('[0-9]{3}+\.[0-9]{3}+\.[0-9]{3}\-[0-9]{2}'),
-        'cpf_verified_at' => now(),
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'telephone' => $faker->phoneNumber,
-        'user_type' => 'admin',
-        'user_description'=>$faker->text($maxNbChars = 200),
-        'slug' => $faker->unique()->safeEmail,
-    ];
-});
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'cpf' =>  $this->faker->unique()->regexify('[0-9]{3}+\.[0-9]{3}+\.[0-9]{3}\-[0-9]{2}'),
+            'cpf_verified_at' => now(),
+            'email' => $this->faker->unique()->safeEmail,
+            'email_verified_at' => now(),
+            'telephone' => $this->faker->phoneNumber,
+            'user_type' => 'admin',
+            'user_description'=>$this->faker->text($maxNbChars = 200),
+            'slug' => $this->faker->unique()->safeEmail,
+        ];
+    }
+}

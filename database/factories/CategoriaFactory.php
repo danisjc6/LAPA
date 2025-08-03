@@ -1,14 +1,21 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Categoria;
-use Faker\Generator as Faker;
+use App\Models\Categoria;
+use App\Models\Disciplina;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Categoria::class, function (Faker $faker) {
-    return [
-        'nome' => $faker->word,
-        'disciplina_id' => factory(App\Disciplina::class),
-        'slug' => $faker->unique()->email(),
-    ];
-});
+class CategoriaFactory extends Factory
+{
+    protected $model = Categoria::class;
+
+    public function definition(){
+
+        return [
+            'nome' => $this->faker->word,
+            'disciplina_id' => Disciplina::factory()->create(),
+            'slug' => $this->faker->unique()->email(),
+        ];
+    }
+}

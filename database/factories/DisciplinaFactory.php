@@ -1,22 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Disciplina;
-use Faker\Generator as Faker;
+use App\Models\Disciplina;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Disciplina::class, function (Faker $faker) {
-    return [
-        'nome' => $faker->name,
-        'user_id' => factory(App\User::class),
-        'slug' => $faker->unique()->email(),
-    ];
-});
+class DisciplinaFactory extends Factory
+{
+    protected $model = Disciplina::class;
 
-$factory->state(Disciplina::class, 'no_user', function ($faker) {
-    return [
-        'nome' => $faker->name,
-        'user_id' => null,
-        'slug' => $faker->unique()->email(),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'nome' => $this->faker->name,
+            'user_id' => User::factory(),
+            'slug' => $this->faker->unique()->email,
+        ];
+    }
+
+    public function noUser()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'user_id' => null,
+            ];
+        });
+    }
+}

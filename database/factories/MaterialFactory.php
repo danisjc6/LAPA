@@ -1,18 +1,24 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Material;
-use App\Disciplina;
-use Faker\Generator as Faker;
+use App\Models\Material;
+use App\Models\Disciplina;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Material::class, function (Faker $faker) {
-    return [
-        'titulo'=>$faker->word(),
-        'texto' => $faker->text($maxNbChars = 200),
-        'anexo'=> $faker->fileExtension,
-        'disciplina_id'=>factory(Disciplina::class),
-        'publicado' => $faker->boolean($chanceOfGettingTrue = 50),
-        'slug' => $faker->unique()->email(),
-    ];
-});
+class MaterialFactory extends Factory
+{
+    protected $model = Material::class;
+
+    public function definition()
+    {
+        return [
+            'titulo' =>  $this->faker->word(),
+            'texto' =>  $this->faker->text($maxNbChars = 200),
+            'anexo' =>   $this->faker->fileExtension,
+            'disciplina_id' =>   Disciplina::factory()->create(),
+            'publicado' =>  $this->faker->boolean($chanceOfGettingTrue = 50),
+            'slug' =>   $this->faker->unique()->email(),
+        ];
+    }
+}
