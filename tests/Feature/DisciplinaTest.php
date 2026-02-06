@@ -35,13 +35,13 @@ class DisciplinaTest extends TestCase
     }
 
     /** @test Deletar uma disciplina*/
-    public function deletarUmaDisciplina() 
+    public function deletarUmaDisciplina()
     {
         $disciplina = factory(Disciplina::class)->create([
             'nome' => 'Engenharia de Software',
         ]);
         $disciplina->delete();
-        $this->assertDeleted($disciplina);
+        $this->assertModelMissing($disciplina);
     }
 
 }

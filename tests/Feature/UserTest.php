@@ -10,7 +10,7 @@ use App\Conta;
 class UserTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /**
      * Teste criar usuário administrador valido
      *
@@ -24,7 +24,7 @@ class UserTest extends TestCase
         'cpf' => '999.999.999-99',]);
         $this->assertDatabaseHas('contas', [
        'user_id' => $user->id,]);
-       
+
     }
 
      /**
@@ -39,8 +39,8 @@ class UserTest extends TestCase
       $this->assertDatabaseHas('contas', [
        'user_id' => $user->id,]);
       $user->delete();
-      $this->assertDeleted($user);
-       
+      $this->assertModelMissing($user);
+
     }
     /**
      * Teste atualizar nome valido de usuário administrador cadastrado
@@ -57,7 +57,7 @@ class UserTest extends TestCase
         'name' => 'Cecilia',]);
       $user->update(['name'=>'Taylor',]);
       $this->assertEquals('Taylor',$user->name);
-       
+
     }
      /**
      * Teste ler usuario nao cadastrado
@@ -68,8 +68,8 @@ class UserTest extends TestCase
     {
       $this->assertDatabaseMissing('users', [
         'cpf' => '000.000.000-00',]);
-     
-       
+
+
     }
     /**
      * Teste criar usuário administrador valido com link lattes
@@ -84,7 +84,7 @@ class UserTest extends TestCase
         'cpf' => '999.999.999-99',]);
         $this->assertDatabaseHas('contas', [
        'user_id' => $user->id,]);
-        
+
     }
     /**
      * Teste criar usuário administrador valido com foto de perfil
@@ -99,10 +99,10 @@ class UserTest extends TestCase
         'cpf' => '999.999.999-99',]);
         $this->assertDatabaseHas('contas', [
        'user_id' => $user->id,]);
-        
+
     }
      /**
-     * Teste criar usuário administrador valido ser descrição 
+     * Teste criar usuário administrador valido ser descrição
      *
      * @return void
      */
@@ -114,7 +114,7 @@ class UserTest extends TestCase
         'cpf' => '999.999.999-99','user_description'=>null]);
         $this->assertDatabaseHas('contas', [
        'user_id' => $user->id,]);
-        
+
     }
 
 }

@@ -26,7 +26,7 @@ class PostagemTest extends TestCase
         'titulo' =>$postagem->titulo,]);
         $this->assertDatabaseHas('contas', [
         'user_id' =>$user->id,]);
-       
+
     }
     /**
      * Teste deletar postagem cadastrada
@@ -41,8 +41,8 @@ class PostagemTest extends TestCase
       $this->assertDatabaseHas('contas', [
         'user_id' =>$user->id,]);
       $postagem->delete();
-      $this->assertDeleted($postagem);
-       
+      $this->assertModelMissing($postagem);
+
     }
     /**
      * Teste atualizar descrição da postagem cadastrada
@@ -60,7 +60,7 @@ class PostagemTest extends TestCase
         'descricao' => 'Essa postagem está sendo criando para teste',]);
       $postagem->update(['descricao'=>'Essa postagem está sendo atualizada para teste',]);
       $this->assertEquals('Essa postagem está sendo atualizada para teste',$postagem->descricao);
-       
+
     }
     /**
      * Teste ler postagem nao cadastrada
@@ -70,7 +70,7 @@ class PostagemTest extends TestCase
     public function testLerPostagemNaoCadastrada()
     {
       $this->assertDatabaseMissing('postagems', [
-        'descricao' => 'ler postagem não cadastrado',]); 
+        'descricao' => 'ler postagem não cadastrado',]);
     }
     /**
      * Teste criar postagem do tipo evento valida
@@ -87,7 +87,7 @@ class PostagemTest extends TestCase
         'titulo' =>$postagem->titulo,]);
         $this->assertDatabaseHas('contas', [
         'user_id' =>$user->id,]);
-       
+
     }
 
     /**
@@ -105,7 +105,7 @@ class PostagemTest extends TestCase
         'titulo' =>$postagem->titulo,]);
         $this->assertDatabaseHas('contas', [
         'user_id' =>$user->id,]);
-       
+
     }
      /**
      * Teste atualizar postagem do tipo edital com titulo valido
@@ -124,6 +124,6 @@ class PostagemTest extends TestCase
         'user_id' =>$user->id,]);
 	$postagem->update(['titulo'=>'Essa titulo está sendo atualizada para teste',]);
         $this->assertEquals('Essa titulo está sendo atualizada para teste',$postagem->titulo);
-       
+
     }
 }

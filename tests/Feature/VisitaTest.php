@@ -18,7 +18,7 @@ class VisitaTest extends TestCase
         $user = factory(User::class)->create([
             'user_type' => 'visitant',
         ]);
-        
+
         $visita = factory(Visita::class)->create([
             'user_id' => $user->id,
         ]);
@@ -32,7 +32,7 @@ class VisitaTest extends TestCase
     public function verUmaVisita()
     {
         $user = factory(User::class)->create();
-        
+
         $visita = factory(Visita::class)->create([
             'user_id' => $user->id,
         ]);
@@ -46,7 +46,7 @@ class VisitaTest extends TestCase
     public function confirmarUmaVisita()
     {
         $user = factory(User::class)->create();
-        
+
         $visita = factory(Visita::class)->create([
             'user_id' => $user->id,
         ]);
@@ -56,19 +56,19 @@ class VisitaTest extends TestCase
         ]);
 
         $this->assertEquals(true, $visita->confirmada);
-       
+
     }
 
     /** @test Cancelar uma visita*/
-    public function deletarUmaVisita() 
+    public function deletarUmaVisita()
     {
         $user = factory(User::class)->create();
-        
+
         $visita = factory(Visita::class)->create([
             'user_id' => $user->id,
         ]);
 
         $visita->delete();
-        $this->assertDeleted($visita);
+        $this->assertModelMissing($visita);
     }
 }

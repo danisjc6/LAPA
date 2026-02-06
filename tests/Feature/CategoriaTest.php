@@ -10,7 +10,7 @@ use App\Categoria;
 class CategoriaTest extends TestCase
 {
    use RefreshDatabase;
-    
+
 
     /** @test Adicionar uma categoria valida*/
     public function adicionarUmaCategoriaValida()
@@ -24,13 +24,13 @@ class CategoriaTest extends TestCase
     }
 
     /** @test Deletar uma Categoria*/
-    public function deletarUmaCategoria() 
+    public function deletarUmaCategoria()
     {
         $categoria = factory(Categoria::class)->create([
             'nome' => 'Categoria Teste',
         ]);
         $categoria->delete();
-        $this->assertDeleted($categoria);
+        $this->assertModelMissing($categoria);
     }
 
     /**
@@ -47,7 +47,7 @@ class CategoriaTest extends TestCase
         'nome' => 'Categoria para teste',]);
       $categoria->update(['nome'=>'Categoria Atualizada para teste',]);
       $this->assertEquals('Categoria Atualizada para teste',$categoria->nome);
-       
+
     }
 
     /**
@@ -59,8 +59,8 @@ class CategoriaTest extends TestCase
     {
       $this->assertDatabaseMissing('categorias', [
         'nome' => 'Categoria nao cadastrada teste',]);
-     
-       
+
+
     }
 
 }

@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Postagem;
-use App\User;
+use App\Models\Postagem;
+use App\Models\User;
 use Validator;
-use App\Http\Requests\CriarPostagemRequest;
-use App\Http\Requests\AtualizarPostagemRequest;
+use App\Models\Http\Requests\CriarPostagemRequest;
+use App\Models\Http\Requests\AtualizarPostagemRequest;
 use Auth;
-use App\Util\ConvertToEmbedableImageLink;
+use App\Models\Util\ConvertToEmbedableImageLink;
 
 class PostagemController extends Controller
 {
-    
+
     // Model de postagem adicionado ao controller para evitar uso estatico
     protected $postagem;
     protected $user;
-  
+
 
     public function __construct(Postagem $postagem, User $user)
     {
@@ -32,7 +32,7 @@ class PostagemController extends Controller
         $this->user = $user;
     }
 
-    public function index() 
+    public function index()
     {
         $registros = $this->postagem;
         $filtros['nomes'] = array();
@@ -50,24 +50,24 @@ class PostagemController extends Controller
             $filtros['nomes'] = request('tipo_postagem');
             // array_push($filtros['nomes'],$this->postagem->find(request('tipo_postagem')));
         }
-        
-        
+
+
         $tipo_postagens= $this->postagem->getEnumValues();
         $registros = $registros->latest()->get();
         return view('auth.postagem.index', compact('registros','filtros','tipo_postagens'));
     }
-    public function adicionar() 
+    public function adicionar()
     {
         $tipo_postagens= $this->postagem->getEnumValues();
         return view('auth.postagem.adicionar', compact('tipo_postagens'));
     }
 
-    public function salvar(CriarPostagemRequest $request) 
+    public function salvar(CriarPostagemRequest $request)
     {
         $request->validated();
         $this->user = Auth::user();
         $anexo = null;
-        $publicado = false; 
+        $publicado = false;
 
         if(isset($request['publicar'])) {
             $publicado = true;
@@ -112,20 +112,20 @@ class PostagemController extends Controller
         $post->update($post->attributesToArray());
         return redirect()->route('auth.postagens')->with('success', 'Postagem adicionada com sucesso!');
     }
-   
-    public function editar(Postagem $registro) 
+
+    public function editar(Postagem $registro)
     {
         $tipo_postagens= $this->postagem->getEnumValues();
-        return view('auth.postagem.editar', compact('registro','tipo_postagens'));        
+        return view('auth.postagem.editar', compact('registro','tipo_postagens'));
     }
 
     public function atualizar(AtualizarPostagemRequest $request, $identifier)
     {
         $request->validated();
         $dados = $request->all();
-        $dados['publicado'] = false; 
+        $dados['publicado'] = false;
         $post=$this->postagem->find($identifier);
-        
+
         /* Se o link for web nao entra no if
         * se for drive ele entra no if para converter o link para ser embarcado na página
         * se for upload ele entra no else if para arrumar o nome do arquivo
@@ -146,7 +146,7 @@ class PostagemController extends Controller
 
         if(isset($request['publicar'])) {
             $dados['publicado'] = true;
-        } 
+        }
         if($request['tipo_postagem']=='evento'){
             if($request['data']==null){
                 return redirect()->back()->withErrors(['data' => 'Selecionar data quando a postagem for um evento é obrigatório']);
@@ -165,7 +165,7 @@ class PostagemController extends Controller
         $registro->delete();
         return redirect()->route('auth.postagens')->with('success', 'Postagem deletada com sucesso!');
     }
-    
+
      public function siteHome(){//ordenar por data
 
         $registros = $this->postagem->where('publicado', true)
@@ -184,7 +184,7 @@ class PostagemController extends Controller
     public function siteIndexEvento()
     {
         $posts = $this->postagem->where('tipo_postagem', 'evento');
-        
+
         $agenda = [];
         foreach($posts->get() as $post) {
             $item = [
@@ -196,7 +196,7 @@ class PostagemController extends Controller
             ];
             array_push($agenda, $item);
         }
-        
+
         $registros = $posts->latest()->where('publicado',true)->paginate(6);
         return view('site.postagens.indexEvento', compact('registros', 'agenda'));
     }
@@ -217,7 +217,7 @@ class PostagemController extends Controller
         return view('site.postagens.visualizarPostagem', compact('registro'));
     }
 
-    public function publicar_postagem(Postagem $registro) 
+    public function publicar_postagem(Postagem $registro)
     {
         $dados = ['publicado' => true];
 
@@ -228,6 +228,6 @@ class PostagemController extends Controller
         return view('auth.postagem.ver', compact('registro'));
     }
 
-    
+
 
 }
