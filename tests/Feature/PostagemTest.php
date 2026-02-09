@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Postagem;
-use App\User;
-use App\Conta;
+use App\Models\Postagem;
+use App\Models\User;
+use App\Models\Conta;
 class PostagemTest extends TestCase
 {
      use RefreshDatabase;

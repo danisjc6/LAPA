@@ -15,10 +15,10 @@ use App\Notifications\SolicitacaoAcesso;
 use App\Notifications\SolicitacaoAcesso_aceita;
 use App\Notifications\SolicitacaoAcesso_recusada;
 use Notification;
-use App\Conta;
-use App\Visita;
-use App\Contato;
-use App\User;
+use App\Models\Conta;
+use App\Models\Visita;
+use App\Models\Contato;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Util\ConvertToEmbedableImageLink;
 use App\Util\SaveFileUtil;
@@ -49,14 +49,14 @@ class RegisterController extends Controller
     protected $visita;
     protected $conta;
     protected $contato;
-  
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    
-     public function __construct(User $usuario, Visita $visita,Conta $conta, Contato $contato) 
+
+     public function __construct(User $usuario, Visita $visita,Conta $conta, Contato $contato)
     {
        $this->middleware('auth', ['except' => [
 
@@ -65,12 +65,12 @@ class RegisterController extends Controller
             'register',
             'showRegistrationForm'
         ]]);
-      
+
        $this->usuario = $usuario;
        $this->visita = $visita;
        $this->conta = $conta;
        $this->contato = $contato;
-       
+
     }
 
     protected function validator(array $data)
@@ -86,7 +86,7 @@ class RegisterController extends Controller
             // 'g-recaptcha-response' => 'required',
             'tipo_avatar' => 'max:255|nullable',
             'anexo_upload' => 'mimes:jpeg,jpg,png,gif|max:2048|nullable',
-            
+
 
         ],[
             'password.regex'=>'Sua senha deve conter no mínimo de 6 caracteres,deve conter pelo menos uma letra maiúscula,uma minúscula,um número e um símbolo',
@@ -94,18 +94,18 @@ class RegisterController extends Controller
             'cpf.unique'=>'O valor informado para o campo cpf já está em uso em uma conta de administrador',
             // 'g-recaptcha-response.required' => 'O campo reCaptcha é obrigatório',
        ]);
-       
+
     }
-    
+
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
-     
+
     protected function create(array $data)
-    {  
+    {
 
       $registros=$this->usuario->where( 'user_type', 'admin')->get()->whereNotNull('cpf_verified_at')->all();
        $findUser=$this->usuario->where('email',$data['email'])->first();
@@ -129,10 +129,10 @@ class RegisterController extends Controller
           $findUser->update($dados);
           $user=$findUser;
        }
-       
+
         $this->conta->create([
             'password' => Hash::make( $data ['password']),
-            'user_id'=>$user->id,  
+            'user_id'=>$user->id,
         ]);
 
         $user['slug']=str_slug($user->name).'-'.$user->id;
@@ -150,7 +150,7 @@ class RegisterController extends Controller
             $registro->notify(new SolicitacaoAcesso($user));
         }
         return $user;
-        
+
     }
 
     public function index (){
@@ -169,7 +169,7 @@ class RegisterController extends Controller
         $dados=[$user];
 	    $user->update($dados);
         Notification::send($user,new SolicitacaoAcesso_aceita(Auth::user()));
-        return redirect()->route('auth.acesso_gerenciamento')->with('success','Solicitação confirmada com sucesso'); 
+        return redirect()->route('auth.acesso_gerenciamento')->with('success','Solicitação confirmada com sucesso');
     }
 
     public function recusarSolicitacao($id_user){
@@ -183,7 +183,7 @@ class RegisterController extends Controller
 	      return redirect()->route('auth.acesso_gerenciamento')->with('success','Solicitação recusada com sucesso');
            }
         }
-        //se o usuário tem visitas cadastradas no sistema,só atualiza ele novamente como visitante e deleta a conta 
+        //se o usuário tem visitas cadastradas no sistema,só atualiza ele novamente como visitante e deleta a conta
         $dados=[
             'user_description' =>null,
             'avatar' => null,
@@ -199,9 +199,9 @@ class RegisterController extends Controller
     public function editar(){
 	    return view('auth.registros.editar');
     }
-   
+
     public function atualizar(RegisterRequest $data)//retirar verificação de senha
-    {  
+    {
         $data->validated();
         $dados = $data->all();
         $user=Auth::user();
@@ -216,11 +216,11 @@ class RegisterController extends Controller
                 'img/avatares/'
             );
         }
-        
+
         $user->update($dados);
-        
+
 	    return redirect()->route('auth.registros')->with('success','Conta editada com sucesso');
-         
+
     }
 
     public function deletar($id_user){
@@ -250,7 +250,7 @@ class RegisterController extends Controller
     }
 
     public function buscarUsuarioVisita(EmailVisitaRequest $request)
-    {  
+    {
         $request->validated();
         $email = $request['email'];
         $userExiste = $this->usuario->where('email', $email)->first();
@@ -262,7 +262,7 @@ class RegisterController extends Controller
             $visita->hora_inicial = str_replace('.00', '', date('H.i', strtotime($visita->hora_inicial)));
             $visita->hora_final = str_replace('.00', '', date('H.i', strtotime($visita->hora_final)));
         }
-        
+
 	    return view('site.visitas.adicionar', compact('userExiste', 'email', 'horas', 'visitas'));
     }
     public function visualizarTermosPrivacidade (){

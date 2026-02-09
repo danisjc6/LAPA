@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Visita;
-use App\User;
-use App\Postagem;
+use App\Models\Visita;
+use App\Models\User;
+use App\Models\Postagem;
 use App\Http\Requests\VisitaRequest;
 use App\Notifications\SolicitacaoVisita;
 use App\Notifications\SolicitacaoVisitaAceita;
@@ -22,7 +22,7 @@ class VisitaController extends Controller
     protected $postagem;
     protected $auth;
 
-    public function __construct(Visita $visita, User $usuario, Postagem $postagem, Auth $auth) 
+    public function __construct(Visita $visita, User $usuario, Postagem $postagem, Auth $auth)
     {
         $this->visita = $visita;
         $this->usuario = $usuario;
@@ -42,16 +42,16 @@ class VisitaController extends Controller
         $registros = $this->visita->whereHas('user', function($query) {
             $query->whereNotNull('email_verified_at');
         })->latest()->get();
-        
+
         return view('auth.visitas.index', compact('registros'));
     }
 
-    public function busca() 
+    public function busca()
     {
-        return view('site.visitas.pesquisar_email');        
+        return view('site.visitas.pesquisar_email');
     }
 
-    public function salvar($visita) 
+    public function salvar($visita)
     {
          $visita = $this->visita->create($visita);
          $visita['slug'] = 'visita'.'-'.$visita->id;
@@ -66,7 +66,7 @@ class VisitaController extends Controller
     public function atualizar(Request $request, $identifier)
     {
         $dados = $request->all();
-        
+
         if($dados['confirmada'] == true) {
             $dados['confirmada'] = 1;
         } else {
@@ -81,10 +81,10 @@ class VisitaController extends Controller
         return redirect()->route('auth.visitas')->with('success', 'Visita confirmada com sucesso, o responsável será avisado por email');
     }
 
-    public function deletar($identifier) 
+    public function deletar($identifier)
     {
         $visita = $this->visita->where('id', $identifier)->first();
-        
+
         if(!$this->visita->find($identifier)->delete()) {
             return redirect()->back()->with(['error' => 'Erro ao cancelar a visita']);
         }
@@ -101,7 +101,7 @@ class VisitaController extends Controller
         // Corrigir formato da data
         $request['data'] = str_replace('/', '-', $request['data']);
         $request['data'] = date('Y-m-d', strtotime($request['data']));
-        
+
         $request['hora_inicial'] = $this->visita->horaFloatParaString($request['hora_inicial']);
         $request['hora_final'] = $this->visita->horaFloatParaString($request['hora_final']);
 
@@ -115,7 +115,7 @@ class VisitaController extends Controller
         $userExiste = $this->usuario->where('email', $email)->first();
 
         if($userExiste == null) {
-            
+
             $usuario = [
                 'name' =>  $request['name'],
                 'cpf' =>  $request['cpf'],
@@ -131,10 +131,10 @@ class VisitaController extends Controller
             ]);
 
             $userExiste = $this->usuario->salvarUserVisitante($usuario);
-            
+
             Notification::send($userExiste, new ConfirmarEmailVisita($userExiste));
             $msgSucesso = 'Visita solicitada com sucesso, <strong>você deve verificar seu email para concluir a solicitação.<strong>';
-        
+
         } else {
 
             $admins = $this->usuario
@@ -148,9 +148,9 @@ class VisitaController extends Controller
 
         $visita = [
             'data' => $request['data'],
-            'hora_inicial' => $request['hora_inicial'], 
-            'hora_final' => $request['hora_final'], 
-            'descricao' => $request['descricao'], 
+            'hora_inicial' => $request['hora_inicial'],
+            'hora_final' => $request['hora_final'],
+            'descricao' => $request['descricao'],
             'confirmada' => (Auth::user() ? ($request['confirmada'] ? 1 : 0) : 0),
             'user_id' => $userExiste->id,
         ];

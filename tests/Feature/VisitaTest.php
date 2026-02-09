@@ -5,8 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Visita;
-use App\User;
+use App\Models\Visita;
+use App\Models\User;
 
 class VisitaTest extends TestCase
 {

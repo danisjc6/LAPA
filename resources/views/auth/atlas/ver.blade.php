@@ -3,7 +3,7 @@
 @section('titulo', 'Atlas Interativo')
 @section('content')
 <div class="d-flex position-relative">
-    <div id="page" class="d-flex flex-column container py-4 col-lg-10"> 
+    <div id="page" class="d-flex flex-column container py-4 col-lg-10">
         @if (!isset($registro))
             <p>Ops, essa página não existe</p>
         @else
@@ -19,17 +19,17 @@
             @if(isset($registro))
                 <p>Essa página do atlas está <strong>{{ $registro->publicado ? 'publicada' : 'salva no rascunho' }}.</strong></p>
                 @php
-                    $anexos = App\Anexo::where('atla_id', $registro->id)->get();
+                    $anexos = App\Models\Anexo::where('atla_id', $registro->id)->get();
                 @endphp
             @endif
             <div class="input-btn">
                 <a href="{{ route('auth.atla.editar', $registro->slug) }}" class="btn btn-outline">Editar publicação</a>
-                
+
                 @if(isset($registro) && !$registro->publicado)
                     <a href="{{ route('auth.atla.publicar', $registro->slug) }}" class="btn">Publicar agora</a>
                 @endif
             </div>
-            
+
             <div class="row justify-content-between fadeInDown border-top mt-3 pt-4" data-anime="300">
                 <div class="col-md-7 col-12 text-left">
                     <h2 class="title pb-3">{{ $registro->titulo }}</h2>
@@ -37,7 +37,7 @@
                         <a style="color: white;" href="{{ route('site.atlas.disciplina', $categoria->disciplina) }}">
                             <span class="tag evento">{{ $categoria->disciplina->nome}}</span>
                         </a>
-                        
+
                         <span class="tag evento">/</span>
 
                         <a style="color: white;" href="{{ route('site.atlas.categoria', $categoria) }}">
@@ -112,7 +112,7 @@
                     <a href="#" data-target="#carouselAnexos" data-slide-to="{{ $i }}" class="list-group-item list-group-item-action">
                         {{ $anexos[$i]->descricao ?? 'Foto '.$i }}
                     </a>
-                @endfor    
+                @endfor
             </div>
         </div>
     @endif

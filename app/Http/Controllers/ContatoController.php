@@ -3,24 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContatoRequest;
-use App\Contato;
-use App\User;
+use App\Models\Contato;
+use App\Models\User;
 use Validator;
 use Auth;
 
 class ContatoController extends Controller
 {
-    
+
     protected $contato;
 
     public function __construct(Contato $contato)
     {
         $this->middleware('auth');
         $this->contato = $contato;
-        
+
     }
 
-    public function index() 
+    public function index()
     {
         $registro = $this->contato->latest('updated_at')->first();
 
@@ -32,12 +32,12 @@ class ContatoController extends Controller
         return view('auth.contato.editar', compact('registro'));
     }
 
-    public function adicionar() 
+    public function adicionar()
     {
         return view('auth.contato.adicionar');
     }
 
-    public function salvar(ContatoRequest $request) 
+    public function salvar(ContatoRequest $request)
     {
         $request->validated();
         $dados = $request->all();
@@ -49,9 +49,9 @@ class ContatoController extends Controller
         return redirect()->back()->with('success', 'Informações do Contato adicionadas com sucesso!');
     }
 
-    public function editar(Contato $contato) 
+    public function editar(Contato $contato)
     {
-        return view('auth.contato.editar', compact('registro'));        
+        return view('auth.contato.editar', compact('registro'));
     }
 
     public function atualizar(ContatoRequest $request, $identifier)
@@ -60,7 +60,7 @@ class ContatoController extends Controller
         $dados = $request->all();
         $dados['slug'] = str_slug($dados['email']).'-'.$identifier;
         $this->contato->find($identifier)->update($dados);
-        
+
         return redirect()->route('auth.contatos')->with('success', 'Informações do Contato atualizadas com sucesso!');
     }
 

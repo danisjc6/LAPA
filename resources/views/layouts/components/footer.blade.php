@@ -14,7 +14,7 @@
         </div>
         <div class="d-flex justify-content-center gap-3">
 
-            @php($contato = App\Contato::latest('updated_at')->first())
+            @php($contato = App\Models\Contato::latest('updated_at')->first())
             @if (isset($contato->email))
                 <p><b>Email:</b>
                     <a href="mailto:{{ $contato->email ?? '' }}">{{ $contato->email ?? '' }}</a>

@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\User;
+use App\Models\User;
 class SolicitacaoAcesso extends Notification
 {
     use Queueable;
@@ -46,7 +46,7 @@ class SolicitacaoAcesso extends Notification
                     ->subject('Solicitação de acesso ao sistema')
                     ->line('Você está recebendo este e-mail porque recebemos um pedido de solicitação de acesso ao sistema.')
                     ->action('Verificar solicitação',  url('/login'));
-                    
+
     }
 
     /**

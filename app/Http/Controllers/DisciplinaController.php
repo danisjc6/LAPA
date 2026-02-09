@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Disciplina;
-use App\User;
+use App\Models\Disciplina;
+use App\Models\User;
 use Validator;
 use App\Http\Requests\CriarDisciplinaRequest;
 use App\Http\Requests\AtualizarDisciplinaRequest;
@@ -23,13 +23,13 @@ class DisciplinaController extends Controller
         $this->user = $user;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         $registros = $this->disciplina->latest()->get();
         return view('auth.disciplinas.index', compact('registros'));
     }
 
-    public function adicionar() 
+    public function adicionar()
     {
         $users = $this->user
             ->where('user_type', 'admin')
@@ -40,7 +40,7 @@ class DisciplinaController extends Controller
 
     }
 
-    public function salvar(CriarDisciplinaRequest $request) 
+    public function salvar(CriarDisciplinaRequest $request)
     {
         $request['nome'] = strtolower($request['nome']);
 
@@ -53,17 +53,17 @@ class DisciplinaController extends Controller
         return redirect()->route('auth.disciplinas')->with('success', 'Assunto adicionado com sucesso!');
     }
 
-    public function editar(Disciplina $registro) 
+    public function editar(Disciplina $registro)
     {
         $users = $this->user->all();
-        return view('auth.disciplinas.editar', compact('registro', 'users'));        
+        return view('auth.disciplinas.editar', compact('registro', 'users'));
 
     }
 
     public function atualizar(AtualizarDisciplinaRequest $request, $identifier)
     {
         $request['nome'] = strtolower($request['nome']);
-    
+
         $request->validated();
 
         $dados = $request->all();

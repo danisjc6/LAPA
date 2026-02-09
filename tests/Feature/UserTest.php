@@ -5,8 +5,8 @@ use Faker\Generator as Faker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\User;
-use App\Conta;
+use App\Models\User;
+use App\Models\Conta;
 class UserTest extends TestCase
 {
     use RefreshDatabase;

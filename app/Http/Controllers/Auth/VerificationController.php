@@ -8,7 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Auth\Events\Verified;
 use App\Notifications\SolicitacaoVisita;
-use App\User;
+use App\Models\User;
 
 class VerificationController extends Controller
 {

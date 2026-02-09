@@ -33,7 +33,7 @@ class Conta extends Authenticatable
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
       /**
   * Get the route key for the model.

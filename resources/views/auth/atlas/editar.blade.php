@@ -55,7 +55,7 @@
             <div class="form-group" id="anexos">
                 @if (isset($registro))
                     @php
-                        $anexos = App\Anexo::where('atla_id', $registro->id)->get();
+                        $anexos = App\Models\Anexo::where('atla_id', $registro->id)->get();
                     @endphp
                 @endif
 

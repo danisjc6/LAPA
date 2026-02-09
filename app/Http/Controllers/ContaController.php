@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use DB;
-use App\Conta;
+use App\Models\Conta;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -17,30 +17,30 @@ use App\Notifications\SolicitacaoAcesso_recusada;
 use Auth;
 class ContaController extends Controller
 {
-    
-   
+
+
     public function __construct()
     {
-        
+
     }
     private function sendResetEmail($email, $token)
     {
        //Retrieve the user from the database
        $user = User::where('email',$email)->first();
        //Generate, the password reset link. The token generated is embedded in the link
-      
+
        try {
-         
+
          Notification::send($user,new ResetPassword($user,$token));
          return true;
        } catch (\Exception $e) {
          return false;
        }
     }
-    public function validatePasswordRequest(Request $request) 
+    public function validatePasswordRequest(Request $request)
     {   $usersAdmin=User::where( 'user_type', 'admin')->get();
 	$user= $usersAdmin->where('email',$request['email'])->first();
-	
+
         //Check if the user exists
         if ($user==null) {
             return redirect()->back()->withErrors(['email' => trans('Conta do usuário não existe')]);
@@ -55,12 +55,12 @@ class ContaController extends Controller
         $tokenData = DB::table('password_resets')->where('email', $request->email)->first();
         if ($this->sendResetEmail($request->email, $tokenData->token)) {
             return redirect()->back()->with('status', trans('Um link de redefinição de senha foi enviado para seu email'));
-        } 
+        }
        return redirect()->back()->withErrors(['error' => trans('Ocorreu um erro de rede. Por favor, tente novamente.')]);
-      
-        
+
+
     }
-    
+
     public function resetPassword(Request $request)
    {
         //Validate input
@@ -74,7 +74,7 @@ class ContaController extends Controller
           return redirect()->back()->withErrors($validator);
        }
 
-       
+
        // Validate the token
        $tokenData = DB::table('password_resets')->where('token', $request->token)->first();
        // Redirect the user back to the password reset request form if the token is invalid
@@ -86,16 +86,16 @@ class ContaController extends Controller
        //Hash and update the new password
        $conta=Conta::where('user_id',$user->id)->first();
        $conta->password =Hash::make($request->password);
-       $conta->update(); 
+       $conta->update();
 
        //login the user immediately they change password successfully
        Auth::login($user);
 
        //Delete the token
        DB::table('password_resets')->where('email', $user->email)->delete();
-       
+
       return redirect()->route('auth.gerenciar')->with('success','Senha alterada com sucesso');
-           
+
 
    }
 

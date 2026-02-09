@@ -10,14 +10,14 @@
 
     @endif
 
-    <div id="page" class="d-flex flex-column py-4 col-lg-8">    
+    <div id="page" class="d-flex flex-column py-4 col-lg-8">
         @if (count($paginas) < 1)
             <p>Ops, essa área de conhecimento ainda não possui páginas</p>
         @else
 
             @foreach ($paginas as $pagina)
                 @php
-                    $anexos = App\Anexo::where('atla_id', $pagina->id)->get();
+                    $anexos = App\Models\Anexo::where('atla_id', $pagina->id)->get();
                 @endphp
                 <div class="row justify-content-between fadeInDown" data-anime="300">
                     <div class="col-md-7 col-12 text-left">
@@ -31,7 +31,7 @@
                                 <span class="tag evento">{{ $categoria->disciplina->nome}}</span>
                             </a>
                             <span class="tag evento">/</span>
-                            
+
                             <a style="color: white;" href="{{ route('site.atlas.categoria', $categoria) }}">
                                 <span class="tag evento">{{ $categoria->nome }}</span>
                             </a>
@@ -109,7 +109,7 @@
                     <a href="#" data-target="#carouselAnexos" data-slide-to="{{ $i }}" class="list-group-item list-group-item-action">
                         {{ $anexos[$i]->descricao ?? 'Foto '.$i }}
                     </a>
-                @endfor    
+                @endfor
             </div>
         </div>
     @endif

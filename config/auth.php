@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Conta;
+
 return [
 
     /*
@@ -72,11 +74,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => User::class,
         ],
 	'contas' => [
             'driver' => 'eloquent',
-            'model' => App\Conta::class,
+            'model' => Conta::class,
         ],
 
         // 'users' => [
