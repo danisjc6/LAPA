@@ -23,6 +23,7 @@
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <link href="{{ asset('css/clndr.css') }}" rel="stylesheet">
         <link href="{{ asset('css/simple-anime.css') }}" rel="stylesheet">
