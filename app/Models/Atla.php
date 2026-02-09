@@ -18,11 +18,11 @@ class Atla extends Model
     ];
 
     public function categoria() {
-        return $this->belongsTo('App\Categoria');
+        return $this->belongsTo(Categoria::class);
     }
 
     public function anexo() {
-        return $this->hasMany('App\Anexo');
+        return $this->hasMany(Anexo::class);
     }
 
     public function quantidadeAtlasPublicados() {

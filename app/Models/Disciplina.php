@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-/**
-ASSUNTO
-*/
+
 class Disciplina extends Model
 {
     /**
@@ -22,11 +20,11 @@ class Disciplina extends Model
     }
 
     public function categoria() {
-        return $this->hasMany('App\Categoria');
+        return $this->hasMany(Categoria::class);
     }
 
     public function material() {
-        return $this->hasMany('App\Material');
+        return $this->hasMany(Material::class);
 
     }
       /**

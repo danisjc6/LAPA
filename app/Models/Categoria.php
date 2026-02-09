@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-/**
-ÁREA DE CONHECIMENTO
-*/
+
 class Categoria extends Model
 {
      /**
@@ -18,11 +16,11 @@ class Categoria extends Model
     ];
 
     public function disciplina() {
-        return $this->belongsTo('App\Disciplina');
+        return $this->belongsTo(Disciplina::class);
     }
 
     public function atla() {
-        return $this->hasMany('App\Atla');
+        return $this->hasMany(Atla::class);
     }
       /**
   * Get the route key for the model.

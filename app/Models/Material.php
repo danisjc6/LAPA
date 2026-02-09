@@ -12,7 +12,7 @@ class Material extends Model
     ];
 
     public function disciplina() {
-        return $this->belongsTo('App\Disciplina');
+        return $this->belongsTo(Disciplina::class);
     }
       /**
   * Get the route key for the model.

@@ -14,6 +14,6 @@ class Anexo extends Model
 
     public function atla()
     {
-        return $this->belongsTo('App\Atla');
+        return $this->belongsTo(Atla::class);
     }
 }

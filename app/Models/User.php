@@ -33,22 +33,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function disciplina()
     {
-        return $this->hasMany('App\Disciplina');
+        return $this->hasMany(Disciplina::class);
     }
 
     public function postagem()
     {
-        return $this->hasMany('App\Postagem');
+        return $this->hasMany(Postagem::class);
     }
 
     public function conta()
     {
-        return $this->hasOne('App\Conta');
+        return $this->hasOne(Conta::class);
     }
 
     public function visita()
     {
-        return $this->hasMany('App\Visita');
+        return $this->hasMany(Visita::class);
     }
 
     public function salvarUserVisitante($user)
@@ -67,6 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function contato() {
-        return $this->hasMany('App\Sobre');
+        return $this->hasMany(Contato::class);
     }
 }
