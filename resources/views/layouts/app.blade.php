@@ -4,7 +4,8 @@
     <body class="d-flex flex-column min-vh-100" style="background-color: #f3f5fa">
 
         @include('layouts.components.nav')
-
+        @include('layouts.components.messages')
+        @include('layouts.')
         <main class="flex-grow-1" style="font-family: 'Roboto', sans-serif;">
             @yield('content')
         </main>

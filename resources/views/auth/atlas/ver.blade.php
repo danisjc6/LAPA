@@ -7,15 +7,7 @@
         @if (!isset($registro))
             <p>Ops, essa página não existe</p>
         @else
-            @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
+         
             @if(isset($registro))
                 <p>Essa página do atlas está <strong>{{ $registro->publicado ? 'publicada' : 'salva no rascunho' }}.</strong></p>
                 @php

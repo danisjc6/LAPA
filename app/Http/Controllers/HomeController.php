@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         $this->middleware(['auth','verified'],['except' => ['index']]);
         //$this->middleware(['check.cpf'],['except' => ['gerenciar']]);
-        
+
     }
 
     /**
@@ -30,7 +30,7 @@ class HomeController extends Controller
         return view('login');
     }
 
-    public function gerenciar() 
+    public function gerenciar()
     {
         return view('auth.home');
     }

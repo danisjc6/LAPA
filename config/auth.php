@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Conta;
+use App\Models\User;
 
 return [
 

@@ -3,14 +3,7 @@
 @section('content')
 <div class="container">
     <h2>{{ __('Reset Password') }}</h2>
-    @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif      
+
     <form method="POST" action="{{ route('auth.password.resetPassword') }}">
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">
