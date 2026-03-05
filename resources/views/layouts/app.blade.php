@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
     @include('layouts.components.header')
-    <body class="d-flex flex-column min-vh-100" style="background-color: #f3f5fa">
+    <body class="flex flex-col min-h-screen bg-slate-100">
 
         @include('layouts.components.nav')
         @include('layouts.components.messages')
-        @include('layouts.')
-        <main class="flex-grow-1" style="font-family: 'Roboto', sans-serif;">
+        <main class="flex-1">
             @yield('content')
         </main>
         @include('layouts.components.footer')
@@ -23,7 +22,6 @@
 
         <!-- Datatable -->
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
         <script src="{{ asset('js/datatables/datatables.js') }}"></script>
 
         <!-- include summernote js -->

@@ -1,105 +1,113 @@
 <!-- Footer -->
-<footer class="mt-5 shadow bg-white">
-    <div class="d-flex flex-column flex-md-row justify-content-around align-items-center gap-5 p-4 mb-4">
+<footer class="mt-5 footer-bottom">
+    <div class="flex items-center gap-10 p-8 bg-linear-to-b from-white via-slate-100 to-green-100">
         <div class="text-center">
             <a href="http://ufape.edu.br/">
-                <img src="{{asset('img/logo_ufape_principal.png')}}" style="width: 50px;">
+                <img src="{{ asset('img/logo_ufape_principal.png') }}" style="width: 40px;">
             </a>
         </div>
-        <div>
-            <p class="m-0 text-secondary">
+        <div class="">
+            <p class="font-semibold">
                 LAPA | Laboratório de Anatomia e Patologia Animal
             </p>
-            <address class="m-0 text-secondary">Avenida Bom Pastor, s/n.º - Bairro Boa Vista<br>CEP: 55292-270 - Garanhuns - PE</address>
+            <address class="m-0">Avenida Bom Pastor, s/n.º - Bairro Boa Vista CEP: 55292-270 - Garanhuns - PE
+            </address>
         </div>
-        <div class="d-flex justify-content-center gap-3">
+        <div class="">
 
             @php($contato = App\Models\Contato::latest('updated_at')->first())
-            @if (isset($contato->email))
-                <p><b>Email:</b>
+            @isset($contato->email)
+                <p>Email:
                     <a href="mailto:{{ $contato->email ?? '' }}">{{ $contato->email ?? '' }}</a>
                 </p>
-            @endif
+            @endisset
 
-            @if (isset($contato->telefone))
-                <p><b>Telefone:</b>
-                    <a href="tel:{{ $contato->telefone ?? ''}}">{{ $contato->telefone ?? ''}}</a>
+            @isset($contato->telefone)
+                <p>Telefone:
+                    <a href="tel:{{ $contato->telefone ?? '' }}">{{ $contato->telefone ?? '' }}</a>
                 </p>
-            @endif
+            @endisset
 
             <!-- Facebook -->
-            @if(isset($contato->facebook))
+            @isset($contato->facebook)
                 <a class="facebook-icone" href="{{ isset($contato->facebook) ? $contato->facebook : '#' }}" target="_blank">
                     <i class="fab fa-facebook-f fa-lg white-text"></i>
                 </a>
-            @endif
+            @endisset
 
             <!-- Twitter -->
-            @if(isset($contato->twitter))
+            @isset($contato->twitter)
                 <a class="twitter-icone" href="{{ isset($contato->twitter) ? $contato->twitter : '#' }}" target="_blank">
                     <i class="fab fa-twitter fa-lg white-text"></i>
                 </a>
-            @endif
+            @endisset
 
             <!-- Instagram -->
-            @if(isset($contato->instagram))
-                <a class="instagram-icone" href="{{ isset($contato->instagram) ? $contato->instagram : '#' }}" target="_blank">
+            @isset($contato->instagram)
+                <a class="instagram-icone" href="{{ isset($contato->instagram) ? $contato->instagram : '#' }}"
+                    target="_blank">
                     <i class="fab fa-instagram fa-lg white-text"></i>
                 </a>
-            @endif
+            @endisset
 
         </div>
     </div>
-    <div class="container-fluid p-4 footer-bottom" style="background-color: #00ad50">
-        <div class="row text-center text-white pt-4">
-            <div class="col-6 col-md-3 mb-3 mb-md-0">
-                <h6 class="fw-bold">Anatomia 3D</h6>
-                <ul class="list-unstyled small">
-                    <li><a href="#" class="text-white text-decoration-none">Osteologia equina</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Cão</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md-3 mb-3 mb-md-0">
-                <h6 class="fw-bold">Navegação</h6>
-                <ul class="list-unstyled small">
-                	<li><a href="{{ route('site.atlas.index') }}">Atlas Iterativo</a>
-                    <li><a href="{{ route('site.visita.busca') }}">Agendar Visitas</a>
-                    <li><a href="{{ route('site.materiais.index') }}">Materiais</a>
-                    <li><a href="{{ route('site.contato.index')}}">Sobre</a>
-                </ul>
-            </div>
-            <div class="col-6 col-md-3 mb-3 mb-md-0">
-                <h6 class="fw-bold">Postagens</h6>
-                <ul class="list-unstyled small">
-                    <li><a href="{{ route('site.postagens.indexEvento') }}">Eventos</a>
-                    <li><a href="{{ route('site.postagens.indexNoticia') }}">Notícias</a>
-                    <li><a href="{{ route('site.postagens.indexEdital') }}">Editais e Seleções</a>
-                </ul>
-            </div>
-            <div class="col-6 col-md-3 mb-3 mb-md-0">
-                <h6 class="fw-bold">Conta</h6>
-                <ul class="list-unstyled small">
-                    @guest
-                        <li><a href="{{ route('login') }}">Acesso</a></li>
-                    @else
-                        <li><a href="{{ route('auth.gerenciar') }}" title="Gerenciar">Gerenciar</a></li>
-                        <li><a href="{{ route('auth.registros') }}" title="Minha conta">Minha conta ({{ Auth::user()->name ?? "" }})</a></li>
-                        <li><a title="Sair" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a></li>
-                    @endguest
-                </ul>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 bg-linear-to-r from-green-800 to-green-700 text-gray-300">
+        <div class="flex flex-col">
+            <h6 class="font-bold">Anatomia 3D</h6>
+
+            <a href="#" class="">Osteologia equina</a>
+            <a href="#" class="">Cão</a>
+
         </div>
+        <div class="flex flex-col">
+            <h6 class="font-bold">Navegação</h6>
+
+            <a href="{{ route('site.atlas.index') }}">Atlas Iterativo</a>
+            <a href="{{ route('site.visita.busca') }}">Agendar Visitas</a>
+            <a href="{{ route('site.materiais.index') }}">Materiais</a>
+            <a href="{{ route('site.contato.index') }}">Sobre</a>
+
+        </div>
+        <div class="flex flex-col">
+            <h6 class="font-bold">Postagens</h6>
+            <a href="{{ route('site.postagens.indexEvento') }}">Eventos</a>
+            <a href="{{ route('site.postagens.indexNoticia') }}">Notícias</a>
+            <a href="{{ route('site.postagens.indexEdital') }}">Editais e Seleções</a>
+        </div>
+        <div class="flex flex-col">
+            <h6 class="font-bold">Conta</h6>
+
+            @guest
+                <a href="{{ route('login') }}">Acesso</a>
+            @else
+                <a href="{{ route('auth.gerenciar') }}" title="Gerenciar">Gerenciar</a>
+                <a href="{{ route('auth.registros') }}" title="Minha conta">Minha conta
+                    ({{ Auth::user()->name ?? '' }})</a>
+                <a title="Sair" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a>
+            @endguest
+
+        </div>
+    </div>
     </div>
 
 </footer>
 
 <style>
     .footer-bottom {
-        background-color: #00ad50;
         animation: fadeIn 1s ease forwards;
     }
+
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
