@@ -16,6 +16,12 @@ class CreateCategoriasTable extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nome');
+            $table->string('slug')->nullable();
+            $table->unsignedBigInteger('disciplina_id');
+            $table->foreign('disciplina_id')
+                ->references('id')
+                ->on('disciplinas')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

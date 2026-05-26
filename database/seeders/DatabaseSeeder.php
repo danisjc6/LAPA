@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,9 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        $this->call(ContaSeeder::class);
-        // $this->call(MaterialSeeder::class);
-        // $this->call(PostagemSeeder::class);
-        // $this->call(AtlaSeeder::class);
+        $this->call(AnimalSeeder::class);
+        $this->call(AreaSeeder::class);
+        $this->call(SistemaSeeder::class);
+        $this->call(EstruturaSeeder::class);
+        $this->call(ConteudoSeeder::class);
+        $this->call(AnimalConteudoSeeder::class);
+        $this->call(SecaoSeeder::class);
+        $this->call(ArquivoSeeder::class);
+
+            User::factory()->create();
     }
 }

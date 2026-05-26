@@ -1,71 +1,51 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>
-            @yield('titulo', config('app.name'))
-        </title>
+    <title>
+        @yield('titulo', config('app.name'))
+    </title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
-        <!-- Tamanho da font do cookie acessibilidade -->
-        <script src="{{ asset('js/font_size_acessibilidade.js') }}"></script>
-        <!-- Styles -->
-        {{-- <link href="{{ asset('css/style.css') }}" rel="stylesheet"> --}}
-        <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
-        @livewireScripts
-        <link href="{{ asset('css/clndr.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/simple-anime.css') }}" rel="stylesheet">
+    <!-- Tamanho da font do cookie acessibilidade -->
+    <script src="{{ asset('js/font_size_acessibilidade.js') }}"></script>
+    <!-- Styles -->
+    {{-- <link href="{{ asset('css/style.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @livewireScripts
+    <link href="{{ asset('css/clndr.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/simple-anime.css') }}" rel="stylesheet">
 
-        <!-- Alto contraste -->
-        {{-- <link href="{{ asset('css/style_contraste.css') }}" rel="stylesheet" id="css-contraste" disabled="true"> --}}
-        <script>
-            var linkCssContraste = document.getElementById("css-contraste");
-            if( localStorage.getItem("contraste") === "true" ) {
-                linkCssContraste.removeAttribute('disabled');
-            }
-        </script>
+    <!-- Alto contraste -->
+    {{-- <link href="{{ asset('css/style_contraste.css') }}" rel="stylesheet" id="css-contraste" disabled="true"> --}}
+    <script>
+        var linkCssContraste = document.getElementById("css-contraste");
+        if( localStorage.getItem("contraste") === "true" ) {
+            linkCssContraste.removeAttribute('disabled');
+        }
+    </script>
 
-        <!-- Bootstrap Datepicker -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css">
+    <!-- include summernote css -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
-        <!-- Datatable -->
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script>document.documentElement.classList.add("js")</script>
 
-        <!-- include summernote css -->
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/pesquisa_atlas.js') }}"></script>
+    <script src="{{ asset('js/pesquisa_materiais.js') }}"></script>
 
-        <script>document.documentElement.classList.add("js")</script>
-
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}"></script>
-        <script src="{{ asset('js/pesquisa_atlas.js') }}"></script>
-        <script src="{{ asset('js/pesquisa_materiais.js') }}"></script>
-
-        <!-- reCAPTCHA-->
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        <!-- Vlibras -->
-        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-        <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
-        <!-- br barra-->
-        <script defer="defer" src="//barra.brasil.gov.br/barra_2.0.js" type="text/javascript"></script>
-    </head>
-    <body>
-    @include('layouts.components.barra_gov')
-
-    <!-- contraste cookies -->
-    <script src="{{ asset('js/contraste_cookies.js') }}"></script>
-
-
+    <!-- Vlibras -->
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+</head>

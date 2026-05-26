@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
     @include('layouts.components.header')
-    <body class="flex flex-col min-h-screen bg-slate-100">
-
-        @include('layouts.components.nav')
+    <body class="flex flex-col min-h-screen bg-slate-100 pb-18 lg:pb-0">
+        @include('layouts.components.barra_gov')
+        <div class="hidden lg:block">
+            @include('layouts.components.nav')
+        </div>
         @include('layouts.components.messages')
+
         <main class="flex-1">
             @yield('content')
         </main>
         @include('layouts.components.footer')
+
+        @include('layouts.components.mobile-bottom-bar')
 
         @stack('scripts')
         <!-- Icones do Font Awesome -->
@@ -37,6 +42,22 @@
 
         <!-- app scripts -->
         <script src="{{ asset('js/animation_config.js') }}"></script>
+        <!-- contraste cookies -->
+        <script src="{{ asset('js/contraste_cookies.js') }}"></script>
+        <script>
+            window.addEventListener('load', () => {
+                const script = document.createElement('script');
+
+                script.src = 'https://barra.brasil.gov.br/barra_2.0.js';
+                script.type = 'text/javascript';
+
+                script.onerror = () => {
+                    console.warn('Falha ao carregar a barra gov.br.')
+                };
+
+                document.body.appendChild(script);
+            })
+        </script>
 
     </body>
 </html>

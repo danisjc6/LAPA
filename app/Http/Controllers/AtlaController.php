@@ -8,36 +8,15 @@ use App\Models\Disciplina;
 use App\Models\Anexo;
 use App\Http\Requests\CriarAtlaRequest;
 use App\Http\Requests\AtualizarAtlaRequest;
+use App\Models\Conteudo;
+use App\Services\AtlasSidebarService;
 use Auth;
 use App\Util\SaveFileUtil;
 
 class AtlaController extends Controller
 {
-
-    // Model de atla adicionado ao controller para evitar uso estatico
-    protected $atla;
-    protected $categoria;
-    protected $disciplinas;
-
-
-
-    public function __construct(Atla $atla, Categoria $categoria, Disciplina $disciplina, Anexo $anexo)
+    public function index(AtlasSidebarService $atlasSidebarService)
     {
-        $this->atla = $atla;
-        $this->categoria = $categoria;
-        $this->disciplina = $disciplina;
-        $this->anexo = $anexo;
-
-        $this->middleware('auth', ['except' => [
-            'atlasPorCategoria',
-            'atlasPorDisciplina',
-            'siteIndex',
-        ]]);
-    }
-
-    public function index()
-    {
-
         $registros = $this->atla;
         $filtros['nomes'] = array();
 
@@ -47,15 +26,8 @@ class AtlaController extends Controller
             $filtros['nomes'] = [request('publicado') ? 'publicados' : 'rascunhos'];
         }
 
-        if(request()->has('categoria') && request('categoria') != '') {
-            $registros = $registros->where('categoria_id', request('categoria'));
-            $filtros['categoria'] = request('categoria');
-            array_push($filtros['nomes'], $this->categoria->find(request('categoria'))->nome);
-        }
-
-        $categorias = $this->categoria->all();
         $registros = $registros->latest()->get();
-        return view('auth.atlas.index', compact('registros', 'categorias', 'filtros'));
+        return view('auth.atlas.index', compact('registros','filtros'));
     }
 
     public function adicionar()
@@ -184,20 +156,12 @@ class AtlaController extends Controller
         return redirect()->route('auth.atlas')->with('success', 'Página do atlas deletada com sucesso!');
     }
 
-    public function siteIndex()
+    public function siteIndex(AtlasSidebarService $atlasSidebarService)
     {
-        $registros = $this->atla->where('publicado', true)->latest()->get();
+        $registros = Conteudo::where('publicado', true)->latest()->get();
+        $menu_lateral = $atlasSidebarService->montarNavegacaoLateral();
 
-        $categorias = $this->categoria->whereHas('atla', function($query) {
-            $query->where('publicado', true);
-        })->latest()->get();
-
-        $disciplinas = $this->disciplina->whereHas('categoria', function($queryCategorias) {
-            $queryCategorias->whereHas('atla', function($queryDisciplinas) {
-                $queryDisciplinas->where('publicado', true);
-            });
-        })->latest()->get();
-        return view('site.atlas.index', compact('registros', 'categorias', 'disciplinas'));
+        return view('atlas.index', compact('registros', 'menu_lateral'));
     }
 
     public function atlasPorCategoria(Categoria $categoria)
@@ -207,7 +171,7 @@ class AtlaController extends Controller
             ->where('categoria_id', $categoria->id);
         $registros = $busca->get();
         $paginas = $busca->paginate(1);
-        return view('site.atlas.ver_atlas', compact('paginas', 'registros', 'categoria'));
+        return view('atlas.ver_atlas', compact('paginas', 'registros', 'categoria'));
     }
 
     public function atlasPorDisciplina(Disciplina $disciplina)
@@ -219,13 +183,18 @@ class AtlaController extends Controller
         });
         $registros = $busca->get();
         $paginas = $busca->paginate(1);
-        return view('site.atlas.ver_atlas_disciplinas', compact('paginas', 'registros', 'disciplina'));
+        return view('atlas.ver_atlas_disciplinas', compact('paginas', 'registros', 'disciplina'));
     }
 
-    public function ver(Atla $registro)
+    public function show(AtlasSidebarService $atlasSidebarService, Conteudo $conteudo)
     {
-        $categoria = $registro->categoria;
-        return view('auth.atlas.ver', compact('registro', 'categoria'));
+        $conteudo->load([
+            'area',
+            'secoes',
+            'secoes.arquivos',
+            'animais',
+        ]);
+        return view('atlas.show', compact('conteudo'));
     }
 
     public function deletarAnexo(Anexo $registro)

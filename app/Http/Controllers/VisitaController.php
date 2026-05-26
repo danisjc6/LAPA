@@ -22,11 +22,10 @@ class VisitaController extends Controller
     protected $postagem;
     protected $auth;
 
-    public function __construct(Visita $visita, User $usuario, Postagem $postagem, Auth $auth)
+    public function __construct(Visita $visita, User $usuario, Auth $auth)
     {
         $this->visita = $visita;
         $this->usuario = $usuario;
-        $this->postagem = $postagem;
         $this->auth = $auth;
 
         $this->middleware('auth', ['except' => [

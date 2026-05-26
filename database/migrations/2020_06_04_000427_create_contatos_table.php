@@ -26,6 +26,8 @@ class CreateContatosTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->string('slug')->nullable();
+
             $table->timestamps();
         });
     }

@@ -3,22 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
 
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()//lembrar de criar middleware para ativar cpf
-    {
-        $this->middleware(['auth','verified'],['except' => ['index']]);
-        //$this->middleware(['check.cpf'],['except' => ['gerenciar']]);
-
-    }
 
     /**
      * Show the application dashboard.
@@ -27,11 +16,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('login');
-    }
+        if (! Auth::check()) {
+            return view('welcome');
+        }
 
-    public function gerenciar()
-    {
+        if (! Auth::user()->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice');
+        }
+
         return view('auth.home');
     }
 }

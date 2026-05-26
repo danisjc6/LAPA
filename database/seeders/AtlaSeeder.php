@@ -15,13 +15,5 @@ class AtlaSeeder extends Seeder
      */
     public function run()
     {
-        $categoria = Categoria::factory()->create();
-
-        for($i = 0; $i < 10; $i++) {
-            Atla::factory()->create([
-                'publicado' => true,
-                'categoria_id' => $categoria->id,
-            ]);
-        }
     }
 }

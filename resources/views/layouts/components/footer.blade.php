@@ -65,15 +65,8 @@
 
             <a href="{{ route('site.atlas.index') }}">Atlas Iterativo</a>
             <a href="{{ route('site.visita.busca') }}">Agendar Visitas</a>
-            <a href="{{ route('site.materiais.index') }}">Materiais</a>
             <a href="{{ route('site.contato.index') }}">Sobre</a>
 
-        </div>
-        <div class="flex flex-col">
-            <h6 class="font-bold">Postagens</h6>
-            <a href="{{ route('site.postagens.indexEvento') }}">Eventos</a>
-            <a href="{{ route('site.postagens.indexNoticia') }}">Notícias</a>
-            <a href="{{ route('site.postagens.indexEdital') }}">Editais e Seleções</a>
         </div>
         <div class="flex flex-col">
             <h6 class="font-bold">Conta</h6>
@@ -81,7 +74,7 @@
             @guest
                 <a href="{{ route('login') }}">Acesso</a>
             @else
-                <a href="{{ route('auth.gerenciar') }}" title="Gerenciar">Gerenciar</a>
+                <a href="{{ route('home') }}" title="Gerenciar">Gerenciar</a>
                 <a href="{{ route('auth.registros') }}" title="Minha conta">Minha conta
                     ({{ Auth::user()->name ?? '' }})</a>
                 <a title="Sair" href="{{ route('logout') }}"

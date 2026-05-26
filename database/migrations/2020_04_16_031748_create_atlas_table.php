@@ -17,13 +17,15 @@ class CreateAtlasTable extends Migration
             $table->bigIncrements('id');
             $table->string('titulo');
             $table->longText('descricao');
-            $table->string('anexo')->nullable();
             $table->boolean('publicado')->nullable();
             $table->unsignedBigInteger('categoria_id')->nullable();
             $table->foreign('categoria_id')
                 ->references('id')
                 ->on('categorias')
-                ->onDelete('cascade');  
+                ->onDelete('cascade');
+            $table->string('slug')->nullable();
+            $table->longtext('anexo')->nullable(true);
+
             $table->timestamps();
         });
     }

@@ -1,77 +1,73 @@
 @extends('layouts.app')
 
-<style>
-    .login-card {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(12px);
-        border-radius: 16px;
-        min-height: 60vh;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        color: white;
-        animation: fadeIn 1s ease-in;
-    }
-    input:focus, textarea:focus, select:focus {
-        border-color: #00ad50 !important;
-        box-shadow: 0 0 0 0.25rem rgba(0, 173, 80, 0.25) !important;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
 @section('titulo', 'Login')
 @section('content')
-<div class="container d-flex justify-content-center">
-    <div class="card login-card w-50 py-5">
-        <h1 class="mb-3">{{ __('Login') }} </h1>
-        <form class="w-75" method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="form-group mb-3">
-                <label for="email" class="form-label">{{ __('E-Mail Address') }}</label>
-                <input id="email" type="email" placeholder="E-mail" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-            </div>
-            <div class="form-group">
-                <label for="password" class="form-label">{{ __('Password') }}</label>
-                <input id="password" type="password" placeholder="Senha" class="form-control @error('email') is-invalid @enderror" name="password" required autocomplete="current-password" >
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>Verifique se seu e-mail e senha estão corretos</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="d-flex justify-content-between my-4">
-                <div class="form-group text-left">
-                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember">
-                        {{ __('Lembrar sessão') }}
-                    </label>
+    <div class="px-4 py-10">
+        <div class="mx-auto w-full max-w-md">
+            <div class="rounded-2xl border border-slate-200 bg-white shadow-sm"> {{-- Header --}} <div
+                    class="border-b border-slate-100 px-6 py-5">
+                    <h1 class="text-2xl font-semibold text-slate-900">Entrar</h1>
+                    <p class="mt-1 text-sm text-slate-600"> Acesse sua conta para agendar visitas e consultar materiais. </p>
+                </div> {{-- Body --}} <div class="px-6 py-6">
+                    <form method="POST" action="{{ route('login') }}" class="space-y-4"> @csrf {{-- Email --}} <div>
+                            <label for="email" class="block text-sm font-medium text-slate-700"> Endereço de e-mail <span
+                                    class="text-red-600">*</span> </label>
+                            <div class="mt-1 relative"> <span
+                                    class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
+                                    {{-- ícone envelope --}} <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 7.5l8 5 8-5" stroke="currentColor" stroke-width="1.8"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M4 7.5V17a2 2 0 002 2h12a2 2 0 002-2V7.5" stroke="currentColor"
+                                            stroke-width="1.8" stroke-linecap="round" />
+                                    </svg> </span> <input id="email" name="email" type="email"
+                                    value="{{ old('email') }}" autocomplete="email" required
+                                    class="block w-full rounded-lg border border-slate-300 bg-white px-10 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm outline-none focus:border-slate-900 focus:ring-4 focus:ring-slate-900/10"
+                                    placeholder="seuemail@exemplo.com"> </div> @error('email')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> {{-- Senha --}} <div> <label for="password"
+                                class="block text-sm font-medium text-slate-700"> Senha <span class="text-red-600">*</span>
+                            </label>
+                            <div class="mt-1 relative"> <span
+                                    class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
+                                    {{-- ícone cadeado --}} <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                                        <path d="M7 11V8a5 5 0 0110 0v3" stroke="currentColor" stroke-width="1.8"
+                                            stroke-linecap="round" />
+                                        <path d="M7 11h10a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6a2 2 0 012-2z"
+                                            stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                                    </svg> </span> <input id="password" name="password" type="password"
+                                    autocomplete="current-password" required
+                                    class="block w-full rounded-lg border border-slate-300 bg-white px-10 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm outline-none focus:border-slate-900 focus:ring-4 focus:ring-slate-900/10"
+                                    placeholder="••••••••"> </div> @error('password')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> {{-- Opções --}} <div class="flex items-center justify-between gap-3"> <label
+                                class="inline-flex items-center gap-2 text-sm text-slate-700"> <input type="checkbox"
+                                    name="remember"
+                                    class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900/20"> Lembrar
+                                sessão </label>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}"
+                                    class="text-sm font-medium text-slate-900 hover:underline"> Esqueceu a senha? </a>
+                            @endif
+                        </div> {{-- Botões --}} <button type="submit"
+                            class="mt-2 inline-flex w-full items-center justify-center rounded-lg bg-green-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-700/20">
+                            Entrar </button>
+                        <div class="relative py-2">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-slate-200"></div>
+                            </div>
+                            <div class="relative flex justify-center"> <span
+                                    class="bg-white px-3 text-xs text-slate-500">ou</span> </div>
+                        </div>
+                        <a href="{{ route('register') }}"
+                            class="inline-flex w-full items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-900/10">
+                            Solicitar acesso
+                        </a>
+                    </form>
                 </div>
-                @if (Route::has('password.request'))
-                    <a class="" href="{{ route('password.request') }}">
-                    {{ __('Esqueceu a Senha?') }}
-                    </a>
-                @endif
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-success w-75">
-                    {{ __('Login') }}
-                </button>
-            </div>
-            <hr>
-            @if (Route::has('register'))
-            <div class="text-center mt-3">
-                <a href="{{ route('register') }}" class="btn btn-outline-success">
-                    {{ __('Solicitar acesso') }}
-                </a>
-            </div>
-            @endif
-
-
-        </form>
+            </div> {{-- Rodapézinho do card --}} <p class="mt-4 text-center text-xs text-slate-500"> Ao entrar, você concorda com os
+                termos de uso e política de privacidade do sistema. </p>
+        </div>
     </div>
-</div>
 @endsection

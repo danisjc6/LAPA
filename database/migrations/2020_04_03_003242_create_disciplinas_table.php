@@ -16,6 +16,14 @@ class CreateDisciplinasTable extends Migration
         Schema::create('disciplinas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nome');
+            $table->string('slug')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
+            $table->timestamps();
+
         });
     }
 

@@ -15,14 +15,17 @@ class CreateVisitasTable extends Migration
     {
         Schema::create('visitas', function (Blueprint $table) {
             $table->id();
-            $table->string('responsavel');
             $table->date('data');
             $table->time('hora_inicial');
             $table->time('hora_final');
             $table->longText('descricao');
-            $table->string('telefone');
-            $table->string('email');
             $table->boolean('confirmada')->nullable();
+            $table->string('slug')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

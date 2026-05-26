@@ -1,51 +1,34 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AtlaController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ContaController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MaterialController;
-use App\Http\Controllers\PostagemController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\VisitaController;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/dashboard', function () {
+    return view('auth.home');
+})->middleware(['auth', 'verified'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 
-Route::get('/', [PostagemController::class, 'siteHome'])->name('site.home');
-Route::get('/site/atlas/index', [AtlaController::class, 'siteIndex'])->name('site.atlas.index');
+Route::get('/atlas/index', [AtlaController::class, 'siteIndex'])->name('site.atlas.index');
+Route::get('/atlas/show/{conteudo:slug}', [AtlaController::class, 'show'])->name('atlas.show');
+
 Route::get('/site/atlas/categoria/{categoria:slug}', [AtlaController::class, 'atlasPorCategoria'])->name('site.atlas.categoria');
 Route::get('/site/atlas/disciplina/{disciplina:slug}', [AtlaController::class, 'atlasPorDisciplina'])->name('site.atlas.disciplina');
 
-
-Route::get('/site/eventos/index', [PostagemController::class, 'siteIndexEvento'] )->name('site.postagens.indexEvento');
-Route::get('/site/noticias/index', [PostagemController::class, 'siteIndexNoticia'])->name( 'site.postagens.indexNoticia');
-Route::get('/site/editais/index', [PostagemController::class, 'siteIndexEdital'])->name( 'site.postagens.indexEdital');
-
-
-Route::get('/site/eventos/visualizar/{registro:slug}', [PostagemController::class, 'siteVisualizarPostagem'])->name('site.eventos.visualizar');
-
-Route::get('/site/editais/visualizar/{registro:slug}', [PostagemController::class, 'siteVisualizarPostagem'])->name('site.editais.visualizar');
-
-Route::get('/site/noticias/visualizar/{registro:slug}', [PostagemController::class, 'siteVisualizarPostagem'])->name('site.noticias.visualizar');
-
-
-Route::get('/site/postagem/visualizar/{registro:slug}', [PostagemController::class, 'siteVisualizarPostagem'])->name('site.postagem.visualizar');
 
 Route::get('/site/contato/index', [RegisterController::class, 'siteIndex'])->name('site.contato.index');
 Route::get('/site/contato/visualizar/{registro:slug}', [RegisterController::class, 'siteRegistervisualizar'])->name('site.contato.visualizar');
@@ -61,13 +44,7 @@ Route::get('/site/visita/verificar/{id}/{hash}', [VerificationController::class,
 
 Route::get('/termos&privacidade', [RegisterController::class, 'visualizarTermosPrivacidade'])->name('termo.privacidade');
 Route::get('/confirmacao/email', [VerificationController::class, 'confirmacaoEmail'])->name('confirmacao.email');
-
-Auth::routes(['verify' => true]);
-
-Route::middleware(['auth'])->group(function () {
-  Route::get('/gerenciar', [HomeController::class, 'gerenciar'])->name('auth.gerenciar');
-});
-
+Route::get('/sistemas', [SistemaController::class, 'index'])->name('sistemas.lapa.index');
 Route::middleware(['auth','check.cpf'])->group(function () {
 
 
@@ -83,21 +60,6 @@ Route::middleware(['auth','check.cpf'])->group(function () {
 
 	Route::get('/auth/disciplina/editar/{registro:slug}', [DisciplinaController::class, 'editar'])->name('auth.disciplina.editar');
 	Route::get('/auth/disciplina/deletar/{registro:slug}', [DisciplinaController::class, 'deletar'])->name('auth.disciplina.deletar');
-
-	Route::get('/auth/postagens', [PostagemController::class, 'index'])->name('auth.postagens');
-
-	Route::get('/auth/postagem/adicionar', [PostagemController::class, 'adicionar'])->name('auth.postagem.adicionar');
-	Route::post('/auth/postagem/salvar', [PostagemController::class, 'salvar'])->name('auth.postagem.salvar');
-
-	Route::get('/auth/postagem/editar/{registro:slug}', [PostagemController::class, 'editar'])->name('auth.postagem.editar');
-
-	Route::put('/auth/postagem/atualizar/{id}', [PostagemController::class, 'atualizar'])->name('auth.postagem.atualizar');
-
-	Route::get('/auth/postagem/deletar/{registro:slug}', [PostagemController::class, 'deletar'])->name('auth.postagem.deletar');
-
-	Route::get('/auth/postagem/publicar/{registro:slug}', [PostagemController::class, 'publicar_postagem'])->name('auth.postagem.publicar');
-
-	Route::get('/auth/postagem/ver/{registro:slug}', [PostagemController::class, 'visualizarRascunho'])->name('auth.postagem.ver');
 
 	Route::get('/auth/categorias', [CategoriaController::class, 'index'])->name('auth.categorias');
 	Route::get('/auth/categoria/adicionar', [CategoriaController::class, 'adicionar'])->name('auth.categoria.adicionar');
@@ -145,5 +107,4 @@ Route::middleware(['auth','check.cpf'])->group(function () {
 
 });
 
-Route::post('/auth/passwords/reset', [ContaController::class, 'resetPassword'])->name('auth.password.resetPassword');
-Route::post('/auth/passwords/email', [ContaController::class, 'validatePasswordRequest'])->name('auth.password.validatePasswordRequest');
+require __DIR__.'/auth.php';

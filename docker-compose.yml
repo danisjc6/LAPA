@@ -1,0 +1,71 @@
+services:
+  php-fpm:
+    restart: unless-stopped
+    env_file:
+      - .env
+    working_dir: /var/www/html
+    volumes:
+      - lapa_storage:/var/www/html/storage/app/public
+    depends_on:
+      - db
+    networks:
+      - lapa
+  nginx:
+    image: nginx:alpine
+    container_name: lapa-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - lapa_storage:/var/www/html/storage/app/public
+    depends_on:
+      - db
+    networks:
+      - lapa
+
+  db:
+    image: postgres:16
+    container_name: lapa-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - lapa_pgdata:/var/lib/postgresql/data
+    networks:
+      - lapa
+  mailpit:
+    image: 'axllent/mailpit:latest'
+    ports:
+      - '${FORWARD_MAILPIT_PORT:-1025}:1025'
+      - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+    networks:
+      - lapa
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lapa-queue
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    working_dir: /var/www/html
+    volumes:
+      - lapa_storage:/var/www/html/storage/app/public
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=90
+    depends_on:
+      - app
+      - db
+    networks:
+      - lapa
+networks:
+  lapa:
+
+volumes:
+  lapa_pgdata:
+  lapa_storage:

@@ -1,91 +1,122 @@
 @extends('layouts.app')
 @section('titulo', 'Gerenciar - LAPA')
 
-<style>
-    .card {
-      transition: transform 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-</style>
 @section('content')
-<div class="container">
-    <h3 class="w-100 mb-4 mt-2">Principais funcionalidades</h3>
-    <div class="d-flex justify-content-center gap-5">
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.postagens') }}">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <span class="fa fa-newspaper fa-4x pb-3"></span>
-                <h3 class="card-title">
-                    {{ __('Postagens') }}
-                </h3>
-            </div>
+<section class="bg-slate-100">
+    <div class="mx-auto max-w-7xl px-6 py-10 lg:py-14">
 
-        </a>
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.atlas') }}">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <span class="fa fa-book-open fa-4x pb-3"></span>
-                <h3 class="card-title">
-                    {{ __('Atlas') }}
-                </h3>
-            </div>
-        </a>
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.materiais') }}">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <span class="fa fa-file fa-4x pb-3"></span>
-                <h3 class="card-title">
-                    {{ __('Materiais') }}
-                </h3>
-            </div>
-        </a>
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.visitas') }}">
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                    <span class="fa fa-id-card-alt fa-4x pb-3"></span>
-                    <h3 class="card-title">
-                        {{ __('Visitas') }}
-                    </h3>
+        {{-- Header --}}
+        <div class="mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
+                Painel do sistema
+            </h1>
+            <p class="mt-2 text-sm text-slate-600">
+                Acesse rapidamente as principais áreas do laboratório.
+            </p>
+        </div>
+
+        {{-- Principais funcionalidades --}}
+        <div class="flex items-center justify-between gap-4">
+            <h3 class="text-base font-semibold text-slate-900">Principais funcionalidades</h3>
+            <span class="h-px flex-1 bg-slate-200"></span>
+        </div>
+
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {{-- Card --}}
+
+            <a href="{{ route('auth.atlas') }}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
+                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
+                        <span class="fa fa-book-open text-2xl"></span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-900">{{ __('Atlas') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">Conteúdos e referências.</p>
+                    </div>
                 </div>
+            </a>
 
-        </a>
-    </div>
-    <h3 class="w-100 mb-4 mt-5">Mais opções</h3>
-    <div class="d-flex justify-contente-center gap-5">
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.disciplinas') }}">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <span class="fas fa-bookmark fa-4x pb-3"></span>
-                <h3 class="card-title text-center px-3">
-                    {{ __('Assuntos (disciplinas)') }}
-                </h3>
-            </div>
-
-        </a>
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.categorias') }}">
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                    <span class="fa fa-list-ul fa-4x pb-3"></span>
-                    <h3 class="card-title text-center">
-                        {{ __('Áreas de conhecimento') }}
-                    </h3>
+            <a href="{{ route('auth.visitas') }}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
+                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
+                        <span class="fa fa-id-card-alt text-2xl"></span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-900">{{ __('Visitas') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">Agendamentos e histórico.</p>
+                    </div>
                 </div>
+            </a>
+        </div>
 
-        </a>
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.acesso_gerenciamento') }}">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <span class="fa fa-check-circle fa-4x pb-3"></span>
-                <h3 class="card-title text-center">
-                    {{ __('Solicitações de gerenciamento') }}
-                </h3>
-            </div>
-        </a>
-        <a class="card text-success ratio ratio-1x1 w-25 rounded-4 shadow-lg border-0" href="{{ route('auth.contatos') }}">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <span class="fa fa-info-circle fa-4x pb-3"></span>
-                <h3 class="card-title text-center">
-                    {{ __('Contatos do laboratório') }}
-                </h3>
-            </div>
+        {{-- Mais opções --}}
+        <div class="mt-10 flex items-center justify-between gap-4">
+            <h3 class="text-base font-semibold text-slate-900">Mais opções</h3>
+            <span class="h-px flex-1 bg-slate-200"></span>
+        </div>
 
-        </a>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <a href="{{ route('auth.disciplinas') }}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
+                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
+                        <span class="fas fa-bookmark text-2xl"></span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-900">{{ __('Assuntos (disciplinas)') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">Organização por tema.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ route('auth.categorias') }}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
+                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
+                        <span class="fa fa-list-ul text-2xl"></span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-900">{{ __('Áreas de conhecimento') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">Categorias e temas.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ route('auth.acesso_gerenciamento') }}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
+                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
+                        <span class="fa fa-check-circle text-2xl"></span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-900">{{ __('Solicitações') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">Pedidos de gerenciamento.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ route('auth.contatos') }}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
+                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
+                        <span class="fa fa-info-circle text-2xl"></span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-900">{{ __('Contatos') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">Fale com o laboratório.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
-</div>
+</section>
 @endsection
