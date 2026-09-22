@@ -89,23 +89,6 @@ class AdditionalSteps extends \Codeception\Actor
         ]);
     }
 
-    /**
-    * @Given A postagem :arg1 ja exista
-    */
-    public function aPostagemJaExista($arg1)
-    {
-        $this->haveInDatabase('postagems', [
-            'titulo' => $arg1,
-            'descricao' => 'Texto do material',
-            'anexo' => 'file.png',
-            'user_id' => null,
-            'publicado' => true,
-            'slug'=> $arg1,
-            'tipo_postagem' => 'edital',
-        ]);
-    }
-
-
      /**
      * @Given O usuario administrador com nome :arg1,email :arg2 e senha :arg3 existe
      */

@@ -30,8 +30,6 @@ Route::get('/atlas/show/{conteudo:slug}', [AtlaController::class, 'show'])->name
 Route::get('/site/contato/index', [RegisterController::class, 'siteIndex'])->name('site.contato.index');
 Route::get('/site/contato/visualizar/{registro:slug}', [RegisterController::class, 'siteRegistervisualizar'])->name('site.contato.visualizar');
 
-Route::get('/site/materiais/index', [MaterialController::class, 'siteIndex'])->name('site.materiais.index');
-Route::get('/site/materiais/disciplina/{disciplina:slug}', [MaterialController::class, 'materiaisPorDisciplina'])->name('site.materiais.disciplina');
 
 Route::get('/site/visita/busca', [VisitaController::class, 'busca'])->name('site.visita.busca');
 Route::get('/site/visita/buscar',[RegisterController::class, 'buscarUsuarioVisita'])->name('site.visita.buscar.registro');
@@ -60,17 +58,6 @@ Route::middleware(['auth','check.cpf'])->group(function () {
 	Route::get('/auth/atla/visualizar/{registro:slug}', [AtlaController::class, 'ver'])->name('auth.atla.visualizar');
 	Route::get('/auth/atla/publicar/{registro:slug}', [AtlaController::class, 'publicar'])->name('auth.atla.publicar');
 	Route::get('/auth/anexos/deletar/{registro:id}', [AtlaController::class, 'deletarAnexo'])->name('auth.anexo.deletar');
-
-	Route::get('/auth/materiais', [MaterialController::class, 'index'])->name('auth.materiais');
-	Route::get('/auth/materiais/adicionar', [MaterialController::class, 'adicionar'])->name('auth.material.adicionar') ;
-	Route::post('/auth/materiais/salvar',  [MaterialController::class, 'salvar'])->name('auth.material.salvar');
-	Route::get('/auth/materiais/editar/{registro:slug}', [MaterialController::class, 'editar' ])->name('auth.material.editar');
-	Route::put('/auth/materiais/atualizar/{id}', [MaterialController::class, 'atualizar'])->name(' auth.material.atualizar');
-	Route::get('/auth/materiais/deletar/{registro:slug}', [MaterialController::class, ' deletar'])->name('auth.material.deletar');
-	Route::get('ajax/materiais/disciplina/{registro:slug}', [MaterialController::class, 'ajaxMateriaisDisciplina'])->name('auth.ajax.materiais.disciplina');
-    Route::get('/auth/material/visualizar/{registro:slug}', [MaterialController::class, 'ver'] )->name('auth.material.visualizar');
-	Route::get('/auth/material/publicar/{registro:slug}', [MaterialController::class, 'publicar'])->name('auth.material.publicar ');
-
 
 	Route::get('/auth/visitas', [VisitaController::class, 'index'])->name('auth.visitas');
 	Route::get('/auth/visita/ver/{registro:slug}', [VisitaController::class, 'ver'])->name('auth.visita.ver');

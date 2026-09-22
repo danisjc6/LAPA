@@ -33,8 +33,6 @@ gherkin:
         tag:
             visita:
                 - VisitaSteps
-            material:
-                - MaterialSteps
             atla:
                 - AtlaSteps
             contato:
