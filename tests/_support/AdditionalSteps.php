@@ -53,58 +53,6 @@ class AdditionalSteps extends \Codeception\Actor
         $this->see($arg1, '//a');
     }
 
-    /**
-     * @Given Eu crio a disciplina :arg1 para teste
-     */
-    public function euCrioADisciplinaParaTeste($arg1)
-    {
-        $disciplina=$this->haveInDatabase('disciplinas', [
-            'nome' => $arg1,
-            'slug'=> $arg1,
-        ]);
-
-    }
-
-    /**
-     * @Given A disciplina :arg1 ja exista
-     */
-    public function aDisciplinaJaExista($arg1)
-    {
-        $this->haveInDatabase('disciplinas', [
-            'nome' => $arg1,
-            'slug'=> $arg1,
-        ]);
-    }
-
-   /**
-    * @Given O material :arg1 ja exista
-    */
-    public function oMaterialJaExista($arg1)
-    {
-        $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'Ihc'));
-
-        $this->haveInDatabase('materials', [
-            'titulo' => $arg1,
-            'texto' => 'Texto do material',
-            'anexo' => 'file.png',
-            'disciplina_id' => $disciplina,
-            'slug'=> $arg1,
-            ]);
-    }
-
-    /**
-     * @Given O atla :arg1 ja exista
-     */
-    public function oAtlaJaExista($arg1)
-    {
-        $this->haveInDatabase('disciplinas', [
-            'nome' => 'teste',
-            'slug'=> 'teste',
-        ]);
-
-        $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'teste'));
-
-    }
 
     /**
     * @Given A visita :arg1 ja exista

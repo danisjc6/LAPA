@@ -6,11 +6,8 @@ Feature: material
 
   Scenario: criar material valido
     Given Eu estou logado como "roberto" com email "roberto@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   Eu estou na pagina de adicionar materiais
     When  Eu preencho o campo titulo com "Material de Ihc"
-    And   Eu preencho o campo texto com "Esse material e referente a disciplina ES"
-    And   Eu seleciono a disciplina "Ihc"
     And   Eu seleciono o campo escolher origem do anexo link da web
     And   Eu preencho o campo do link da web com "https://drive.google.com/file/d/1eJt5xYMq3chZL92_vbHSDq5VmMO22V80/view?usp=sharing"
     And   Eu clico em Publicar agora
@@ -18,11 +15,8 @@ Feature: material
 
   Scenario: criar material sem nome
     Given Eu estou logado como "roberto" com email "roberto@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   Eu estou na pagina de adicionar materiais
     When  Eu preencho o campo titulo com ""
-    And   Eu preencho o campo texto com "Esse material e referente a disciplina ES"
-    And   Eu seleciono a disciplina "Ihc"
     And   Eu seleciono o campo escolher origem do anexo link da web
     And   Eu preencho o campo do link da web com "https://drive.google.com/file/d/1eJt5xYMq3chZL92_vbHSDq5VmMO22V80/view?usp=sharing"
     And   Eu clico em Publicar agora
@@ -30,11 +24,8 @@ Feature: material
 
   Scenario: criar material com nome muito curto
     Given Eu estou logado como "roberto" com email "roberto@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   Eu estou na pagina de adicionar materiais
     When  Eu preencho o campo titulo com "Ma"
-    And   Eu preencho o campo texto com "Esse material e referente a disciplina ES"
-    And   Eu seleciono a disciplina "Ihc"
     And   Eu seleciono o campo escolher origem do anexo link da web
     And   Eu preencho o campo do link da web com "https://drive.google.com/file/d/1eJt5xYMq3chZL92_vbHSDq5VmMO22V80/view?usp=sharing"
     And   Eu clico em Publicar agora
@@ -42,11 +33,9 @@ Feature: material
 
   Scenario: criar material sem texto
     Given Eu estou logado como "roberto" com email "roberto@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   Eu estou na pagina de adicionar materiais
     When  Eu preencho o campo titulo com "Material 1"
     And   Eu preencho o campo texto com ""
-    And   Eu seleciono a disciplina "Ihc"
     And   Eu seleciono o campo escolher origem do anexo link da web
     And   Eu preencho o campo do link da web com "https://drive.google.com/file/d/1eJt5xYMq3chZL92_vbHSDq5VmMO22V80/view?usp=sharing"
     And   Eu clico em Publicar agora
@@ -54,15 +43,12 @@ Feature: material
 
   Scenario: criar material sem anexo
     Given Eu estou logado como "roberto" com email "roberto@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   Eu estou na pagina de adicionar materiais
     When  Eu preencho o campo titulo com "Material 1"
     And   Eu preencho o campo texto com ""
-    And   Eu seleciono a disciplina "Ihc"
     And   Eu clico em Publicar agora
     Then  Eu vejo a mensagem de erro "O campo tipo anexo é obrigatório."
 
-  Scenario: criar material sem disciplina
     Given Eu estou logado como "damiao" com email "damiao@admin.com" e senha "12345678"
     And   Eu estou na pagina de adicionar materiais
     When  Eu preencho o campo titulo com "Material 1"
@@ -74,7 +60,6 @@ Feature: material
 
   Scenario: atualizar material com titulo em branco
     Given Eu estou logado como "damiao" com email "damiao@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   O material "Material de Ihc" ja exista
     And   Eu estou na pagina de gerenciar materiais
     And   Eu clico em editar material com titulo "Material de Ihc"
@@ -84,7 +69,6 @@ Feature: material
 
   Scenario: atualizar material com titulo muito curto
     Given Eu estou logado como "carlos" com email "carlos@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   O material "Material de Ihc" ja exista
     And   Eu estou na pagina de gerenciar materiais
     And   Eu clico em editar material com titulo "Material de Ihc"
@@ -94,7 +78,6 @@ Feature: material
 
   Scenario: atualizar material sem texto
     Given Eu estou logado como "carlos" com email "carlos@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   O material "Material de Ihc" ja exista
     And   Eu estou na pagina de gerenciar materiais
     And   Eu clico em editar material com titulo "Material de Ihc"
@@ -105,7 +88,6 @@ Feature: material
 
  Scenario: deletar material valido
     Given Eu estou logado como "carlos" com email "carlos@admin.com" e senha "12345678"
-    And   A disciplina "Ihc" ja exista
     And   O material "Material de Ihc" ja exista
     And   Eu estou na pagina de gerenciar materiais
     When  Eu clico em deletar material com titulo "Material de Ihc"

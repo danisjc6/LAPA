@@ -18,12 +18,3 @@ $(document).ready(function(){
     });
 });
 
-// Pesquisa disciplina no atlas
-$(document).ready(function(){
-    $("#pesquisa_disciplina").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#disciplinas a").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-    });
-});

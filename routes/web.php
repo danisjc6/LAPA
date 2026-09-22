@@ -3,7 +3,6 @@
 use App\Http\Controllers\AtlaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContatoController;
-use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SistemaController;
@@ -26,7 +25,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/atlas/index', [AtlaController::class, 'siteIndex'])->name('site.atlas.index');
 Route::get('/atlas/show/{conteudo:slug}', [AtlaController::class, 'show'])->name('atlas.show');
 
-Route::get('/site/atlas/disciplina/{disciplina:slug}', [AtlaController::class, 'atlasPorDisciplina'])->name('site.atlas.disciplina');
 
 
 Route::get('/site/contato/index', [RegisterController::class, 'siteIndex'])->name('site.contato.index');
@@ -51,14 +49,6 @@ Route::middleware(['auth','check.cpf'])->group(function () {
   	Route::get('/auth/registros/editar',[RegisterController::class, 'editar'])->name('auth.registros.editar');
    	Route::any('/auth/registros/atualizar',[RegisterController::class, 'atualizar'])->name('auth.registros.atualizar');
 	Route::get('/auth/registros/deletar/{id}',[RegisterController::class, 'deletar'])->name('auth.registros.deletar');
-
-	Route::get('/auth/disciplinas', [DisciplinaController::class, 'index'])->name('auth.disciplinas');
-	Route::get('/auth/disciplina/adicionar', [DisciplinaController::class, 'adicionar'])->name('auth.disciplina.adicionar');
-    Route::post('/auth/disciplina/salvar', [DisciplinaController::class, 'salvar'])->name('auth.disciplina.salvar');
-	Route::put('/auth/disciplina/atualizar/{id}', [DisciplinaController::class, 'atualizar'])->name('auth.disciplina.atualizar');
-
-	Route::get('/auth/disciplina/editar/{registro:slug}', [DisciplinaController::class, 'editar'])->name('auth.disciplina.editar');
-	Route::get('/auth/disciplina/deletar/{registro:slug}', [DisciplinaController::class, 'deletar'])->name('auth.disciplina.deletar');
 
 
 	Route::get('/auth/atlas', [AtlaController::class, 'index'])->name('auth.atlas');

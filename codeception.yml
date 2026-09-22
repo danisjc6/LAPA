@@ -33,8 +33,6 @@ gherkin:
         tag:
             visita:
                 - VisitaSteps
-            disciplina:
-                - DisciplinaSteps
             material:
                 - MaterialSteps
             atla:
