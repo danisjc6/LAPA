@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Atla;
-use App\Categoria;
 
 class AtlaSeeder extends Seeder
 {

@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Atla;
-use App\Models\Categoria;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AtlaFactory extends Factory
@@ -17,7 +16,6 @@ class AtlaFactory extends Factory
             'descricao' =>  $this->faker->text($maxNbChars = 200),
             'anexo'=>   $this->faker->fileExtension,
             'publicado' =>  $this->faker->boolean($chanceOfGettingTrue = 50),
-            'categoria_id' => Categoria::factory()->create(),
             'slug' =>   $this->faker->unique()->email(),
         ];
     }

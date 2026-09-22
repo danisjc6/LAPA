@@ -20,7 +20,7 @@
                     </h2>
 
                     <p class="mt-1 text-sm leading-relaxed text-slate-500">
-                        Explore categorias e conteúdos do atlas.
+                        Explore sistemas, áreas e conteúdos do atlas.
                     </p>
                 </div>
 

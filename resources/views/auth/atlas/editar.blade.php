@@ -29,28 +29,6 @@
                     </span>
                 @enderror
             </div>
-            <div class="form-group">
-                <label for="categoria_id">Selecione a área de conhecimento*</label>
-                <select class="custom-select custom-select-lg @error('categoria_id') is-invalid @enderror" name="categoria_id" id="categorias">
-                    <option hidden disabled selected value>{{ __('Selecione uma área de conhecimento') }}</option>
-                    @foreach($categorias as $categoria)
-                        @if((isset($registro->categoria->id) && $categoria->id == $registro->categoria->id) || old('categoria_id') == $categoria->id)
-                            <option value="{{ $categoria->id }}" selected>{{ ucfirst($categoria->nome) }}</option>
-                        @else
-                            <option value="{{ $categoria->id }}">{{ ucfirst($categoria->nome) }}</option>
-                        @endif
-                    @endforeach
-                </select>
-                @error('categoria_id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <p>Área de conhecimento não cadastrada? <a class="" href="{{ route('auth.categoria.adicionar') }}">{{ __('Cadastrar Área de conhecimento') }}</a>.</p>
-            </div>
 
             <div class="form-group" id="anexos">
                 @if (isset($registro))

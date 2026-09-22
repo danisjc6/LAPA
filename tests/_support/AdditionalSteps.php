@@ -52,7 +52,7 @@ class AdditionalSteps extends \Codeception\Actor
         $this->click('Entrar');
         $this->see($arg1, '//a');
     }
-    
+
     /**
      * @Given Eu crio a disciplina :arg1 para teste
      */
@@ -62,7 +62,7 @@ class AdditionalSteps extends \Codeception\Actor
             'nome' => $arg1,
             'slug'=> $arg1,
         ]);
-       
+
     }
 
     /**
@@ -91,20 +91,6 @@ class AdditionalSteps extends \Codeception\Actor
             'slug'=> $arg1,
             ]);
     }
-    
-    /**
-    * @Given A categoria :arg1 ja exista
-    */
-    public function aCategoriaJaExista($arg1)
-    {
-        $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'Ihc'));
-
-        $this->haveInDatabase('categorias', [
-            'nome' =>$arg1,
-            'disciplina_id' => $disciplina,
-            'slug'=>$arg1,
-        ]);
-    }
 
     /**
      * @Given O atla :arg1 ja exista
@@ -118,21 +104,6 @@ class AdditionalSteps extends \Codeception\Actor
 
         $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'teste'));
 
-        $this->haveInDatabase('categorias', [
-            'nome' => 'Sistema nervoso',
-            'disciplina_id' => $disciplina,
-            'slug'=> 'Sistema nervoso',
-        ]);
-
-        $categoria = $this->grabFromDatabase('categorias', 'id', array('nome' => 'Sistema nervoso'));
-
-        $this->haveInDatabase('atlas', [
-            'titulo' => $arg1,
-            'descricao' => 'Texto do atlas',
-            'anexo' => 'anexo.pdf',
-            'categoria_id' => $categoria,
-            'slug'=> $arg1,
-        ]);
     }
 
     /**
@@ -183,7 +154,7 @@ class AdditionalSteps extends \Codeception\Actor
             'publicado' => true,
             'slug'=> $arg1,
             'tipo_postagem' => 'edital',
-        ]);    
+        ]);
     }
 
 

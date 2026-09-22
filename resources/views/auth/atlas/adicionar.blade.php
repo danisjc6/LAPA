@@ -21,23 +21,7 @@
                         </x-ui.field>
 
                     </div>
-                    <div class="">
-                        <x-ui.field name="categoria_id" :required="true" label="Selecione a área de conhecimento">
-                            <x-ui.select name="categoria_id" :required="true">
-                                <option hidden disabled selected>Selecione uma área de conhecimento</option>
-                                @foreach ($categorias as $categoria)
-                                    <option value="{{ $categoria->id }}" @selected(old('categoria_id' == $categoria->id))>
-                                        {{ ucfirst($categoria->nome) }}</option>
-                                @endforeach
-                            </x-ui.select>
-                        </x-ui.field>
-                    </div>
 
-                    <div class="form-group">
-                        <p>Área de conhecimento não cadastrada? <a class="text-subtitle"
-                                href="{{ route('auth.categoria.adicionar') }}">
-                                {{ __('Cadastrar Área de conhecimento') }}</a>.</p>
-                    </div>
                     <div class="form-group mb-3" id="anexos">
 
                         <label for="anexos" class="form-label">Anexos</label>

@@ -56,7 +56,7 @@
                 <a href="{{ route('site.atlas.index') }}" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
                     <h2 class="text-base font-bold text-slate-900">Atlas Interativo</h2>
                     <p class="mt-2 text-sm leading-6 text-slate-600">
-                        Navegue por categorias, tópicos e conteúdos anatômicos.
+                        Navegue por sistemas, áreas e conteúdos anatômicos.
                     </p>
                 </a>
 

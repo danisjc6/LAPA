@@ -26,7 +26,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/atlas/index', [AtlaController::class, 'siteIndex'])->name('site.atlas.index');
 Route::get('/atlas/show/{conteudo:slug}', [AtlaController::class, 'show'])->name('atlas.show');
 
-Route::get('/site/atlas/categoria/{categoria:slug}', [AtlaController::class, 'atlasPorCategoria'])->name('site.atlas.categoria');
 Route::get('/site/atlas/disciplina/{disciplina:slug}', [AtlaController::class, 'atlasPorDisciplina'])->name('site.atlas.disciplina');
 
 
@@ -61,12 +60,6 @@ Route::middleware(['auth','check.cpf'])->group(function () {
 	Route::get('/auth/disciplina/editar/{registro:slug}', [DisciplinaController::class, 'editar'])->name('auth.disciplina.editar');
 	Route::get('/auth/disciplina/deletar/{registro:slug}', [DisciplinaController::class, 'deletar'])->name('auth.disciplina.deletar');
 
-	Route::get('/auth/categorias', [CategoriaController::class, 'index'])->name('auth.categorias');
-	Route::get('/auth/categoria/adicionar', [CategoriaController::class, 'adicionar'])->name('auth.categoria.adicionar');
-	Route::post('/auth/categoria/salvar', [CategoriaController::class, 'salvar'])->name('auth.categoria.salvar');
-	Route::get('/auth/categoria/editar/{registro:slug}', [CategoriaController::class, 'editar'])->name('auth.categoria.editar');
-	Route::put('/auth/categoria/atualizar/{id}', [CategoriaController::class, 'atualizar'])->name('auth.categoria.atualizar');
-	Route::get('/auth/categoria/deletar/{registro:slug}', [CategoriaController::class, 'deletar'])->name('auth.categoria.deletar');
 
 	Route::get('/auth/atlas', [AtlaController::class, 'index'])->name('auth.atlas');
 	Route::get('/auth/atla/adicionar', [AtlaController::class, 'adicionar'])->name('auth.atla.adicionar');

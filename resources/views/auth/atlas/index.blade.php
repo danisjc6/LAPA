@@ -5,7 +5,7 @@
 <x-ui.section>
         <x-ui.topbar
             title="Atlas"
-            subtitle="Gerencie páginas, categorias e status de publicação."
+            subtitle="Gerencie páginase status de publicação."
         >
             <x-slot:actions>
                 <a href="{{ route('auth.atla.adicionar') }}"
@@ -50,22 +50,6 @@
                     </div>
                 </div>
 
-                {{-- Categoria --}}
-                <div class="flex-1">
-                    <label class="sr-only" for="categoria">Categoria</label>
-                    <select name="categoria" id="categoria"
-                            class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm
-                                   outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/15">
-                        <option value="" {{ !isset($filtros['categoria']) ? 'selected' : '' }}>Todas as categorias</option>
-                        @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->id }}"
-                                {{ isset($filtros['categoria']) && ($filtros['categoria'] == $categoria->id) ? 'selected' : '' }}>
-                                {{ $categoria->nome }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
                 {{-- Ações --}}
                 <div class="flex items-center gap-2 md:justify-end">
                     <a href="{{ route('auth.atlas') }}"
@@ -82,29 +66,6 @@
                 </div>
             </form>
 
-            {{-- Chips de filtros ativos --}}
-            @if(isset($filtros['categoria']) || isset($filtros['publicado']))
-                <div class="flex flex-wrap items-center gap-2 border-t border-slate-200 px-4 py-3">
-                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-600">Ativos:</span>
-
-                    @if(isset($filtros['publicado']))
-                        <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
-                            {{ ($filtros['publicado'] == 1) ? 'Publicados' : (($filtros['publicado'] == 0) ? 'Rascunhos' : 'Todos') }}
-                        </span>
-                    @endif
-
-                    @if(isset($filtros['categoria']))
-                        <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
-                            {{ $filtros['nomes'][0] ?? 'Categoria' }}
-                        </span>
-                    @endif
-
-                    <a href="{{ route('auth.atlas') }}"
-                       class="ml-auto text-sm font-semibold text-slate-700 hover:text-slate-900 hover:underline">
-                        Remover filtros
-                    </a>
-                </div>
-            @endif
         </div>
 
         <x-ui.table
@@ -131,10 +92,6 @@
                                 <div class="mt-0.5 text-xs text-slate-500">
                                     {{ $registro->slug ?? '' }}
                                 </div>
-                            </td>
-
-                            <td class="px-6 py-4 text-sm text-slate-700">
-                                {{ isset($registro->categoria) ? ucfirst($registro->categoria->nome) : 'Nenhuma área' }}
                             </td>
 
                             <td class="px-6 py-4">

@@ -19,10 +19,6 @@ class Disciplina extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categoria() {
-        return $this->hasMany(Categoria::class);
-    }
-
     public function material() {
         return $this->hasMany(Material::class);
 

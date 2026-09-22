@@ -14,20 +14,13 @@ class Atla extends Model
      * @var array
      */
     protected $fillable = [
-        'titulo', 'descricao', 'anexo', 'publicado', 'categoria_id','slug',
+        'titulo', 'descricao', 'anexo', 'publicado', 'slug',
     ];
-
-    public function categoria() {
-        return $this->belongsTo(Categoria::class);
-    }
 
     public function anexo() {
         return $this->hasMany(Anexo::class);
     }
 
-    public function quantidadeAtlasPublicados() {
-        return $this->where('publicado', true)->where('categoria_id', $this->categoria_id)->count();
-    }
 
     /**
     * Get the route key for the model.

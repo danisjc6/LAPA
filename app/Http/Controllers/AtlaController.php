@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Atla;
-use App\Models\Categoria;
-use App\Models\Disciplina;
 use App\Models\Anexo;
 use App\Http\Requests\CriarAtlaRequest;
 use App\Http\Requests\AtualizarAtlaRequest;
@@ -32,8 +30,7 @@ class AtlaController extends Controller
 
     public function adicionar()
     {
-        $categorias = $this->categoria->all();
-        return view('auth.atlas.adicionar', compact('categorias'));
+        return view('auth.atlas.adicionar');
 
     }
 
@@ -52,7 +49,6 @@ class AtlaController extends Controller
             'titulo' => $request ['titulo'],
             'descricao' => $request ['descricao'],
             'publicado'=> $publicado,
-            'categoria_id' => $request ['categoria_id'],
         ]);
         $atla['slug'] = str_slug($atla->titulo).'-'.$atla->id;
 
@@ -86,8 +82,7 @@ class AtlaController extends Controller
 
     public function editar(Atla $registro)
     {
-        $categorias = $this->categoria->all();
-        return view('auth.atlas.editar', compact('registro', 'categorias'));
+        return view('auth.atlas.editar', compact('registro'));
 
     }
 
@@ -164,27 +159,7 @@ class AtlaController extends Controller
         return view('atlas.index', compact('registros', 'menu_lateral'));
     }
 
-    public function atlasPorCategoria(Categoria $categoria)
-    {
 
-        $busca = $this->atla->where('publicado', true)
-            ->where('categoria_id', $categoria->id);
-        $registros = $busca->get();
-        $paginas = $busca->paginate(1);
-        return view('atlas.ver_atlas', compact('paginas', 'registros', 'categoria'));
-    }
-
-    public function atlasPorDisciplina(Disciplina $disciplina)
-    {
-
-        $busca = $this->categoria->where('disciplina_id', $disciplina->id)
-                                ->whereHas('atla', function($query) {
-                                    $query->where('publicado', true);
-        });
-        $registros = $busca->get();
-        $paginas = $busca->paginate(1);
-        return view('atlas.ver_atlas_disciplinas', compact('paginas', 'registros', 'disciplina'));
-    }
 
     public function show(AtlasSidebarService $atlasSidebarService, Conteudo $conteudo)
     {
