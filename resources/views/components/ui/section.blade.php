@@ -1,7 +1,7 @@
 @props([
     'bg' => 'bg-slate-100',
     'size' => 'max-w-7xl',
-    'py' => 'py-10 lg:py-14',
+    'py' => 'py-10 lg:py-0',
     'px' => 'px-6',
 ])
 

@@ -32,12 +32,10 @@ class UserFactory extends Factory
         return [
             'nome' => 'Administrador',
             'cpf' => '122.433.655-23',
-            'email' => 'admin@admin.com',
-            'cpf_verified_at' => now(),
+            'email' => 'lapa@ufape.edu.br',
             'email_verified_at' => now(),
-            'telephone' => '234234234234',
-            'user_type' => 'admin',
-            'user_description'=> 'sdfsadfasdf',
+            'status' => 'ativo',
+            'telefone' => '234234234234',
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

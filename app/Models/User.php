@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\StatusUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Str;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
@@ -20,9 +20,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name','cpf','email','telephone','user_description','avatar','user_type','email_verified_at','cpf_verified_at','link_lattes','slug', 'tipo_avatar',
+        'nome','cpf','email','telefone', 'status','foto_perfil', 'link_lattes', 'password'
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -30,32 +34,14 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
+        'password' => 'hashed',
         'email_verified_at' => 'datetime',
+        'status' => StatusUser::class,
     ];
-
-    public function conta()
-    {
-        return $this->hasOne(Conta::class);
-    }
 
     public function visita()
     {
         return $this->hasMany(Visita::class);
-    }
-
-    public function salvarUserVisitante($user)
-    {
-        return $this->create($user);
-    }
-
-    /**
-    * Get the route key for the model.
-    *
-    * @return string
-    */
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 
     public function contato() {

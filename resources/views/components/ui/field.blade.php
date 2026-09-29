@@ -11,7 +11,7 @@
         <span class="text-red-600">*</span>
     @endif
 </label>
-<div class="mt-2">
+<div class="mt-2 mb-4">
     {{ $slot }}
 </div>
 

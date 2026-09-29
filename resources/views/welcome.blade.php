@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="relative overflow-hidden">
-        <main class="mx-auto max-w-360 px-6 py-12 lg:px-8 lg:py-16">
+        <main class="mx-auto max-w-360 px-6 py-12 lg:px-8 lg:py-0">
             <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
                 <div class="max-w-2xl">
                     <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-800">

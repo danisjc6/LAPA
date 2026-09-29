@@ -6,6 +6,7 @@ use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SistemaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,18 +38,23 @@ Route::get('/site/visita/buscar',[RegisterController::class, 'buscarUsuarioVisit
 Route::post('/site/visita/salvar', [VisitaController::class, 'salvarUsuarioVisita'])->name('site.visita.salvar');
 Route::get('/site/visita/verificar/{id}/{hash}', [VerificationController::class, 'verificarVisita'])->name('site.verificar.visita');
 
-Route::get('/termos&privacidade', [RegisterController::class, 'visualizarTermosPrivacidade'])->name('termo.privacidade');
-Route::get('/confirmacao/email', [VerificationController::class, 'confirmacaoEmail'])->name('confirmacao.email');
-Route::get('/sistemas', [SistemaController::class, 'index'])->name('sistemas.lapa.index');
-Route::middleware(['auth','check.cpf'])->group(function () {
+
+Route::prefix('atlas')->name('atlas.')->group(function () {
+    Route::get('/sistemas', [SistemaController::class, 'index'])->name('sistemas.index');
+    Route::get('/sistemas/{sistema:slug}', [SistemaController::class, 'show'])->name('sistemas.show');
+    Route::get('/index', [AtlaController::class, 'siteIndex'])->name('index');
+    Route::get('/show/{conteudo:slug}', [AtlaController::class, 'show'])->name('show');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/update/{user}', [UserController::class, 'update'])->name('users.update');
 
 
-	Route::get('/auth/registros',[RegisterController::class, 'index'])->name('auth.registros');
-  	Route::get('/auth/registros/editar',[RegisterController::class, 'editar'])->name('auth.registros.editar');
-   	Route::any('/auth/registros/atualizar',[RegisterController::class, 'atualizar'])->name('auth.registros.atualizar');
-	Route::get('/auth/registros/deletar/{id}',[RegisterController::class, 'deletar'])->name('auth.registros.deletar');
-
-
+    Route::get('/contatos', [ContatoController::class, 'index'])->name('contatos.create');
 	Route::get('/auth/atlas', [AtlaController::class, 'index'])->name('auth.atlas');
 	Route::get('/auth/atla/adicionar', [AtlaController::class, 'adicionar'])->name('auth.atla.adicionar');
 	Route::post('/auth/atla/salvar', [AtlaController::class, 'salvar'])->name('auth.atla.salvar');
@@ -63,10 +69,6 @@ Route::middleware(['auth','check.cpf'])->group(function () {
 	Route::get('/auth/visita/ver/{registro:slug}', [VisitaController::class, 'ver'])->name('auth.visita.ver');
 	Route::put('/auth/visitas/atualizar/{id}', [VisitaController::class, 'atualizar'])->name('auth.visita.atualizar');
 	Route::get('/auth/visitas/deletar/{id}', [VisitaController::class, 'deletar'])->name('auth.visita.deletar');
-
-	Route::get('/auth/acesso_gerenciamento', [RegisterController::class, 'gerenciarSolicitacao'])->name('auth.acesso_gerenciamento');
-	Route::get('/auth/acesso_gerenciamento/aceitarSolicitacao/{id}', [RegisterController::class, 'aceitarSolicitacao'])->name('auth.acesso_gerenciamento.aceitarSolicitacao');
-	Route::get('/auth/acesso_gerenciamento/recusarSolicitacao/{id}', [RegisterController::class, 'recusarSolicitacao'])->name('auth.acesso_gerenciamento.recusarSolicitacao');
 
 	Route::get('/auth/contatos', [ContatoController::class, 'index'])->name('auth.contatos');
 	Route::get('/auth/contato/adicionar', [ContatoController::class, 'adicionar'])->name('auth.contato.adicionar');

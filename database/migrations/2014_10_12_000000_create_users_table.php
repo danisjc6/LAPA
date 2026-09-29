@@ -20,15 +20,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('slug')->nullable();
+            $table->string('status');
             $table->string('link_lattes')->nullable();
-            $table->string('telephone')->nullable();
-	        $table->string('user_description')->nullable();
-            $table->longtext('avatar')->nullable();
-
-	        $table->enum('user_type', ['admin', 'visitant']);
-	        $table->timestamp('cpf_verified_at')->nullable();
-            $table->enum('tipo_avatar', ['link_drive','link_web', 'upload'])->nullable();
+            $table->string('telefone')->nullable();
+            $table->string('foto_perfil')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

@@ -73,12 +73,6 @@
 
             @guest
                 <a href="{{ route('login') }}">Acesso</a>
-            @else
-                <a href="{{ route('home') }}" title="Gerenciar">Gerenciar</a>
-                <a href="{{ route('auth.registros') }}" title="Minha conta">Minha conta
-                    ({{ Auth::user()->name ?? '' }})</a>
-                <a title="Sair" href="{{ route('logout') }}"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a>
             @endguest
 
         </div>

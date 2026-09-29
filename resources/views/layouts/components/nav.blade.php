@@ -1,11 +1,15 @@
-<nav class="flex justify-between items-center bg-white/90 backdrop-blur border-b border-slate-200 p-2 mb-10">
+<nav class="relative z-50 flex items-center justify-between
+        overflow-visible
+        border-b border-slate-200
+        bg-white/90 p-2 mb-10
+        backdrop-blur">
     <a href="{{ route('home') }}" class="mx-6 hover:scale-105">
         <img src="{{ asset('img/lapa-uag.png') }}" width="50px" alt="">
     </a>
 
 
     <menu class="flex justify-center items-center gap-6">
-        <x-nav-link href="{{ route('site.atlas.index') }}" :active="request()->is('atlas', 'atlas/*')">
+        <x-nav-link href="{{ route('atlas.index') }}" :active="request()->is('atlas', 'atlas/*')">
             Atlas Interativo
         </x-nav-link>
 
@@ -33,16 +37,25 @@
                 :name="Auth::user()->name"
                 role="Administrador"
                 >
-                <x-dropdown-item :href="route('auth.registros')"><i class="fa fa-user me-2"></i>Meu Perfil</x-dropdown-item>
-                <x-dropdown-item :href="route('site.visita.busca')"><i class="fa fa-cog me-2"></i>Configurações</x-dropdown-item>
-
-                <hr class="dropdown-divider">
-
+                <x-dropdown-item :href="route('profile.edit')">
+                    <i class="fa fa-user me-2"></i>Meu Perfil
+                </x-dropdown-item>
                 <x-dropdown-item :href="route('site.visita.busca')">
-                    <form method="POST" action="{{ route('logout') }}">
+                    <i class="fa fa-cog me-2"></i>Configurações
+                </x-dropdown-item>
+
+                <hr class="my-1 border-slate-200">
+
+                <x-dropdown-item>
+                    <form id="logout" method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button class="dropdown-item text-danger" type="submit">
-                            <i class="fa fa-sign-out-alt me-2"></i> Sair
+                        <button
+                            type="submit"
+                            class="block w-full cursor-pointer px-4 py-2 text-left text-sm text-red-600 transition-colors hover:bg-red-50"
+                            title="Sair"
+                        >
+                            <i class="fa fa-sign-out-alt me-2"></i>
+                            Sair
                         </button>
                     </form>
                 </x-dropdown-item>

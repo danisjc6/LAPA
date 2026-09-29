@@ -60,7 +60,7 @@
         </div>
 
         <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <a href="{{ route('auth.acesso_gerenciamento') }}"
+            <a href="{{ route('users.index') }}"
                class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
                       hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
                 <div class="flex items-start gap-4">
@@ -69,12 +69,12 @@
                     </div>
                     <div class="min-w-0">
                         <h3 class="font-semibold text-slate-900">{{ __('Solicitações') }}</h3>
-                        <p class="mt-1 text-sm text-slate-600">Pedidos de gerenciamento.</p>
+                        <p class="mt-1 text-sm text-slate-600">Gerenciar usuários.</p>
                     </div>
                 </div>
             </a>
 
-            <a href="{{ route('auth.contatos') }}"
+            <a href="{{ route('contatos.create') }}"
                class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
                       hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
                 <div class="flex items-start gap-4">
