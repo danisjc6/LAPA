@@ -17,12 +17,19 @@ class Animal extends Model
         'nome',
         'slug',
         'nome_cientifico',
-        'descricao'
+        'descricao',
+        'imagem_path'
     ];
 
     public function conteudos()
     {
         return $this->belongsToMany(Conteudo::class, 'animal_conteudo', 'animal_id', 'conteudo_id');
+    }
+
+    public function modelos3D(): HasMany
+    {
+        return $this->hasMany(ModeloAnatomico3D::class, 'animal_id')
+            ->orderBy('ordem');
     }
 
     public function arquivos(): HasMany

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AnimalConteudoSeeder::class);
         $this->call(SecaoSeeder::class);
         $this->call(ArquivoSeeder::class);
+        $this->call(Modelo3DSeeder::class);
 
             User::factory()->create();
     }

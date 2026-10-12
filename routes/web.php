@@ -4,6 +4,7 @@ use App\Http\Controllers\AtlaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Modelo3DController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\UserController;
@@ -23,11 +24,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/atlas/index', [AtlaController::class, 'siteIndex'])->name('site.atlas.index');
-Route::get('/atlas/show/{conteudo:slug}', [AtlaController::class, 'show'])->name('atlas.show');
 
-
-
+Route::get('/modelos-3d', [Modelo3DController::class, 'index'])->name('modelos-3d.index');
+Route::get('/modelos-3d/animais/{animal:slug}', [Modelo3DController::class, 'porAnimal'])->name('modelos-3d.por-animal');
+Route::get('/modelos-3d/{modelo}', [Modelo3DController::class, 'show'])->name('modelos-3d.show');
 Route::get('/site/contato/index', [RegisterController::class, 'siteIndex'])->name('site.contato.index');
 Route::get('/site/contato/visualizar/{registro:slug}', [RegisterController::class, 'siteRegistervisualizar'])->name('site.contato.visualizar');
 

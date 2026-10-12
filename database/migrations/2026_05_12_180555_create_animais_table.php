@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('nome_cientifico')->nullable();
             $table->text('descricao')->nullable();
+            $table->string('imagem_path')->nullable();
             $table->timestamps();
         });
     }

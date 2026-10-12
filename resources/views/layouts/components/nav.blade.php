@@ -13,7 +13,7 @@
             Atlas Interativo
         </x-nav-link>
 
-        <x-nav-link href="{{ route('site.atlas.index') }}">
+        <x-nav-link href="{{ route('modelos-3d.index') }}" :active="request()->is('modelos-3d', 'modelos-3d/*')">
             Anatomia 3D
         </x-nav-link>
 
