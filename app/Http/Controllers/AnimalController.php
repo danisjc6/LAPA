@@ -9,8 +9,6 @@ class AnimalController extends Controller
 {
     public function index()
     {
-        $animais = Animal::all();
 
-        return view('atlas.animais.index', ['animais' => $animais]);
     }
 }

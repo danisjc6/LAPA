@@ -18,7 +18,7 @@
 
         {{-- Barra de filtros (bonita, sem dropdown Bootstrap) --}}
         <div class="mt-6 rounded-2xl border border-slate-200 bg-white/70 backdrop-blur shadow-sm">
-            <form action="{{ route('auth.atlas') }}" method="GET"
+            <form action="#" method="GET"
                   class="flex flex-col gap-3 p-4 md:flex-row md:items-center md:gap-4">
 
                 {{-- Status como "segmented" --}}
@@ -52,7 +52,7 @@
 
                 {{-- Ações --}}
                 <div class="flex items-center gap-2 md:justify-end">
-                    <a href="{{ route('auth.atlas') }}"
+                    <a href="#"
                        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800
                               hover:bg-slate-50">
                         Limpar

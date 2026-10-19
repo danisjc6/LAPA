@@ -21,6 +21,7 @@ return new class extends Migration
 
             $table->foreignId('sistema_id')->constrained('sistemas');
             $table->foreignId('area_id')->constrained('areas');
+            $table->foreignId('animal_id')->constrained('animais');
 
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

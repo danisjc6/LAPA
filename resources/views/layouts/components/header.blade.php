@@ -28,11 +28,19 @@
 
     <!-- Alto contraste -->
     {{-- <link href="{{ asset('css/style_contraste.css') }}" rel="stylesheet" id="css-contraste" disabled="true"> --}}
-    <script>
-        var linkCssContraste = document.getElementById("css-contraste");
-        if( localStorage.getItem("contraste") === "true" ) {
-            linkCssContraste.removeAttribute('disabled');
+    <style>
+        html[data-sidebar-open="false"] aside[data-sidebar] {
+            display: none;
         }
+        html[data-sidebar-open="true"] [data-sidebar-toggle] {
+            display: none;
+        }
+    </style>
+    <script>
+        document.documentElement.dataset.sidebarOpen =
+            localStorage.getItem('sidebarOpen') === 'false'
+                ? 'false'
+                : 'true';
     </script>
 
     <!-- include summernote css -->

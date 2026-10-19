@@ -24,7 +24,7 @@
         <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {{-- Card --}}
 
-            <a href="{{ route('auth.atlas') }}"
+            <a href="#"
                class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
                       hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
                 <div class="flex items-start gap-4">
@@ -38,7 +38,7 @@
                 </div>
             </a>
 
-            <a href="{{ route('auth.visitas') }}"
+            <a href="#"
                class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
                       hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
                 <div class="flex items-start gap-4">

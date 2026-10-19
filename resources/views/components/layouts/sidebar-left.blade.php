@@ -1,11 +1,6 @@
 <aside
+    data-sidebar
     x-show="sidebarOpen"
-    x-transition:enter="transition ease-out duration-200"
-    x-transition:enter-start="-translate-x-4 opacity-0"
-    x-transition:enter-end="translate-x-0 opacity-100"
-    x-transition:leave="transition ease-in duration-150"
-    x-transition:leave-start="translate-x-0 opacity-100"
-    x-transition:leave-end="-translate-x-4 opacity-0"
     class="col-span-12 -mb-2 -mt-7 shrink-0 rounded-3xl border-r border-slate-200 bg-white/90 lg:col-span-4 xl:col-span-3"
 >
     <div class="sticky top-0 flex flex-col">
@@ -29,24 +24,19 @@
                     type="button"
                     @click="sidebarOpen = false"
                     class="group inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center
-                           rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm
-                           transition-all duration-200
-                           hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
+                        rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm
+                        transition-[transform,background-color,border-color,color] duration-200 ease-out
+                        hover:scale-105 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700
+                        active:scale-95"
                     aria-label="Fechar menu lateral"
                     title="Fechar menu"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-0.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M15.78 4.22a.75.75 0 0 1 0 1.06L11.06 10l4.72 4.72a.75.75 0 1 1-1.06 1.06L10 11.06l-4.72 4.72a.75.75 0 0 1-1.06-1.06L8.94 10 4.22 5.28a.75.75 0 0 1 1.06-1.06L10 8.94l4.72-4.72a.75.75 0 0 1 1.06 0Z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
+                    <i
+                        class="fa-solid fa-xmark text-base
+                            [-webkit-text-stroke:0.75px_white]
+                            group-hover:[-webkit-text-stroke:0.75px_#ecfdf5]"
+                        aria-hidden="true"
+                    ></i>
                 </button>
             </div>
 

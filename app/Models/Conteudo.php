@@ -15,6 +15,7 @@ class Conteudo extends Model
         'publicado',
         'sistema_id',
         'area_id',
+        'animal_id',
         'published_at'
     ];
 
@@ -33,9 +34,9 @@ class Conteudo extends Model
         return $this->belongsTo(Sistema::class);
     }
 
-    public function animais()
+    public function animal()
     {
-        return $this->belongsToMany(Animal::class, 'animal_conteudo', 'conteudo_id', 'animal_id');
+        return $this->belongsTo(Animal::class, 'animal_id');
     }
 
     public function estruturas()

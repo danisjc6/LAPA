@@ -56,7 +56,7 @@ class ArquivoSeeder extends Seeder
                     'conteudo_id' => null,
                     'secao_id' => Secao::whereHas('conteudo', function($query) use ($sistema, $animal) {
                         $query->whereBelongsTo($sistema, 'sistema')
-                            ->whereRelation('animais', 'animais.id', $animal->id);
+                            ->whereRelation('animal', 'animais.id', $animal->id);
                     })->value('id'),
                     'animal_id' => $animal->id,
 

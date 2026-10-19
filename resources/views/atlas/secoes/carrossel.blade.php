@@ -1,948 +1,233 @@
-{{-- resources/views/components/conteudo/secoes/carrossel.blade.php --}}
-
-@props([
-    'secao',
-])
+@props(['secao'])
 
 @php
-    $arquivos = $secao->arquivos;
+    $itens = $secao->arquivos->values()->map(fn ($arquivo) => [
+        'src' => asset('storage/' . $arquivo->path),
+        'alt' => $arquivo->alt_text ?? $arquivo->titulo ?? 'Imagem anatômica',
+        'titulo' => $arquivo->titulo ?? $secao->titulo ?? 'Imagem anatômica',
+        'descricao' => $arquivo->descricao ?? $arquivo->legenda ?? null,
+    ])->all();
 
-    $itens = $arquivos
-        ->map(function ($arquivo) use ($secao) {
-            return [
-                'src' => asset('storage/' . $arquivo->path),
-
-                'alt' => $arquivo->alt_text
-                    ?? $arquivo->titulo
-                    ?? '',
-
-                'titulo' => $arquivo->titulo
-                    ?? $secao->titulo
-                    ?? null,
-
-                'descricao' => $arquivo->descricao
-                    ?? $arquivo->legenda
-                    ?? null,
-            ];
-        })
-        ->values()
-        ->all();
-
-    $primeiroItem = $itens[0] ?? null;
+    $total = count($itens);
+    $primeiraTemDescricao = filled($itens[0]['descricao'] ?? null);
 @endphp
 
+@if ($total > 0)
+<style>[x-cloak] { display: none !important; }</style>
+<section
+    x-data="{
+        itens: @js($itens),
+        atual: 0,
+        modoTeatro: false,
+        telaCheia: false,
+        overflowAnterior: null,
+        podeRolarEsquerda: false,
+        podeRolarDireita: false,
 
-@if ($arquivos->isNotEmpty())
+        get total() { return this.itens.length },
+        get itemAtual() { return this.itens[this.atual] },
+        get ampliado() { return this.modoTeatro || this.telaCheia },
+        get temDescricao() { return Boolean(this.itemAtual?.descricao?.trim()) },
 
-    <section
-        x-data="{
-            atual: 0,
-
-            total: {{ $arquivos->count() }},
-
-            itens: @js($itens),
-
-            modoTeatro: false,
-
-            telaCheia: false,
-
-
-            get itemAtual() {
-                return this.itens[this.atual] ?? {};
-            },
-
-
-            selecionar(index) {
-                if (this.total <= 0) {
-                    return;
-                }
-
-                this.atual = index;
-
-                this.$nextTick(() => {
-                    const miniatura = this.$root.querySelector(
-                        `[data-thumb-index='${this.atual}']`
-                    );
-
-                    miniatura?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                        inline: 'center'
-                    });
+        selecionar(indice) {
+            if (indice < 0 || indice >= this.total) return;
+            this.atual = indice;
+            this.$nextTick(() => {
+                const faixa = this.$refs.miniaturas;
+                const miniatura = faixa?.querySelector(`[data-miniatura='${indice}']`);
+                if (!faixa || !miniatura) return;
+                const destino = miniatura.offsetLeft - faixa.offsetLeft
+                    - (faixa.clientWidth - miniatura.clientWidth) / 2;
+                faixa.scrollTo({
+                    left: destino,
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                        ? 'auto' : 'smooth'
                 });
-            },
+            });
+        },
 
+        atualizarRolagem() {
+            const faixa = this.$refs.miniaturas;
+            if (!faixa) return;
+            this.podeRolarEsquerda = faixa.scrollLeft > 2;
+            this.podeRolarDireita = faixa.scrollLeft + faixa.clientWidth < faixa.scrollWidth - 2;
+        },
 
-            proximo() {
-                if (this.total <= 1) {
-                    return;
+        rolarMiniaturas(direcao) {
+            const faixa = this.$refs.miniaturas;
+            if (!faixa) return;
+            const miniatura = faixa.querySelector('[data-miniatura]');
+            const deslocamento = (miniatura?.offsetWidth ?? 128) + 12;
+            faixa.scrollBy({
+                left: direcao * deslocamento * 2,
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                    ? 'auto' : 'smooth'
+            });
+        },
+
+        proximo() { if (this.total > 1) this.selecionar((this.atual + 1) % this.total) },
+        anterior() { if (this.total > 1) this.selecionar((this.atual - 1 + this.total) % this.total) },
+
+        definirTeatro(ativo) {
+            if (this.modoTeatro === ativo) return;
+            this.modoTeatro = ativo;
+            if (ativo) {
+                this.overflowAnterior = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+            } else if (this.overflowAnterior !== null) {
+                document.body.style.overflow = this.overflowAnterior;
+                this.overflowAnterior = null;
+            }
+        },
+
+        async alternarTelaCheia() {
+            try {
+                if (document.fullscreenElement === this.$root) {
+                    await document.exitFullscreen();
+                } else if (!document.fullscreenElement) {
+                    await this.$root.requestFullscreen();
+                    this.definirTeatro(false);
                 }
-
-                this.selecionar(
-                    (this.atual + 1) % this.total
-                );
-            },
-
-
-            anterior() {
-                if (this.total <= 1) {
-                    return;
-                }
-
-                this.selecionar(
-                    (this.atual - 1 + this.total) % this.total
-                );
-            },
-
-
-            irPara(index) {
-                this.selecionar(index);
-            },
-
-
-            alternarTeatro() {
-                this.modoTeatro = !this.modoTeatro;
-
-                document.body.classList.toggle(
-                    'overflow-hidden',
-                    this.modoTeatro
-                );
-            },
-
-
-            sairTeatro() {
-                this.modoTeatro = false;
-
-                document.body.classList.remove(
-                    'overflow-hidden'
-                );
-            },
-
-
-            async alternarTelaCheia() {
-                if (!document.fullscreenElement) {
-
-                    this.sairTeatro();
-
-                    try {
-
-                        await this.$refs.carrossel.requestFullscreen();
-
-                    } catch (error) {
-
-                        console.error(
-                            'Não foi possível entrar em tela cheia.',
-                            error
-                        );
-
-                    }
-
-                    return;
-                }
-
-                await document.exitFullscreen();
+            } catch (erro) {
+                console.error('Não foi possível alterar a tela cheia.', erro);
             }
-        }"
+        },
 
-        x-ref="carrossel"
+        sincronizarTelaCheia() {
+            this.telaCheia = document.fullscreenElement === this.$root;
+        },
 
-        @fullscreenchange.window="
-            telaCheia =
-                document.fullscreenElement === $refs.carrossel
-        "
-
-        @keydown.escape.window="
-            if (modoTeatro) {
-                sairTeatro()
+        destroy() {
+            this.definirTeatro(false);
+            if (document.fullscreenElement === this.$root) {
+                document.exitFullscreen().catch(() => {});
             }
-        "
+        }
+    }"
+    x-init="sincronizarTelaCheia(); $nextTick(() => atualizarRolagem())"
+    @resize.window="atualizarRolagem()"
+    @fullscreenchange.window="sincronizarTelaCheia()"
+    @keydown.escape.window="if (modoTeatro) definirTeatro(false)"
+    @keydown.arrow-right.window="if (ampliado && !$event.target.closest('input, textarea, select, [contenteditable]')) { $event.preventDefault(); proximo() }"
+    @keydown.arrow-left.window="if (ampliado && !$event.target.closest('input, textarea, select, [contenteditable]')) { $event.preventDefault(); anterior() }"
+    class="w-full"
+    :class="ampliado ? 'flex h-dvh flex-col overflow-y-auto bg-slate-950 p-3 sm:p-5' : ''"
+    :style="modoTeatro && !telaCheia ? 'position:fixed;inset:0;z-index:1000' : ''"
+    aria-label="Galeria anatômica"
+>
+    <div class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+         :class="ampliado ? 'min-h-0 flex-1' : ''">
 
-        @keydown.arrow-right.window="
-            if (modoTeatro || telaCheia) {
-                proximo()
-            }
-        "
-
-        @keydown.arrow-left.window="
-            if (modoTeatro || telaCheia) {
-                anterior()
-            }
-        "
-
-        class="transition-all duration-300"
-
-        :class="
-            telaCheia
-                ? 'flex h-screen w-screen flex-col bg-slate-950 p-4'
-                : (
-                    modoTeatro
-                        ? 'fixed inset-0 z-[100] flex flex-col bg-slate-950/95 p-4 md:p-6'
-                        : 'w-full'
-                )
-        "
-    >
-
-
-        {{-- ========================================================= --}}
-        {{-- CARD PRINCIPAL --}}
-        {{-- ========================================================= --}}
-
-        <div
-            class="
-                overflow-hidden
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                shadow-sm
-            "
-
-            :class="{
-                'flex-1 min-h-0':
-                    modoTeatro || telaCheia
-            }"
-        >
-
-
-            <div
-                class="
-                    grid
-                    grid-cols-1
-                    lg:grid-cols-[minmax(0,1fr)_320px]
-                "
-
-                :class="{
-                    'h-full':
-                        modoTeatro || telaCheia
-                }"
-            >
-
-
-                {{-- ================================================= --}}
-                {{-- ÁREA ESQUERDA --}}
-                {{-- ================================================= --}}
-
-                <div
-                    class="min-w-0 p-2.5"
-
-                    :class="{
-                        'flex min-h-0 flex-col':
-                            modoTeatro || telaCheia
-                    }"
+        {{-- Imagem à esquerda; detalhes à direita --}}
+        <div class="grid min-h-0 grid-cols-1 gap-4 p-3 sm:p-4 lg:gap-6 lg:grid-cols-[var(--colunas-lapa)]"
+             style="--colunas-lapa: {{ $primeiraTemDescricao ? 'minmax(0,1fr) minmax(230px,32%)' : 'minmax(0,1fr)' }}"
+             :style="{ '--colunas-lapa': temDescricao ? 'minmax(0,1fr) minmax(230px,32%)' : 'minmax(0,1fr)' }"
+             :class="ampliado ? 'lg:min-h-0 lg:flex-1' : ''">
+            <div class="group relative mx-auto h-[350px] min-h-0 w-full overflow-hidden rounded-xl border border-slate-100 bg-slate-50 sm:h-[420px] lg:h-[480px]"
+                 :class="ampliado ? '!h-[45dvh] lg:!h-full' : (!temDescricao ? 'max-w-5xl' : '')">
+                <img
+                    src="{{ $itens[0]['src'] }}"
+                    :src="itemAtual.src"
+                    alt="{{ $itens[0]['alt'] }}"
+                    :alt="itemAtual.alt"
+                    loading="eager"
+                    decoding="async"
+                    class="block h-full w-full object-contain"
                 >
 
-
-                    {{-- ============================================= --}}
-                    {{-- IMAGEM PRINCIPAL --}}
-                    {{-- ============================================= --}}
-
-                    <div
-                        class="
-                            group
-                            relative
-                            overflow-hidden
-                            rounded-xl
-                            bg-slate-50
-                        "
-
-                        :class="
-                            modoTeatro || telaCheia
-                                ? 'min-h-0 flex-1'
-                                : 'aspect-[16/10]'
-                        "
-                    >
-
-
-                        {{-- IMAGEM ATUAL --}}
-                        <img
-                            src="{{ $primeiroItem['src'] }}"
-
-                            :src="itemAtual.src"
-
-                            alt="{{ $primeiroItem['alt'] }}"
-
-                            :alt="itemAtual.alt ?? ''"
-
-                            class="
-                                h-full
-                                w-full
-                                object-contain
-                            "
-                        >
-
-
-
-                        {{-- ========================================= --}}
-                        {{-- CONTROLES SUPERIORES --}}
-                        {{-- ========================================= --}}
-
-                        <div
-                            class="
-                                absolute
-                                right-3
-                                top-3
-                                z-30
-                                flex
-                                items-center
-                                gap-2
-                            "
-                        >
-
-
-                            {{-- CONTADOR --}}
-                            @if ($arquivos->count() > 1)
-
-                                <div
-                                    class="
-                                        flex
-                                        h-10
-                                        items-center
-                                        rounded-lg
-                                        border
-                                        border-slate-200
-                                        bg-white/95
-                                        px-3
-                                        text-sm
-                                        font-medium
-                                        text-slate-700
-                                        shadow-sm
-                                        backdrop-blur
-                                    "
-                                >
-                                    <span
-                                        x-text="atual + 1"
-                                    ></span>
-
-                                    <span
-                                        class="mx-1 text-slate-400"
-                                    >
-                                        /
-                                    </span>
-
-                                    <span>
-                                        {{ $arquivos->count() }}
-                                    </span>
-                                </div>
-
-                            @endif
-
-
-
-                            {{-- ===================================== --}}
-                            {{-- MODO TEATRO --}}
-                            {{-- ===================================== --}}
-
-                            <button
-                                type="button"
-
-                                x-show="!telaCheia"
-
-                                @click="alternarTeatro()"
-
-                                class="
-                                    flex
-                                    h-10
-                                    w-10
-                                    items-center
-                                    justify-center
-                                    rounded-lg
-                                    border
-                                    border-slate-200
-                                    bg-white/95
-                                    text-slate-700
-                                    shadow-sm
-                                    backdrop-blur
-                                    transition
-
-                                    hover:bg-white
-                                    hover:text-emerald-700
-
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-emerald-500
-                                "
-
-                                :aria-label="
-                                    modoTeatro
-                                        ? 'Sair do modo teatro'
-                                        : 'Abrir modo teatro'
-                                "
-
-                                :title="
-                                    modoTeatro
-                                        ? 'Sair do modo teatro'
-                                        : 'Modo teatro'
-                                "
-                            >
-
-                                {{-- ENTRAR NO MODO TEATRO --}}
-                                <svg
-                                    x-show="!modoTeatro"
-
-                                    class="h-5 w-5"
-
-                                    viewBox="0 0 24 24"
-
-                                    fill="none"
-
-                                    stroke="currentColor"
-
-                                    stroke-width="1.8"
-
-                                    aria-hidden="true"
-                                >
-                                    <rect
-                                        x="3"
-                                        y="5"
-                                        width="18"
-                                        height="14"
-                                        rx="2"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        d="M7 9h10"
-                                    />
-                                </svg>
-
-
-                                {{-- SAIR DO MODO TEATRO --}}
-                                <svg
-                                    x-show="modoTeatro"
-
-                                    x-cloak
-
-                                    class="h-5 w-5"
-
-                                    viewBox="0 0 24 24"
-
-                                    fill="none"
-
-                                    stroke="currentColor"
-
-                                    stroke-width="1.8"
-
-                                    aria-hidden="true"
-                                >
-                                    <rect
-                                        x="5"
-                                        y="7"
-                                        width="14"
-                                        height="10"
-                                        rx="2"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        d="M8 4h8"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        d="M8 20h8"
-                                    />
-                                </svg>
-
-                            </button>
-
-
-
-                            {{-- ===================================== --}}
-                            {{-- TELA CHEIA --}}
-                            {{-- ===================================== --}}
-
-                            <button
-                                type="button"
-
-                                @click="alternarTelaCheia()"
-
-                                class="
-                                    flex
-                                    h-10
-                                    w-10
-                                    items-center
-                                    justify-center
-                                    rounded-lg
-                                    border
-                                    border-slate-200
-                                    bg-white/95
-                                    text-slate-700
-                                    shadow-sm
-                                    backdrop-blur
-                                    transition
-
-                                    hover:bg-white
-                                    hover:text-emerald-700
-
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-emerald-500
-                                "
-
-                                :aria-label="
-                                    telaCheia
-                                        ? 'Sair da tela cheia'
-                                        : 'Abrir em tela cheia'
-                                "
-
-                                :title="
-                                    telaCheia
-                                        ? 'Sair da tela cheia'
-                                        : 'Tela cheia'
-                                "
-                            >
-
-                                {{-- ENTRAR EM TELA CHEIA --}}
-                                <svg
-                                    x-show="!telaCheia"
-
-                                    class="h-5 w-5"
-
-                                    viewBox="0 0 24 24"
-
-                                    fill="none"
-
-                                    stroke="currentColor"
-
-                                    stroke-width="2"
-
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M8 3H3v5"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M16 3h5v5"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M8 21H3v-5"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M16 21h5v-5"
-                                    />
-                                </svg>
-
-
-                                {{-- SAIR DA TELA CHEIA --}}
-                                <svg
-                                    x-show="telaCheia"
-
-                                    x-cloak
-
-                                    class="h-5 w-5"
-
-                                    viewBox="0 0 24 24"
-
-                                    fill="none"
-
-                                    stroke="currentColor"
-
-                                    stroke-width="2"
-
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M8 3v5H3"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M16 3v5h5"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M8 21v-5H3"
-                                    />
-
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M16 21v-5h5"
-                                    />
-                                </svg>
-
-                            </button>
-
-                        </div>
-
-
-
-                        {{-- ========================================= --}}
-                        {{-- SETAS DE NAVEGAÇÃO --}}
-                        {{-- ========================================= --}}
-
-                        @if ($arquivos->count() > 1)
-
-
-                            {{-- ANTERIOR --}}
-                            <button
-                                type="button"
-
-                                @click="anterior()"
-
-                                class="
-                                    absolute
-                                    left-4
-                                    top-1/2
-                                    z-20
-
-                                    flex
-                                    h-11
-                                    w-11
-                                    -translate-y-1/2
-                                    items-center
-                                    justify-center
-
-                                    rounded-full
-
-                                    border
-                                    border-slate-200
-
-                                    bg-white/95
-
-                                    text-slate-700
-
-                                    shadow-md
-                                    backdrop-blur
-
-                                    transition
-                                    duration-200
-
-                                    hover:scale-105
-                                    hover:border-emerald-200
-                                    hover:bg-white
-                                    hover:text-emerald-700
-
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-emerald-500
-                                    focus:ring-offset-2
-                                "
-
-                                aria-label="Imagem anterior"
-                            >
-                                <svg
-                                    class="h-5 w-5"
-
-                                    viewBox="0 0 24 24"
-
-                                    fill="none"
-
-                                    stroke="currentColor"
-
-                                    stroke-width="2"
-
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="m15 18-6-6 6-6"
-                                    />
-                                </svg>
-                            </button>
-
-
-
-                            {{-- PRÓXIMO --}}
-                            <button
-                                type="button"
-
-                                @click="proximo()"
-
-                                class="
-                                    absolute
-                                    right-4
-                                    top-1/2
-                                    z-20
-
-                                    flex
-                                    h-11
-                                    w-11
-                                    -translate-y-1/2
-                                    items-center
-                                    justify-center
-
-                                    rounded-full
-
-                                    border
-                                    border-slate-200
-
-                                    bg-white/95
-
-                                    text-slate-700
-
-                                    shadow-md
-                                    backdrop-blur
-
-                                    transition
-                                    duration-200
-
-                                    hover:scale-105
-                                    hover:border-emerald-200
-                                    hover:bg-white
-                                    hover:text-emerald-700
-
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-emerald-500
-                                    focus:ring-offset-2
-                                "
-
-                                aria-label="Próxima imagem"
-                            >
-                                <svg
-                                    class="h-5 w-5"
-
-                                    viewBox="0 0 24 24"
-
-                                    fill="none"
-
-                                    stroke="currentColor"
-
-                                    stroke-width="2"
-
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="m9 18 6-6-6-6"
-                                    />
-                                </svg>
-                            </button>
-
-
-                        @endif
-
-                    </div>
-
-
-
-                    {{-- ================================================= --}}
-                    {{-- MINIATURAS --}}
-                    {{-- ================================================= --}}
-
-                    @if ($arquivos->count() > 1)
-
-                        <div
-                            class="
-                                mt-3
-                                flex
-                                flex-none
-                                gap-3
-                                overflow-x-auto
-                                pb-2
-                            "
-                        >
-
-                            @foreach ($arquivos as $index => $arquivo)
-
-                                <button
-                                    type="button"
-
-                                    data-thumb-index="{{ $index }}"
-
-                                    @click="irPara({{ $index }})"
-
-                                    class="
-                                        relative
-                                        h-20
-                                        w-30
-                                        flex-none
-                                        overflow-hidden
-                                        rounded-lg
-                                        border-2
-                                        bg-slate-50
-                                        p-0.5
-                                        transition-all
-                                        duration-200
-                                    "
-
-                                    :class="
-                                        atual === {{ $index }}
-                                            ? 'border-emerald-600 shadow-sm'
-                                            : 'border-transparent hover:border-slate-300'
-                                    "
-
-                                    aria-label="
-                                        Visualizar {{
-                                            $arquivo->titulo
-                                            ?? 'imagem ' . ($index + 1)
-                                        }}
-                                    "
-                                >
-
-                                    <img
-                                        src="{{
-                                            asset(
-                                                'storage/' .
-                                                $arquivo->path
-                                            )
-                                        }}"
-
-                                        alt="{{
-                                            $arquivo->alt_text
-                                            ?? $arquivo->titulo
-                                            ?? ''
-                                        }}"
-
-                                        class="
-                                            h-full
-                                            w-full
-                                            rounded-md
-                                            object-cover
-                                        "
-
-                                        loading="lazy"
-                                    >
-
-                                </button>
-
-                            @endforeach
-
-                        </div>
-
-                    @endif
-
+                <div class="absolute right-3 top-3 flex items-center gap-2">
+                    <button type="button" x-show="!telaCheia" @click="definirTeatro(!modoTeatro)"
+                        :aria-label="modoTeatro ? 'Sair do modo teatro' : 'Abrir modo teatro'"
+                        :title="modoTeatro ? 'Sair do modo teatro' : 'Modo teatro'"
+                        class="flex size-9 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white/95 text-slate-700 shadow-sm transition hover:text-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-600">
+                        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10"/></svg>
+                    </button>
+                    <button type="button" @click="alternarTelaCheia()"
+                        :aria-label="telaCheia ? 'Sair da tela cheia' : 'Abrir em tela cheia'"
+                        :title="telaCheia ? 'Sair da tela cheia' : 'Tela cheia'"
+                        class="flex size-9 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white/95 text-slate-700 shadow-sm transition hover:text-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-600">
+                        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5"/></svg>
+                    </button>
                 </div>
 
-
-
-                {{-- ===================================================== --}}
-                {{-- INFORMAÇÕES DA IMAGEM --}}
-                {{-- ===================================================== --}}
-
-                <aside
-                    class="
-                        border-t
-                        border-slate-200
-                        p-6
-
-                        lg:border-l
-                        lg:border-t-0
-                    "
-
-                    :class="{
-                        'min-h-0 overflow-y-auto':
-                            modoTeatro || telaCheia
-                    }"
-                >
-
-
-                    {{-- TÍTULO --}}
-                    <h3
-                        x-show="itemAtual.titulo"
-
-                        x-text="itemAtual.titulo"
-
-                        class="
-                            text-lg
-                            font-semibold
-                            leading-snug
-                            text-slate-900
-                        "
-                    ></h3>
-
-
-
-                    {{-- DESCRIÇÃO --}}
-                    <p
-                        x-show="itemAtual.descricao"
-
-                        x-text="itemAtual.descricao"
-
-                        class="
-                            mt-4
-                            text-sm
-                            leading-relaxed
-                            text-slate-600
-                        "
-                    ></p>
-
-
-
-                    {{-- QUANTIDADE --}}
-                    <div
-                        class="
-                            mt-5
-                            flex
-                            items-center
-                            gap-2
-                            text-sm
-                            text-slate-600
-                        "
-                    >
-
-                        <svg
-                            class="h-4 w-4"
-
-                            viewBox="0 0 24 24"
-
-                            fill="none"
-
-                            stroke="currentColor"
-
-                            stroke-width="1.8"
-
-                            aria-hidden="true"
-                        >
-                            <rect
-                                x="3"
-                                y="5"
-                                width="18"
-                                height="14"
-                                rx="2"
-                            />
-
-                            <circle
-                                cx="8.5"
-                                cy="10"
-                                r="1.5"
-                            />
-
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="m21 15-5-5L5 19"
-                            />
-                        </svg>
-
-
-                        <span>
-                            {{ $arquivos->count() }}
-
-                            {{
-                                $arquivos->count() === 1
-                                    ? 'imagem'
-                                    : 'imagens'
-                            }}
-                        </span>
-
-                    </div>
-
-                </aside>
-
+                @if ($total > 1)
+                    <button type="button" @click="anterior()" aria-label="Imagem anterior"
+                        class="absolute left-3 top-1/2 flex size-10 cursor-pointer -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:text-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-600">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button type="button" @click="proximo()" aria-label="Próxima imagem"
+                        class="absolute right-3 top-1/2 flex size-10 cursor-pointer -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:text-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-600">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                @endif
             </div>
 
+            {{-- Sem descrição, a imagem ganha toda a largura e o título fica abaixo dela. --}}
+            <div x-show="!temDescricao" x-cloak class="mx-auto w-full max-w-5xl min-w-0 px-1 pb-1">
+                <h3 class="text-base font-semibold leading-snug text-emerald-600"
+                    x-text="itemAtual.titulo">{{ $itens[0]['titulo'] }}</h3>
+                <p class="mt-1 text-xs text-slate-500" aria-live="polite">
+                    Figura <span x-text="atual + 1">1</span> de {{ $total }}
+                </p>
+            </div>
+
+            {{-- O painel lateral só aparece quando existe descrição real. --}}
+            <aside x-show="temDescricao" x-cloak
+                class="min-w-0 py-1 lg:py-2"
+                :class="ampliado ? 'lg:min-h-0 lg:overflow-y-auto' : ''">
+                <h3 class="text-lg font-semibold leading-snug text-emerald-700"
+                    x-text="itemAtual.titulo">{{ $itens[0]['titulo'] }}</h3>
+                <p class="mt-2 text-xs text-slate-500" aria-live="polite">
+                    Figura <span x-text="atual + 1">1</span> de {{ $total }}
+                </p>
+                <div class="mt-5 border-t border-slate-100 pt-5">
+                    <h4 class="mb-2 text-sm font-semibold text-slate-800">Sobre esta imagem</h4>
+                    <p class="whitespace-pre-line text-sm leading-relaxed text-slate-600"
+                        x-text="itemAtual.descricao"></p>
+                </div>
+            </aside>
         </div>
 
-    </section>
+        {{-- Miniaturas ocupam toda a largura do card --}}
+        @if ($total > 1)
+            <nav class="border-t border-slate-100 px-3 pb-3 pt-4 sm:px-4" aria-label="Imagens da galeria">
+                <div class="flex min-w-0 items-center gap-2">
+                    <button type="button" @click="rolarMiniaturas(-1)"
+                        :disabled="!podeRolarEsquerda"
+                        aria-label="Rolar miniaturas para a esquerda"
+                        class="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-emerald-300 hover:text-emerald-700 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-slate-200 disabled:hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-600">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
 
+                    <div x-ref="miniaturas" @scroll.passive="atualizarRolagem()"
+                        class="flex min-w-0 flex-1 gap-3 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    @foreach ($itens as $indice => $item)
+                        <button type="button" data-miniatura="{{ $indice }}" @click="selecionar({{ $indice }})"
+                            :aria-current="atual === {{ $indice }} ? 'true' : null"
+                            aria-label="Ver imagem {{ $indice + 1 }}: {{ $item['titulo'] }}"
+                            class="group w-28 shrink-0 cursor-pointer text-left sm:w-32 md:w-36">
+                            <span class="block overflow-hidden rounded-lg border-2 bg-slate-50 p-0.5 transition"
+                                :class="atual === {{ $indice }} ? 'border-emerald-700 shadow-sm' : 'border-transparent group-hover:border-slate-300'">
+                                <img src="{{ $item['src'] }}" alt="" loading="lazy"
+                                     class="aspect-[4/3] w-full rounded-md object-contain">
+                            </span>
+                            <span class="mt-1.5 block truncate text-center text-xs"
+                                :class="atual === {{ $indice }} ? 'font-semibold text-emerald-600' : 'text-slate-600'">
+                                {{ $indice + 1 }}. {{ $item['titulo'] }}
+                            </span>
+                        </button>
+                    @endforeach
+                    </div>
+
+                    <button type="button" @click="rolarMiniaturas(1)"
+                        :disabled="!podeRolarDireita"
+                        aria-label="Rolar miniaturas para a direita"
+                        class="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-emerald-300 hover:text-emerald-600 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-slate-200 disabled:hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-600">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </nav>
+        @endif
+    </div>
+</section>
 @endif

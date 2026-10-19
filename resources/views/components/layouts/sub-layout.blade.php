@@ -1,16 +1,25 @@
 @props([
 
 ])
-<div x-data="{ sidebarOpen: true }" class="relative grid grid-cols-12 gap-0">
+
+<div x-data="{ sidebarOpen: $persist(true).as('sidebarOpen') }"
+    x-init="
+        document.documentElement.dataset.sidebarOpen = String(sidebarOpen);
+
+        $watch('sidebarOpen', value => {
+            document.documentElement.dataset.sidebarOpen = String(value);
+        })
+    "
+    class="relative grid grid-cols-12 gap-0">
     <x-layouts.sidebar-left
         title="Atlas Interativo"
         search-placeholder="Pesquisar..."
     />
-    <main class="col-span-12 lg:col-span-8 xl:col-span-8 min-w-0 transation-all duration-200"
-            :class="sidebarOpen
-                ? 'lg:col-span-8 xl:col-span-8'
-                : 'lg:col-span-12 xl:col-span-12'">
+    <main class="col-span-12 min-w-0" :class="sidebarOpen
+            ? 'lg:col-span-8 xl:col-span-8'
+            : 'lg:col-span-12 xl:col-span-12'">
         <button
+            data-sidebar-toggle
             type="button"
             x-show="!sidebarOpen"
             x-transition.opacity

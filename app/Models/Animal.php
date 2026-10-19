@@ -23,7 +23,7 @@ class Animal extends Model
 
     public function conteudos()
     {
-        return $this->belongsToMany(Conteudo::class, 'animal_conteudo', 'animal_id', 'conteudo_id');
+        return $this->hasMany(Conteudo::class);
     }
 
     public function modelos3D(): HasMany

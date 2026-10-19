@@ -19,12 +19,12 @@
         <div class="min-w-0">
             <h1
                 class="
-                    text-[28px]
+                    text-[35px]
                     font-semibold
                     leading-[1.2]
                     tracking-[-0.02em]
                     text-slate-800
-                    sm:text-[30px]
+                    sm:text-[37px]
                 "
             >
                 {{ $title }}
@@ -33,7 +33,6 @@
             @if ($description)
                 <p
                     class="
-                        mt-2
                         max-w-3xl
                         text-[15px]
                         leading-6

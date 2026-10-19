@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AtlaController;
+use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AtlasController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\HomeController;
@@ -40,10 +41,15 @@ Route::get('/site/visita/verificar/{id}/{hash}', [VerificationController::class,
 
 
 Route::prefix('atlas')->name('atlas.')->group(function () {
-    Route::get('/sistemas', [SistemaController::class, 'index'])->name('sistemas.index');
-    Route::get('/sistemas/{sistema:slug}', [SistemaController::class, 'show'])->name('sistemas.show');
-    Route::get('/index', [AtlaController::class, 'siteIndex'])->name('index');
-    Route::get('/show/{conteudo:slug}', [AtlaController::class, 'show'])->name('show');
+    Route::get('/index', [AtlasController::class, 'index'])->name('index');
+    Route::get('/show/{conteudo:slug}', [AtlasController::class, 'show'])->name('show');
+
+
+    Route::get('/sistemas', [AtlasController::class, 'indexSistemas'])->name('sistemas.index');
+    Route::get('/sistemas/{sistema:slug}', [AtlasController::class, 'showSistema'])->name('sistemas.show');
+    Route::get('/animais', [AtlasController::class, 'indexAnimais'])->name('animais.index');
+    Route::get('/animais/{animal:slug}', [AtlasController::class, 'showAnimal'])->name('animais.show');
+
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -55,15 +61,6 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/contatos', [ContatoController::class, 'index'])->name('contatos.create');
-	Route::get('/auth/atlas', [AtlaController::class, 'index'])->name('auth.atlas');
-	Route::get('/auth/atla/adicionar', [AtlaController::class, 'adicionar'])->name('auth.atla.adicionar');
-	Route::post('/auth/atla/salvar', [AtlaController::class, 'salvar'])->name('auth.atla.salvar');
-	Route::get('/auth/atla/editar/{registro:slug}', [AtlaController::class, 'editar'])->name('auth.atla.editar');
-	Route::put('/auth/atla/atualizar/{id}', [AtlaController::class, 'atualizar'])->name('auth.atla.atualizar');
-	Route::get('/auth/atla/deletar/{registro:slug}', [AtlaController::class, 'deletar'])->name('auth.atla.deletar');
-	Route::get('/auth/atla/visualizar/{registro:slug}', [AtlaController::class, 'ver'])->name('auth.atla.visualizar');
-	Route::get('/auth/atla/publicar/{registro:slug}', [AtlaController::class, 'publicar'])->name('auth.atla.publicar');
-	Route::get('/auth/anexos/deletar/{registro:id}', [AtlaController::class, 'deletarAnexo'])->name('auth.anexo.deletar');
 
 	Route::get('/auth/visitas', [VisitaController::class, 'index'])->name('auth.visitas');
 	Route::get('/auth/visita/ver/{registro:slug}', [VisitaController::class, 'ver'])->name('auth.visita.ver');

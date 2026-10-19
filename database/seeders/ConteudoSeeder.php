@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Animal;
 use App\Models\Area;
 use App\Models\Conteudo;
 use App\Models\Estrutura;
@@ -32,9 +33,9 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-circulatoria',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema circulatório {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'aves' => ['nome' => 'aves', 'artigo' => 'das'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'aves' => ['nome' => 'aves', 'artigo' => 'das', 'slug' => 'ave'],
                 ],
             ],
 
@@ -44,11 +45,11 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-digestoria',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema digestório {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'suinos' => ['nome' => 'suínos', 'artigo' => 'dos'],
-                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos'],
-                    'aves' => ['nome' => 'aves', 'artigo' => 'das'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'suinos' => ['nome' => 'suínos', 'artigo' => 'dos', 'slug' => 'suino'],
+                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos', 'slug' => 'canino'],
+                    'aves' => ['nome' => 'aves', 'artigo' => 'das', 'slug' => 'ave'],
                 ],
             ],
 
@@ -58,9 +59,9 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-locomotora',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema locomotor {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos', 'slug' => 'canino'],
                 ],
             ],
 
@@ -70,9 +71,9 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-sistema-nervoso',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema nervoso {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos', 'slug' => 'canino'],
                 ],
             ],
 
@@ -82,11 +83,11 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-respiratoria',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema respiratório {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'suinos' => ['nome' => 'suínos', 'artigo' => 'dos'],
-                    'ovinos' => ['nome' => 'ovinos', 'artigo' => 'dos'],
-                    'aves' => ['nome' => 'aves', 'artigo' => 'das'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'suinos' => ['nome' => 'suínos', 'artigo' => 'dos', 'slug' => 'suino'],
+                    'ovinos' => ['nome' => 'ovinos', 'artigo' => 'dos', 'slug' => 'ovino'],
+                    'aves' => ['nome' => 'aves', 'artigo' => 'das', 'slug' => 'ave'],
                 ],
             ],
 
@@ -96,9 +97,9 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-tegumentar',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema tegumentar {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos', 'slug' => 'canino'],
                 ],
             ],
 
@@ -108,10 +109,10 @@ class ConteudoSeeder extends Seeder
                 'slug_base' => 'anatomia-urogenital',
                 'resumo_base' => 'Apresenta as principais estruturas anatômicas relacionadas ao sistema urogenital {artigo} {animal}.',
                 'animais' => [
-                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos'],
-                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos'],
-                    'suinos' => ['nome' => 'suínos', 'artigo' => 'dos'],
-                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos'],
+                    'bovinos' => ['nome' => 'bovinos', 'artigo' => 'dos', 'slug' => 'bovino'],
+                    'equinos' => ['nome' => 'equinos', 'artigo' => 'dos', 'slug' => 'equino'],
+                    'suinos' => ['nome' => 'suínos', 'artigo' => 'dos', 'slug' => 'suino'],
+                    'caninos' => ['nome' => 'caninos', 'artigo' => 'dos', 'slug' => 'canino'],
                 ],
             ],
         ];
@@ -136,6 +137,7 @@ class ConteudoSeeder extends Seeder
                     'publicado' => true,
                     'sistema_id' => $sistema['sistema_id'],
                     'area_id' => $anatomia->id,
+                    'animal_id' => Animal::where('slug', $animal['slug'])->firstOrFail()->id,
                     'published_at' => now(),
                 ];
             }

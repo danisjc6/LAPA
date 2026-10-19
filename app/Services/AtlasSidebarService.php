@@ -11,23 +11,21 @@ class AtlasSidebarService{
     {
         return Cache::remember('atlas:menu-lateral', now()->addHours(6), function () {
             $conteudos = Conteudo::query()
-                ->select(['id', 'titulo', 'slug', 'resumo', 'publicado', 'area_id', 'sistema_id'])
+                ->select(['id', 'titulo', 'slug', 'resumo', 'publicado', 'area_id', 'sistema_id', 'animal_id'])
                 ->with([
-                    'animais:id,nome,slug',
+                    'animal:id,nome,slug',
                     'sistema:id,nome,slug',
                 ])
                 ->where('publicado', true)
                 ->get();
 
             return $conteudos
-                ->flatMap(function ($conteudo){
-                    return $conteudo->animais->map(function ($animal) use ($conteudo) {
-                        return [
-                            'animal' => $animal,
-                            'sistema' => $conteudo->sistema,
-                            'conteudo' => $conteudo
-                        ];
-                    });
+                ->map(function ($conteudo){
+                    return [
+                        'animal' => $conteudo->animal,
+                        'sistema' => $conteudo->sistema,
+                        'conteudo' => $conteudo
+                    ];
                 })
                 ->groupBy(fn ($item) => $item['sistema']->id)
                 ->map(function ($itens_do_sistema) {

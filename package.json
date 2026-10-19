@@ -28,6 +28,7 @@
         "vue-template-compiler": "^0.1.0"
     },
     "dependencies": {
+        "@alpinejs/persist": "^3.17.4",
         "@fortawesome/fontawesome-free": "^7.3.1",
         "bootstrap-datepicker": "^1.9.0",
         "clndr": "^1.5.1",

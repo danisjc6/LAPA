@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
     @include('layouts.components.header')
     <body class="flex flex-col min-h-screen bg-slate-100 pb-18 lg:pb-0">
-        @include('layouts.components.barra_gov')
+        {{-- @include('layouts.components.barra_gov') --}}
         <div class="hidden lg:block">
             @include('layouts.components.nav')
         </div>

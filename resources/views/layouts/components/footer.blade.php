@@ -63,7 +63,7 @@
         <div class="flex flex-col">
             <h6 class="font-bold">Navegação</h6>
 
-            <a href="{{ route('site.atlas.index') }}">Atlas Iterativo</a>
+            <a href="{{ route('atlas.index') }}">Atlas Iterativo</a>
             <a href="{{ route('site.visita.busca') }}">Agendar Visitas</a>
             <a href="{{ route('site.contato.index') }}">Sobre</a>
 

@@ -20,7 +20,7 @@
                     </p>
 
                     <div class="mt-8 flex flex-wrap gap-3">
-                        <a href="{{ route('site.atlas.index') }}"
+                        <a href="{{ route('atlas.index') }}"
                         class="rounded-2xl bg-emerald-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-800">
                             Explorar atlas
                         </a>
@@ -53,10 +53,17 @@
             </div>
 
             <div class="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <a href="{{ route('site.atlas.index') }}" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                <a href="{{ route('atlas.index') }}" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
                     <h2 class="text-base font-bold text-slate-900">Atlas Interativo</h2>
                     <p class="mt-2 text-sm leading-6 text-slate-600">
                         Navegue por sistemas, áreas e conteúdos anatômicos.
+                    </p>
+                </a>
+
+                <a href="{{ route('modelos-3d.index') }}" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                    <h2 class="text-base font-bold text-slate-900">Anatomia 3D</h2>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">
+                        Explore modelos anatômicos em 3D, rotacione, amplie e visualize estruturas em diferentes perspectivas.
                     </p>
                 </a>
 

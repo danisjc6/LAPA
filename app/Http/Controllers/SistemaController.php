@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 
 class SistemaController extends Controller
 {
-    public function index(AtlasSidebarService $atlasSidebarService)
+    public function index()
     {
-        $sistemas = Sistema::all();
-        $menu_lateral = $atlasSidebarService->montarNavegacaoLateral();
+        
+    }
 
-        return view('atlas.sistemas.index', compact('sistemas', 'menu_lateral'));
+    public function show(Sistema $sistema)
+    {
+
     }
 
     public function create()
@@ -38,5 +40,5 @@ class SistemaController extends Controller
     {
     }
 
-   
+
 }
