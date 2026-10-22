@@ -67,13 +67,6 @@
                     </p>
                 </a>
 
-                <a href="{{ route('site.visita.busca') }}" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-                    <h2 class="text-base font-bold text-slate-900">Agendamento</h2>
-                    <p class="mt-2 text-sm leading-6 text-slate-600">
-                        Solicite visitas e acompanhe informações de uso do laboratório.
-                    </p>
-                </a>
-
             </div>
         </main>
     </section>

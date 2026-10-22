@@ -33,11 +33,6 @@ Route::get('/site/contato/index', [RegisterController::class, 'siteIndex'])->nam
 Route::get('/site/contato/visualizar/{registro:slug}', [RegisterController::class, 'siteRegistervisualizar'])->name('site.contato.visualizar');
 
 
-Route::get('/site/visita/busca', [VisitaController::class, 'busca'])->name('site.visita.busca');
-Route::get('/site/visita/buscar',[RegisterController::class, 'buscarUsuarioVisita'])->name('site.visita.buscar.registro');
-
-Route::post('/site/visita/salvar', [VisitaController::class, 'salvarUsuarioVisita'])->name('site.visita.salvar');
-Route::get('/site/visita/verificar/{id}/{hash}', [VerificationController::class, 'verificarVisita'])->name('site.verificar.visita');
 
 
 Route::prefix('atlas')->name('atlas.')->group(function () {
@@ -59,21 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/update/{user}', [UserController::class, 'update'])->name('users.update');
 
-
-    Route::get('/contatos', [ContatoController::class, 'index'])->name('contatos.create');
-
-	Route::get('/auth/visitas', [VisitaController::class, 'index'])->name('auth.visitas');
-	Route::get('/auth/visita/ver/{registro:slug}', [VisitaController::class, 'ver'])->name('auth.visita.ver');
-	Route::put('/auth/visitas/atualizar/{id}', [VisitaController::class, 'atualizar'])->name('auth.visita.atualizar');
-	Route::get('/auth/visitas/deletar/{id}', [VisitaController::class, 'deletar'])->name('auth.visita.deletar');
-
-	Route::get('/auth/contatos', [ContatoController::class, 'index'])->name('auth.contatos');
-	Route::get('/auth/contato/adicionar', [ContatoController::class, 'adicionar'])->name('auth.contato.adicionar');
-	Route::post('/auth/contato/salvar', [ContatoController::class, 'salvar'])->name('auth.contato.salvar');
-	Route::get('/auth/contato/editar/{registro:slug}', [ContatoController::class, 'editar'])->name('auth.contato.editar');
-	Route::put('/auth/contato/atualizar/{id}', [ContatoController::class, 'atualizar'])->name('auth.contato.atualizar');
-	Route::get('/auth/contato/deletar/{registro:slug}', [ContatoController::class, 'deletar'])->name('auth.contato.deletar');
-
+    Route::get('/contatos/edit', [ContatoController::class, 'edit'])->name('contatos.edit');
+    Route::put('/contatos', [ContatoController::class, 'update'])->name('contatos.update');
 });
 
 require __DIR__.'/auth.php';

@@ -14,19 +14,14 @@ class CreateContatosTable extends Migration
     public function up()
     {
         Schema::create('contatos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('email')->nullable();
             $table->longText('texto')->nullable();
             $table->string('telefone')->nullable();
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
             $table->string('facebook')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
-            $table->string('slug')->nullable();
+            $table->string('link_agendamento_visita', 2048)->nullable();
 
             $table->timestamps();
         });

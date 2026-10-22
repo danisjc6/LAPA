@@ -37,20 +37,6 @@
                     </div>
                 </div>
             </a>
-
-            <a href="#"
-               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
-                      hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
-                <div class="flex items-start gap-4">
-                    <div class="rounded-lg bg-emerald-50 p-3 text-emerald-700">
-                        <span class="fa fa-id-card-alt text-2xl"></span>
-                    </div>
-                    <div class="min-w-0">
-                        <h3 class="font-semibold text-slate-900">{{ __('Visitas') }}</h3>
-                        <p class="mt-1 text-sm text-slate-600">Agendamentos e histórico.</p>
-                    </div>
-                </div>
-            </a>
         </div>
 
         {{-- Mais opções --}}
@@ -74,7 +60,7 @@
                 </div>
             </a>
 
-            <a href="{{ route('contatos.create') }}"
+            <a href="{{ route('contatos.edit') }}"
                class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition
                       hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
                 <div class="flex items-start gap-4">

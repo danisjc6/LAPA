@@ -39,11 +39,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'status' => StatusUser::class,
     ];
 
-    public function visita()
-    {
-        return $this->hasMany(Visita::class);
-    }
-
     public function contato() {
         return $this->hasMany(Contato::class);
     }

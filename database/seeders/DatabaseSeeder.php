@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SecaoSeeder::class);
         $this->call(ArquivoSeeder::class);
         $this->call(Modelo3DSeeder::class);
+        $this->call(ContatoSeeder::class);
 
             User::factory()->create();
     }

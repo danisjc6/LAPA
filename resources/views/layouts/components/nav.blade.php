@@ -17,17 +17,9 @@
             Anatomia 3D
         </x-nav-link>
 
-        {{-- <x-nav-dropdown
-            label="Anatomia 3D"
-            :active="request()->routeIs('*')"
-        >
-            <x-dropdown-item :href="route('site.visita.busca')">Eventos</x-dropdown-item>
-            <x-dropdown-item :href="route('site.visita.busca')">Notícias</x-dropdown-item>
-            <x-dropdown-item :href="route('site.visita.busca')">Editais e seleções</x-dropdown-item>
-        </x-nav-dropdown> --}}
+        {{-- <x-nav-link href="{{ route('site.contato.index') }}" :active="Request::is('site/contato/*')">Sobre</x-nav-link> --}}
 
-        <x-nav-link href="{{ route('site.contato.index') }}" :active="Request::is('site/contato/*')">Sobre</x-nav-link>
-        <a href="{{ route('site.visita.busca') }}"
+        <a href="@if($contato?->link_agendamento_visita) $contato->link_agendamento_visita @endif" target="_blank" rel="noopener noreferrer"
             class="bg-green-700 text-white font-bold px-4 py-2 rounded-md hover:scale-102 hover:bg-green-800 shadow-lg shadow-green-600/50">Agendar visita</a>
 
         <!-- Authentication Links -->
@@ -40,7 +32,7 @@
                 <x-dropdown-item :href="route('profile.edit')">
                     <i class="fa fa-user me-2"></i>Meu Perfil
                 </x-dropdown-item>
-                <x-dropdown-item :href="route('site.visita.busca')">
+                <x-dropdown-item :href="'#'">
                     <i class="fa fa-cog me-2"></i>Configurações
                 </x-dropdown-item>
 
