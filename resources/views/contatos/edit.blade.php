@@ -3,7 +3,7 @@
 @section('titulo', 'Informações de Contato do Laboratório')
 @section('content')
     <x-ui.section>
-        <x-ui.form :action="route('contatos.edit', $contato->id)" method="POST" enctype="multipart/form-data">
+        <x-ui.form :action="route('contatos.update')" method="POST" enctype="multipart/form-data">
             @method('PUT')
 
             <x-ui.form.header title="Editar Informações de Contato do LAPA" description="Edite informações de contato." />

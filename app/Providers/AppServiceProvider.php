@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             'atlas'
         );
 
-        View::composer('layouts.components.nav', function($view){
+        View::composer(['layouts.components.nav', 'layouts.components.footer', 'components.layouts.mobile-menu'], function($view){
             $view->with('contato', Contato::first());
         });
     }

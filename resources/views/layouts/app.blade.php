@@ -13,7 +13,7 @@
         </main>
         @include('layouts.components.footer')
 
-        @include('layouts.components.mobile-bottom-bar')
+        <x-layouts.mobile-menu />
 
         @stack('scripts')
         <!-- Icones do Font Awesome -->
