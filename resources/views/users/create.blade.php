@@ -20,72 +20,7 @@
 
                 {{-- Foto --}}
                 <x-ui.form.section title="Foto de perfil">
-
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-
-                        <div
-                            class="
-                                flex h-20 w-20 shrink-0 items-center justify-center
-                                overflow-hidden rounded-full
-                                border border-slate-200
-                                bg-slate-100
-                                text-slate-400
-                            "
-                        >
-                            <img
-                                id="img-foto"
-                                src="{{ asset('images/default-avatar.png') }}"
-                                alt="Prévia da foto de perfil"
-                                class="h-full w-full object-cover"
-                            >
-                        </div>
-
-                        <div class="flex-1">
-
-                            <label
-                                for="foto_perfil"
-                                class="block text-sm font-semibold text-slate-700"
-                            >
-                                Selecionar foto
-                            </label>
-
-                            <input
-                                id="foto_perfil"
-                                type="file"
-                                name="foto_perfil"
-                                accept="image/png,image/jpeg,image/webp"
-                                class="
-                                    mt-2 block w-full text-sm text-slate-600
-
-                                    file:mr-4
-                                    file:cursor-pointer
-                                    file:rounded-lg
-                                    file:border-0
-                                    file:bg-slate-900
-                                    file:px-4
-                                    file:py-2
-                                    file:text-sm
-                                    file:font-semibold
-                                    file:text-white
-
-                                    hover:file:bg-slate-800
-                                "
-                            >
-
-                            <p class="mt-2 text-xs text-slate-500">
-                                JPG, PNG ou WEBP. Tamanho máximo de 2 MB.
-                            </p>
-
-                            @error('foto_perfil')
-                                <p class="mt-2 text-sm text-red-600">
-                                    {{ $message }}
-                                </p>
-                            @enderror
-
-                        </div>
-
-                    </div>
-
+                    <x-ui.image-upload name="foto_perfil" shape="circle" />
                 </x-ui.form.section>
 
 

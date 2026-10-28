@@ -34,35 +34,29 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $dados = $request->validated();
-
-        $foto = null;
+        $dados = $request->safe()->except('foto_perfil');
+        $path = null;
 
         try {
             if ($request->hasFile('foto_perfil')) {
-                $foto = $request
-                    ->file('foto_perfil')
-                    ->store('fotos-perfil', 'public');
-
-                $dados['foto_perfil'] = $foto;
+                $path = $request->file('foto_perfil')->store('users/fotos', 'public');
+                if ($path === false) {
+                    throw new \RuntimeException('Não foi possível armazenar a foto de perfil.');
+                }
+                $dados['foto_perfil'] = $path;
             }
-
-            DB::transaction(function () use ($dados) {
-                User::create($dados);
-            });
-
-            return redirect()
-                ->route('users.index')
-                ->with('success', 'Usuário cadastrado com sucesso.');
-
+            DB::transaction(fn () => User::create($dados));
         } catch (\Throwable $e) {
-
-            if ($foto) {
-                Storage::disk('public')->delete($foto);
+            if ($path) {
+                try {
+                    Storage::disk('public')->delete($path);
+                } catch (\Throwable $cleanupException) {
+                    report($cleanupException);
+                }
             }
-
             throw $e;
         }
+        return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso.');
     }
 
     /**
@@ -86,71 +80,55 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $dados = $request->validated();
-
-        unset($dados['remover_foto']);
+        $dados = $request->safe()->except('foto_perfil');
+        $foto_antiga = $user->foto_perfil;
+        $path = null;
 
         if (empty($dados['password'])) {
             unset($dados['password']);
         }
 
-        $fotoAntiga = $user->foto_perfil;
-        $novaFoto = null;
-        $removerFoto = $request->boolean('remover_foto');
-
         try {
             if ($request->hasFile('foto_perfil')) {
-                $novaFoto = $request
-                    ->file('foto_perfil')
-                    ->store('fotos-perfil', 'public');
+                $path = $request->file('foto_perfil')->store('users/fotos', 'public');
 
-                $dados['foto_perfil'] = $novaFoto;
-            } elseif ($removerFoto) {
-                $dados['foto_perfil'] = null;
+                if ($path === false) {
+                    throw new \RuntimeException('Não foi possível armazenar a foto de perfil.');
+                }
+
+                $dados['foto_perfil'] = $path;
             }
 
-            DB::transaction(function () use (
-                $user,
-                $dados
-            ) {
-                $user->update($dados);
+            DB::transaction(function () use ($user, $dados) {
+                $user->fill($dados);
+
+                if ($user->isDirty('email')) {
+                    $user->email_verified_at = null;
+                }
+
+                $user->save();
             });
-
-            /*
-            * Só removemos a foto antiga depois que
-            * a alteração no banco deu certo.
-            */
-            if (
-                $fotoAntiga &&
-                ($novaFoto || $removerFoto)
-            ) {
-                Storage::disk('public')->delete(
-                    $fotoAntiga
-                );
-            }
-
-            return redirect()
-                ->route('users.index')
-                ->with(
-                    'success',
-                    'Usuário atualizado com sucesso.'
-                );
-
         } catch (\Throwable $e) {
-
-            /*
-            * O banco falhou.
-            * Se uma nova foto foi enviada,
-            * removemos o arquivo novo.
-            */
-            if ($novaFoto) {
-                Storage::disk('public')->delete(
-                    $novaFoto
-                );
+            if ($path) {
+                try {
+                    Storage::disk('public')->delete($path);
+                } catch (\Throwable $cleanupException) {
+                    report($cleanupException);
+                }
             }
 
             throw $e;
         }
+
+        if ($path && $foto_antiga && $foto_antiga !== $path) {
+            try {
+                Storage::disk('public')->delete($foto_antiga);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
+        return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
     /**

@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\StatusUser;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -39,7 +41,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'status' => StatusUser::class,
     ];
 
-    public function contato() {
-        return $this->hasMany(Contato::class);
+    protected function fotoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->foto_perfil
+                ? Storage::disk('public')->url($this->foto_perfil)
+                : null
+        );
     }
 }
