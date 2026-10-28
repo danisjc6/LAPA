@@ -19,7 +19,7 @@
 
         {{-- <x-nav-link href="{{ route('site.contato.index') }}" :active="Request::is('site/contato/*')">Sobre</x-nav-link> --}}
 
-        <a href="@if($contato?->link_agendamento_visita) $contato->link_agendamento_visita @endif" target="_blank" rel="noopener noreferrer"
+        <a href="{{ $contato?->link_agendamento_visita ?? '#' }}" target="_blank" rel="noopener noreferrer"
             class="bg-green-700 text-white font-bold px-4 py-2 rounded-md hover:scale-102 hover:bg-green-800 shadow-lg shadow-green-600/50">Agendar visita</a>
 
         <!-- Authentication Links -->
