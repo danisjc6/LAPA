@@ -20,14 +20,6 @@ class AtlaSteps extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    /**
-     * @When Eu seleciono a categoria :arg1
-     */
-    public function euSelecionoACategoria($arg1)
-    {
-        $this->selectOption(['name' => 'categoria_id'], $arg1);
-    }
-
    /**
     * @Given Eu estou na pagina de gerenciar atlas
     */
@@ -115,7 +107,7 @@ class AtlaSteps extends \Codeception\Actor
     public function euClicoEmPublicarAgora()
     {
         $this->click('Publicar agora');
-        
+
     }
      /**
      * @Given Eu estou na pagina de adicionar atlas

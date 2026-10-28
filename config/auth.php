@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 return [
 
     /*
@@ -46,10 +48,6 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-	'conta' => [
-            'driver' => 'session',
-            'provider' => 'contas',
-        ],
     ],
 
     /*
@@ -72,11 +70,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
-	'contas' => [
-            'driver' => 'eloquent',
-            'model' => App\Conta::class,
+            'model' => User::class,
         ],
 
         // 'users' => [
@@ -103,13 +97,7 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-	'contas' => [
-            'provider' => 'contas',
-            'table' => 'password_resets',
+            'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],

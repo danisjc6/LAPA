@@ -2,88 +2,148 @@
 
 @section('titulo', 'Gerenciar atlas')
 @section('content')
-        <div class="container">
-            <h2>Gerenciar atlas</h2> 
-            <a href="{{ route('auth.atla.adicionar') }}" class="btn mb-2">Adicionar</a>
+<x-ui.section>
+        <x-ui.topbar
+            title="Atlas"
+            subtitle="Gerencie páginase status de publicação."
+        >
+            <x-slot:actions>
+                <a href="{{ route('auth.atla.adicionar') }}"
+                class="inline-flex items-center justify-center rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white
+                        shadow-sm hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-700/20">
+                    Adicionar página
+                </a>
+            </x-slot:actions>
+        </x-ui.topbar>
 
-            @if(Session::has('success'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ Session::get('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-            <div class="d-sm-flex justify-content-between">
-                @if(isset($filtros['categoria']) || isset($filtros['publicado']))
-                    <p>Mostrando páginas por <strong>{{ $filtros['nomes'][1] ?? ''}}</strong> <strong>{{ $filtros['nomes'][0] ?? '' }}</strong>
-                        <a class="btn btn-link align-self-start" href="{{ route('auth.atlas') }}">(Remover filtros)</a>
-                    </p>
-                @endif
+        {{-- Barra de filtros (bonita, sem dropdown Bootstrap) --}}
+        <div class="mt-6 rounded-2xl border border-slate-200 bg-white/70 backdrop-blur shadow-sm">
+            <form action="#" method="GET"
+                  class="flex flex-col gap-3 p-4 md:flex-row md:items-center md:gap-4">
 
-                <div class="dropdown ml-auto mb-3">
-                    <button class="btn dropdown-toggle" type="button" id="filtrarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filtrar por
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right p-2 text-center" aria-labelledby="filtrarDropdown" style="min-width: 300px;">
-                        <form action="{{ route('auth.atlas') }}" method="get">
-                            @csrf  
-                            <div class="form-group mb-2">
-                                <label for="">Status</label>
-                                <select size="3" class="form-control" name="publicado" id="publicado">
-                                    <option value="" {{ !isset($filtros['publicado']) ? 'selected' : '' }}>Todos</option>
-                                    <option value="1" {{ isset($filtros['publicado']) && ($filtros['publicado'] == 1) ? 'selected' : '' }}>Publicados</option>
-                                    <option value="0" {{ isset($filtros['publicado']) && ($filtros['publicado'] == 0) ? 'selected' : '' }}>Rascunhos</option>
-                                </select>
-                            </div>
-                            <div class="form-group mb-2">
-                                <label for="">Categoria</label>
-                                <select size="{{ isset($categorias) ? (count($categorias) + 1) : '' }}" class="form-control" name="categoria" id="categoria">
-                                    <option value="" {{ !isset($filtros['categoria']) ? 'selected' : '' }}>Todas</option>
-                                    @foreach ($categorias as $categoria)
-                                        <option {{ isset($filtros['categoria']) && ($filtros['categoria'] == $categoria->id) ? 'selected' : '' }} value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
-                                    @endforeach
-                                    
-                                </select>
-                            </div>
-                            <button class="btn align-self-start" type="submit">Filtrar</button>
-                        </form>
+                {{-- Status como "segmented" --}}
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-slate-600">Status</span>
+
+                    <div class="inline-flex rounded-lg border border-slate-200 bg-white p-1">
+                        @php
+                            $status = $filtros['publicado'] ?? '';
+                        @endphp
+
+                        <button type="submit" name="publicado" value=""
+                                class="rounded-md px-3 py-1.5 text-sm font-semibold transition
+                                {{ $status === '' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50' }}">
+                            Todos
+                        </button>
+
+                        <button type="submit" name="publicado" value="1"
+                                class="rounded-md px-3 py-1.5 text-sm font-semibold transition
+                                {{ (string)$status === '1' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50' }}">
+                            Publicados
+                        </button>
+
+                        <button type="submit" name="publicado" value="0"
+                                class="rounded-md px-3 py-1.5 text-sm font-semibold transition
+                                {{ (string)$status === '0' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50' }}">
+                            Rascunhos
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div class="table-responsive">
+                {{-- Ações --}}
+                <div class="flex items-center gap-2 md:justify-end">
+                    <a href="#"
+                       class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800
+                              hover:bg-slate-50">
+                        Limpar
+                    </a>
 
-              <table class="table table-bordered" id="myTable">
-                <thead class="thead-primary">
-                    <tr>
-                        <th>Ações</th>
-                        <th>Título</th>
-                        <th>Área de conhecimento</th>
-                        <th>Status</th>                        
-                    </tr>
-               </thead>
-                <tbody>
-                    @if(isset($registros) && count($registros) > 0)
-                        @foreach ($registros as $registro)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('auth.atla.visualizar', $registro->slug) }}" class="btn">Ver</a>
-                                    <a href="{{ route('auth.atla.editar',$registro->slug) }}" class="btn">Editar</a>
-                                    <a href="{{ route('auth.atla.deletar', $registro->slug) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar esse atla');">Deletar</a>
-                                </td>
-                                <td>{{ $registro->titulo }}</td>
-                                <td>{{ isset($registro->categoria) ? ucfirst($registro->categoria->nome) : 'Nenhuma área de conhecimento' }}</td>
-                                <td>{{ $registro->publicado ? "Publicado" : "Rascunho" }}</td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="4">Nenhum resultado em atlas encontrado</td>
+                    <button type="submit"
+                            class="inline-flex items-center justify-center rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold text-white
+                                   hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-900/20">
+                        Filtrar
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+        <x-ui.table
+            title="Gerenciar Solicitações de Registros"
+            :count="$registros->count()"
+            empty="Nenhum resultado em atlas encontrado.."
+            :colspan="4"
+        >
+            <x-slot:thead>
+                <tr class="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    <th class="px-6 py-3">Título</th>
+                    <th class="px-6 py-3">Área</th>
+                    <th class="px-6 py-3">Status</th>
+                    <th class="px-6 py-3 text-right">Ações</th>
+                </tr>
+            </x-slot:thead>
+
+            <x-slot:tbody>
+                @if(isset($registros) && count($registros) > 0)
+                    @foreach ($registros as $registro)
+                        <tr class="hover:bg-slate-50/70">
+                            <td class="px-6 py-4">
+                                <div class="font-semibold text-slate-900">{{ $registro->titulo }}</div>
+                                <div class="mt-0.5 text-xs text-slate-500">
+                                    {{ $registro->slug ?? '' }}
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4">
+                                @if($registro->publicado)
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+                                        Publicado
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+                                        Rascunho
+                                    </span>
+                                @endif
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <div class="flex justify-end gap-3 text-sm font-semibold">
+                                    <a href="{{ route('auth.atla.visualizar', $registro->slug) }}"
+                                        class="text-slate-700 hover:text-slate-900 hover:underline">
+                                        Ver
+                                    </a>
+                                    <a href="{{ route('auth.atla.editar', $registro->slug) }}"
+                                        class="text-slate-700 hover:text-slate-900 hover:underline">
+                                        Editar
+                                    </a>
+                                    <a href="{{ route('auth.atla.deletar', $registro->slug) }}"
+                                        class="text-red-600 hover:text-red-700 hover:underline"
+                                        onclick="return confirm('Tem certeza que deseja deletar este atlas?');">
+                                        Deletar
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
-                    @endif
-                </tbody>
-              </table>
-           </div>
-       </div>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="4" class="px-6 py-14 text-center text-slate-600">
+                            Nenhum resultado em atlas encontrado.
+                        </td>
+                    </tr>
+                @endif
+            </x-slot:tbody>
+        </x-ui.table>
+
+            {{-- Paginação (se paginator) --}}
+            @if(isset($registros) && method_exists($registros, 'links'))
+                <div class="border-t border-slate-200 px-6 py-4">
+                    {{ $registros->links() }}
+                </div>
+            @endif
+        </div>
+
+</x-ui.section>
 @endsection

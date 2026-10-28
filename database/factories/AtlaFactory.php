@@ -1,17 +1,22 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Atla;
-use Faker\Generator as Faker;
+use App\Models\Atla;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Atla::class, function (Faker $faker) {
-    return [
-        'titulo'=>$faker->word(),
-        'descricao' => $faker->text($maxNbChars = 200),
-        'anexo'=> $faker->fileExtension,
-        'publicado' => $faker->boolean($chanceOfGettingTrue = 50),
-        'categoria_id' => factory(App\Categoria::class),
-        'slug' => $faker->unique()->email(),
-    ];
-});
+class AtlaFactory extends Factory
+{
+    protected $model = Atla::class;
+
+    public function definition()
+    {
+        return [
+            'titulo'=>  $this->faker->word(),
+            'descricao' =>  $this->faker->text($maxNbChars = 200),
+            'anexo'=>   $this->faker->fileExtension,
+            'publicado' =>  $this->faker->boolean($chanceOfGettingTrue = 50),
+            'slug' =>   $this->faker->unique()->email(),
+        ];
+    }
+}

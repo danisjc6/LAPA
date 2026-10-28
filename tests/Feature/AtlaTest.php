@@ -38,7 +38,7 @@ class AtlaTest extends TestCase
             'titulo' => 'Atla teste para deletar',
         ]);
         $atla->delete();
-        $this->assertDeleted($atla);
+        $this->assertModelMissing($atla);
     }
 
     /**
@@ -57,7 +57,7 @@ class AtlaTest extends TestCase
         $atla->update([
             'descricao' => 'Essa pagina do atlas está sendo atualizado para teste',
         ]);
-        $this->assertEquals('Essa pagina do atlas está sendo atualizado para teste', $atla->descricao); 
+        $this->assertEquals('Essa pagina do atlas está sendo atualizado para teste', $atla->descricao);
     }
 
     /**
@@ -69,6 +69,6 @@ class AtlaTest extends TestCase
     {
         $this->assertDatabaseMissing('atlas', [
             'titulo' => 'ler a pagina do atlas  não cadastrada',
-        ]);   
+        ]);
     }
 }

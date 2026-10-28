@@ -52,106 +52,6 @@ class AdditionalSteps extends \Codeception\Actor
         $this->click('Entrar');
         $this->see($arg1, '//a');
     }
-    
-    /**
-     * @Given Eu crio a disciplina :arg1 para teste
-     */
-    public function euCrioADisciplinaParaTeste($arg1)
-    {
-        $disciplina=$this->haveInDatabase('disciplinas', [
-            'nome' => $arg1,
-            'slug'=> $arg1,
-        ]);
-       
-    }
-
-    /**
-     * @Given A disciplina :arg1 ja exista
-     */
-    public function aDisciplinaJaExista($arg1)
-    {
-        $this->haveInDatabase('disciplinas', [
-            'nome' => $arg1,
-            'slug'=> $arg1,
-        ]);
-    }
-
-   /**
-    * @Given O material :arg1 ja exista
-    */
-    public function oMaterialJaExista($arg1)
-    {
-        $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'Ihc'));
-
-        $this->haveInDatabase('materials', [
-            'titulo' => $arg1,
-            'texto' => 'Texto do material',
-            'anexo' => 'file.png',
-            'disciplina_id' => $disciplina,
-            'slug'=> $arg1,
-            ]);
-    }
-    
-    /**
-    * @Given A categoria :arg1 ja exista
-    */
-    public function aCategoriaJaExista($arg1)
-    {
-        $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'Ihc'));
-
-        $this->haveInDatabase('categorias', [
-            'nome' =>$arg1,
-            'disciplina_id' => $disciplina,
-            'slug'=>$arg1,
-        ]);
-    }
-
-    /**
-     * @Given O atla :arg1 ja exista
-     */
-    public function oAtlaJaExista($arg1)
-    {
-        $this->haveInDatabase('disciplinas', [
-            'nome' => 'teste',
-            'slug'=> 'teste',
-        ]);
-
-        $disciplina = $this->grabFromDatabase('disciplinas', 'id', array('nome' => 'teste'));
-
-        $this->haveInDatabase('categorias', [
-            'nome' => 'Sistema nervoso',
-            'disciplina_id' => $disciplina,
-            'slug'=> 'Sistema nervoso',
-        ]);
-
-        $categoria = $this->grabFromDatabase('categorias', 'id', array('nome' => 'Sistema nervoso'));
-
-        $this->haveInDatabase('atlas', [
-            'titulo' => $arg1,
-            'descricao' => 'Texto do atlas',
-            'anexo' => 'anexo.pdf',
-            'categoria_id' => $categoria,
-            'slug'=> $arg1,
-        ]);
-    }
-
-    /**
-    * @Given A visita :arg1 ja exista
-    */
-    public function aVisitaJaExista($arg1)
-    {
-        $user = $this->grabFromDatabase('users', 'id', array('email' => $arg1));
-
-        $this->haveInDatabase('visitas', [
-                'data' => now(),
-                'hora_inicial' => now(),
-                'hora_final' => now(),
-                'descricao' => 'Teste de testo de visita',
-                'confirmada' => false,
-                'user_id' => $user,
-        ]);
-    }
-
     /**
      * @Given o contato :arg1 ja exista
      */
@@ -169,23 +69,6 @@ class AdditionalSteps extends \Codeception\Actor
                 'facebook' => 'https://facebook.com/exemplo',
         ]);
     }
-
-    /**
-    * @Given A postagem :arg1 ja exista
-    */
-    public function aPostagemJaExista($arg1)
-    {
-        $this->haveInDatabase('postagems', [
-            'titulo' => $arg1,
-            'descricao' => 'Texto do material',
-            'anexo' => 'file.png',
-            'user_id' => null,
-            'publicado' => true,
-            'slug'=> $arg1,
-            'tipo_postagem' => 'edital',
-        ]);    
-    }
-
 
      /**
      * @Given O usuario administrador com nome :arg1,email :arg2 e senha :arg3 existe
